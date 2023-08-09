@@ -1,4 +1,4 @@
-import { NewUser, NewAuction, NewItemFromAPI } from "../types";
+import { NewUser, NewAuction, NewItemFromAPI, NewBid } from "../types";
 
 const isString = (text: unknown): text is string => {
     return typeof text === "string" || text instanceof String;
@@ -83,6 +83,30 @@ export const parseAuctionEntry = (object: unknown): NewAuction => {
         };
 
         return newAuctionEntry;
+    }
+
+    throw new Error("Incorrect data: missing property");
+};
+
+export const parseBidEntry = (object: unknown): NewBid => {
+    if (!object || typeof object !== "object") {
+        throw new Error("Incorrect or missing data");
+    }
+
+    if (
+        "price" in object &&
+        "user_id" in object &&
+        "item_id" in object &&
+        "auction_id" in object
+    ) {
+        const newBidEntry: NewBid = {
+            price: parseNumber(object.price),
+            user_id: parseNumber(object.user_id),
+            item_id: parseNumber(object.item_id),
+            auction_id: parseNumber(object.auction_id),
+        };
+
+        return newBidEntry;
     }
 
     throw new Error("Incorrect data: missing property");

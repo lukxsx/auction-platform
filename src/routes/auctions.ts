@@ -34,7 +34,7 @@ router.post("/", async (req, res) => {
         const added = await auctionService.createAuction(newAuction);
         res.json(added);
     } catch (error: unknown) {
-        let errorMessage = "Error adding user";
+        let errorMessage = "Error adding auction";
         if (error instanceof Error) {
             errorMessage += ": " + error.message;
         }

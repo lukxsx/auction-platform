@@ -14,7 +14,20 @@ const getItemsByAuction = async (auctionId: number): Promise<Item[]> => {
         .execute();
 };
 
-const getItemById = async (itemId: number): Promise<ItemWithBids> => {
+const getItemById = async (itemId: number): Promise<Item> => {
+    try {
+        const item = await db
+            .selectFrom("item")
+            .where("id", "=", itemId)
+            .selectAll()
+            .executeTakeFirstOrThrow();
+        return item;
+    } catch (error: unknown) {
+        throw new Error("item not found");
+    }
+};
+
+const getItemByIdWithBids = async (itemId: number): Promise<ItemWithBids> => {
     try {
         const item = await db
             .selectFrom("item")
@@ -30,15 +43,11 @@ const getItemById = async (itemId: number): Promise<ItemWithBids> => {
 };
 
 const updateItem = async (itemId: number, updateWith: ItemUpdate) => {
-    try {
-        await db
-            .updateTable("item")
-            .set(updateWith)
-            .where("id", "=", itemId)
-            .execute();
-    } catch (error: unknown) {
-        throw new Error("could not update item");
-    }
+    await db
+        .updateTable("item")
+        .set(updateWith)
+        .where("id", "=", itemId)
+        .executeTakeFirstOrThrow();
 };
 
 const createItem = async (item: NewItem): Promise<Item> => {
@@ -52,6 +61,7 @@ const createItem = async (item: NewItem): Promise<Item> => {
 export default {
     getAllItems,
     getItemById,
+    getItemByIdWithBids,
     getItemsByAuction,
     updateItem,
     createItem,

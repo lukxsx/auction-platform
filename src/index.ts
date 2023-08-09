@@ -6,7 +6,7 @@ import * as dotenv from "dotenv";
 import { createTables } from "./database";
 import userRouter from "./routes/users";
 import auctionRouter from "./routes/auctions";
-import itemRouter from "./routes/items";
+import bidsRouter from "./routes/bids";
 
 dotenv.config();
 const app = express();
@@ -21,7 +21,7 @@ createTables()
     });
 
 app.use("/api/users", userRouter);
-app.use("/api/items", itemRouter);
+app.use("/api/bids", bidsRouter);
 app.use("/api/auctions", auctionRouter);
 
 app.get("/ping", (_req, res) => {

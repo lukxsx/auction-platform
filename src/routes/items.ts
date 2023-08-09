@@ -18,7 +18,7 @@ router.get("/", async (req, res) => {
 router.get("/:itemId", async (req, res) => {
     try {
         const itemId = atoi(req.params.itemId);
-        res.json(await itemService.getItemById(itemId));
+        res.json(await itemService.getItemByIdWithBids(itemId));
     } catch (error: unknown) {
         if (error instanceof Error) {
             res.status(400).json({ error: error.message });

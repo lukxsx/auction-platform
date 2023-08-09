@@ -16,15 +16,12 @@ const getBidsByItem = async (itemId: number): Promise<Bid[]> => {
         .execute();
 };
 
-const bidOnItem = async (
-    bidValue: number,
-    userId: number,
-    auctionId: number,
-    itemId: number
-): Promise<Bid> => {
+const bidOnItem = async (bidEntry: NewBid): Promise<Bid> => {
     try {
         // Get auction details
-        const auction = await auctionService.getAuctionById(auctionId);
+        const auction = await auctionService.getAuctionById(
+            bidEntry.auction_id
+        );
 
         // Check if auction is ongoing
         if (!checkDate(auction.start_date, auction.end_date)) {
@@ -32,24 +29,19 @@ const bidOnItem = async (
         }
 
         // Get item details
-        const item = await itemService.getItemById(itemId);
+        const item = await itemService.getItemById(bidEntry.item_id);
 
         // Compare prices
-        if (bidValue < item.current_price && bidValue < item.starting_price) {
+        if (bidEntry.price <= item.current_price) {
             throw new Error("Bid is too low");
         }
 
         // Update new price on item entry
-        item.current_price = bidValue;
-        await itemService.updateItem(itemId, item);
+        item.current_price = bidEntry.price;
+        await itemService.updateItem(bidEntry.item_id, item);
 
         // Create bid entry
-        const newBid = await createBid({
-            price: bidValue,
-            user_id: userId,
-            item_id: itemId,
-            auction_id: auctionId,
-        });
+        const newBid = await createBid(bidEntry);
 
         return newBid;
     } catch (error: unknown) {

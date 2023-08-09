@@ -59,6 +59,7 @@ export const createTables = async () => {
         .createTable("bid")
         .ifNotExists()
         .addColumn("id", "serial", (cb) => cb.primaryKey())
+        .addColumn("price", "integer", (cb) => cb.notNull())
         .addColumn("user_id", "integer", (cb) => cb.notNull())
         .addColumn("item_id", "integer", (cb) => cb.notNull())
         .addColumn("auction_id", "integer", (cb) => cb.notNull())
