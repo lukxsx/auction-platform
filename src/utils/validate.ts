@@ -6,11 +6,11 @@ import {
     LoginEntry,
 } from "../types";
 
-const isString = (text: unknown): text is string => {
+export const isString = (text: unknown): text is string => {
     return typeof text === "string" || text instanceof String;
 };
 
-const isNumber = (num: unknown): num is number => {
+export const isNumber = (num: unknown): num is number => {
     return typeof num === "number" || num instanceof Number;
 };
 

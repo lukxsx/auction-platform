@@ -1,7 +1,18 @@
 {
+  "ts-node": {
+    "files": true
+  },
+  "files": [
+    "src/index.ts",
+    "src/custom.d.ts"
+  ],
   "compilerOptions": {
     "target": "ES6",
     "outDir": "./build/",
+    "baseUrl": "./src",
+    "paths": {
+      "*": ["*"]
+    },
     "module": "commonjs",
     "strict": true,
     "noUnusedLocals": true,
@@ -9,5 +20,7 @@
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
     "esModuleInterop": true
-  }
+  },
+  "include": ["src/**/*.ts", "src/**/*.d.ts"],
+  "exclude": ["node_modules"]
 }
