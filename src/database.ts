@@ -33,7 +33,7 @@ export const createTables = async () => {
         .addColumn("id", "serial", (cb) => cb.primaryKey())
         .addColumn("name", "varchar(255)", (cb) => cb.notNull())
         .addColumn("start_date", "timestamp", (cb) => cb.notNull())
-        .addColumn("end_time", "timestamp", (cb) => cb.notNull())
+        .addColumn("end_date", "timestamp", (cb) => cb.notNull())
         .execute();
 
     await db.schema
