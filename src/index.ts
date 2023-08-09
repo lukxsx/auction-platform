@@ -4,6 +4,7 @@
 import express from "express";
 import * as dotenv from "dotenv";
 import { createTables } from "./database";
+import userRouter from "./routes/users";
 
 dotenv.config();
 const app = express();
@@ -16,6 +17,8 @@ createTables()
     .catch((e) => {
         console.error(e);
     });
+
+app.use("/api/users", userRouter);
 
 app.get("/ping", (_req, res) => {
     res.send("pong");

@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 
 import { Pool } from "pg";
-import { Kysely, PostgresDialect } from "kysely";
+import { Kysely, PostgresDialect, sql } from "kysely";
 import { Database } from "./types";
 
 const dialect = new PostgresDialect({
@@ -24,7 +24,7 @@ export const createTables = async () => {
         .createTable("user")
         .ifNotExists()
         .addColumn("id", "serial", (cb) => cb.primaryKey())
-        .addColumn("username(64)", "varchar", (cb) => cb.notNull())
+        .addColumn("name", "varchar(64)", (cb) => cb.notNull())
         .execute();
 
     await db.schema
@@ -43,5 +43,8 @@ export const createTables = async () => {
         .addColumn("id", "serial", (cb) => cb.primaryKey())
         .addColumn("user_id", "integer", (cb) => cb.notNull())
         .addColumn("item_id", "integer", (cb) => cb.notNull())
+        .addColumn("created_at", "timestamp", (cb) =>
+            cb.notNull().defaultTo(sql`now()`)
+        )
         .execute();
 };
