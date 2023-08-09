@@ -1,6 +1,6 @@
 // hard-coded user accounts for testing
 
-const users = [{ username: "user", password: "test" }];
+const users = [{ username: "localuser", password: "test" }];
 
 export const authenticate = (username: string, password: string): boolean => {
     const user = users.find(

@@ -60,6 +60,7 @@ export const createTables = async () => {
         .ifNotExists()
         .addColumn("id", "serial", (cb) => cb.primaryKey())
         .addColumn("price", "integer", (cb) => cb.notNull())
+        .addColumn("username", "varchar(64)")
         .addColumn("user_id", "integer", (cb) => cb.notNull())
         .addColumn("item_id", "integer", (cb) => cb.notNull())
         .addColumn("auction_id", "integer", (cb) => cb.notNull())
@@ -87,5 +88,99 @@ export const createTables = async () => {
             ["id"],
             (cb) => cb.onDelete("cascade")
         )
+        .execute();
+};
+
+export const createTestData = async () => {
+    const today = new Date();
+    const yesterday = new Date(today);
+    yesterday.setDate(today.getDate() - 1);
+    const old = new Date(today);
+    old.setDate(today.getDate() - 5);
+    const tomorrow = new Date(today);
+    tomorrow.setDate(today.getDate() + 1);
+    const future = new Date(today);
+    future.setDate(today.getDate() + 5);
+
+    await db.insertInto("user").values({ name: "user1" }).execute();
+    await db.insertInto("user").values({ name: "user2" }).execute();
+
+    await db
+        .insertInto("auction")
+        .values({ name: "current", start_date: today, end_date: tomorrow })
+        .execute();
+    await db
+        .insertInto("auction")
+        .values({ name: "old", start_date: old, end_date: yesterday })
+        .execute();
+    await db
+        .insertInto("auction")
+        .values({ name: "upcoming", start_date: tomorrow, end_date: future })
+        .execute();
+
+    await db
+        .insertInto("item")
+        .values({
+            model: "MacBook Pro",
+            make: "Apple",
+            starting_price: 5,
+            current_price: 5,
+            auction_id: 1,
+        })
+        .execute();
+
+    await db
+        .insertInto("item")
+        .values({
+            model: "MacBook Air",
+            make: "Apple",
+            starting_price: 3,
+            current_price: 3,
+            auction_id: 1,
+        })
+        .execute();
+
+    await db
+        .insertInto("item")
+        .values({
+            model: "iPhone 5",
+            make: "Apple",
+            starting_price: 5,
+            current_price: 5,
+            auction_id: 2,
+        })
+        .execute();
+
+    await db
+        .insertInto("item")
+        .values({
+            model: "One",
+            make: "OnePlus",
+            starting_price: 3,
+            current_price: 3,
+            auction_id: 2,
+        })
+        .execute();
+
+    await db
+        .insertInto("item")
+        .values({
+            model: "ThinkPad T42",
+            make: "IBM",
+            starting_price: 5,
+            current_price: 5,
+            auction_id: 3,
+        })
+        .execute();
+
+    await db
+        .insertInto("item")
+        .values({
+            model: "ThinkPad T60",
+            make: "Lenovo",
+            starting_price: 3,
+            current_price: 3,
+            auction_id: 3,
+        })
         .execute();
 };

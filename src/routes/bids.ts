@@ -17,6 +17,8 @@ router.post("/", async (req: Request, res) => {
         if (req.user.id !== newBidEntry.user_id) {
             throw Error("invalid user");
         }
+
+        newBidEntry.username = req.user.name;
         const newBid = await bidService.bidOnItem(newBidEntry);
         res.json(newBid);
     } catch (error: unknown) {

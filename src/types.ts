@@ -40,6 +40,7 @@ export type ItemUpdate = Updateable<ItemTable>;
 interface BidTable {
     id: Generated<number>;
     price: number;
+    username?: string;
     user_id: number;
     item_id: number;
     auction_id: number;

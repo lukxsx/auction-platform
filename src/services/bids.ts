@@ -31,6 +31,11 @@ const bidOnItem = async (bidEntry: NewBid): Promise<Bid> => {
         // Get item details
         const item = await itemService.getItemById(bidEntry.item_id);
 
+        // Check if item's auction id matches auction id
+        if (bidEntry.auction_id !== item.auction_id) {
+            throw new Error("This item is not part of this auction");
+        }
+
         // Compare prices
         if (bidEntry.price <= item.current_price) {
             throw new Error("Bid is too low");
