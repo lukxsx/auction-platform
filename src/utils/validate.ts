@@ -43,11 +43,19 @@ export const parseItemEntry = (object: unknown): NewItem => {
         throw new Error("Incorrect or missing data");
     }
 
-    if ("model" in object && "make" in object && "starting_price" in object) {
+    if (
+        "model" in object &&
+        "make" in object &&
+        "starting_price" in object &&
+        "current_price" in object &&
+        "auction_id" in object
+    ) {
         const newItemEntry: NewItem = {
             model: parseString(object.model),
             make: parseString(object.make),
             starting_price: parseNumber(object.starting_price),
+            current_price: parseNumber(object.current_price),
+            auction_id: parseNumber(object.auction_id),
         };
 
         return newItemEntry;

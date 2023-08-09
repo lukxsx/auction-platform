@@ -34,6 +34,8 @@ export const createTables = async () => {
         .addColumn("model", "varchar(255)", (cb) => cb.notNull())
         .addColumn("make", "varchar(255)", (cb) => cb.notNull())
         .addColumn("info", "varchar(2048)")
+        .addColumn("auction_id", "integer", (cb) => cb.notNull())
+        .addColumn("starting_price", "integer", (cb) => cb.notNull())
         .addColumn("starting_price", "integer", (cb) => cb.notNull())
         .execute();
 
@@ -43,8 +45,18 @@ export const createTables = async () => {
         .addColumn("id", "serial", (cb) => cb.primaryKey())
         .addColumn("user_id", "integer", (cb) => cb.notNull())
         .addColumn("item_id", "integer", (cb) => cb.notNull())
+        .addColumn("auction_id", "integer", (cb) => cb.notNull())
         .addColumn("created_at", "timestamp", (cb) =>
             cb.notNull().defaultTo(sql`now()`)
         )
+        .execute();
+
+    await db.schema
+        .createTable("auction")
+        .ifNotExists()
+        .addColumn("id", "serial", (cb) => cb.primaryKey())
+        .addColumn("name", "varchar(255)", (cb) => cb.notNull())
+        .addColumn("start_date", "datetime", (cb) => cb.notNull())
+        .addColumn("end_time", "datetime", (cb) => cb.notNull())
         .execute();
 };
