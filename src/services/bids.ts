@@ -13,6 +13,7 @@ const getBidsByItem = async (itemId: number): Promise<Bid[]> => {
         .selectFrom("bid")
         .where("item_id", "=", itemId)
         .selectAll()
+        .orderBy("id")
         .execute();
 };
 

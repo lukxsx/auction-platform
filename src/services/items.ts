@@ -3,7 +3,7 @@ import { Item, NewItem, ItemUpdate, ItemWithBids } from "../types";
 import bidService from "./bids";
 
 const getAllItems = async (): Promise<Item[]> => {
-    return await db.selectFrom("item").selectAll().execute();
+    return await db.selectFrom("item").selectAll().orderBy("id").execute();
 };
 
 const getItemsByAuction = async (auctionId: number): Promise<Item[]> => {
@@ -11,6 +11,7 @@ const getItemsByAuction = async (auctionId: number): Promise<Item[]> => {
         .selectFrom("item")
         .where("auction_id", "=", auctionId)
         .selectAll()
+        .orderBy("id")
         .execute();
 };
 

@@ -44,6 +44,7 @@ export const userExtractor = async (
         res.status(401).json({ error: "token missing or invalid" }).end();
         return;
     }
+    // TODO: causes termination if user cannot be dound
     const user = await userService.getUserByName(decodedToken.username);
 
     if (!user) {

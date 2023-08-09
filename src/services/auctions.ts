@@ -2,7 +2,7 @@ import { db } from "../database";
 import { Auction, NewAuction } from "../types";
 
 const getAuctions = async (): Promise<Auction[]> => {
-    return await db.selectFrom("auction").selectAll().execute();
+    return await db.selectFrom("auction").selectAll().orderBy("id").execute();
 };
 
 const getAuctionById = async (auctionId: number): Promise<Auction> => {

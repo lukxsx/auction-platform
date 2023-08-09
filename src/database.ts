@@ -123,6 +123,7 @@ export const createTestData = async () => {
         .values({
             model: "MacBook Pro",
             make: "Apple",
+            info: "",
             starting_price: 5,
             current_price: 5,
             auction_id: 1,
@@ -134,6 +135,7 @@ export const createTestData = async () => {
         .values({
             model: "MacBook Air",
             make: "Apple",
+            info: "",
             starting_price: 3,
             current_price: 3,
             auction_id: 1,
@@ -145,6 +147,7 @@ export const createTestData = async () => {
         .values({
             model: "iPhone 5",
             make: "Apple",
+            info: "",
             starting_price: 5,
             current_price: 5,
             auction_id: 2,
@@ -156,6 +159,7 @@ export const createTestData = async () => {
         .values({
             model: "One",
             make: "OnePlus",
+            info: "",
             starting_price: 3,
             current_price: 3,
             auction_id: 2,
@@ -167,6 +171,7 @@ export const createTestData = async () => {
         .values({
             model: "ThinkPad T42",
             make: "IBM",
+            info: "",
             starting_price: 5,
             current_price: 5,
             auction_id: 3,
@@ -178,6 +183,7 @@ export const createTestData = async () => {
         .values({
             model: "ThinkPad T60",
             make: "Lenovo",
+            info: "",
             starting_price: 3,
             current_price: 3,
             auction_id: 3,
