@@ -64,3 +64,13 @@ export type AuctionUpdate = Updateable<AuctionTable>;
 export type ItemWithBids = Item & {
     bids: Bid[];
 };
+
+export interface LoginEntry {
+    username: string;
+    password: string;
+}
+
+export interface TokenData {
+    username: string;
+    user_id: number;
+}
