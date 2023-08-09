@@ -28,6 +28,15 @@ export const createTables = async () => {
         .execute();
 
     await db.schema
+        .createTable("auction")
+        .ifNotExists()
+        .addColumn("id", "serial", (cb) => cb.primaryKey())
+        .addColumn("name", "varchar(255)", (cb) => cb.notNull())
+        .addColumn("start_date", "timestamp", (cb) => cb.notNull())
+        .addColumn("end_time", "timestamp", (cb) => cb.notNull())
+        .execute();
+
+    await db.schema
         .createTable("item")
         .ifNotExists()
         .addColumn("id", "serial", (cb) => cb.primaryKey())
@@ -36,7 +45,13 @@ export const createTables = async () => {
         .addColumn("info", "varchar(2048)")
         .addColumn("auction_id", "integer", (cb) => cb.notNull())
         .addColumn("starting_price", "integer", (cb) => cb.notNull())
-        .addColumn("starting_price", "integer", (cb) => cb.notNull())
+        .addForeignKeyConstraint(
+            "auction_id_fk",
+            ["auction_id"],
+            "auction",
+            ["id"],
+            (cb) => cb.onDelete("cascade")
+        )
         .execute();
 
     await db.schema
@@ -49,14 +64,26 @@ export const createTables = async () => {
         .addColumn("created_at", "timestamp", (cb) =>
             cb.notNull().defaultTo(sql`now()`)
         )
-        .execute();
-
-    await db.schema
-        .createTable("auction")
-        .ifNotExists()
-        .addColumn("id", "serial", (cb) => cb.primaryKey())
-        .addColumn("name", "varchar(255)", (cb) => cb.notNull())
-        .addColumn("start_date", "datetime", (cb) => cb.notNull())
-        .addColumn("end_time", "datetime", (cb) => cb.notNull())
+        .addForeignKeyConstraint(
+            "user_id_fk",
+            ["user_id"],
+            "user",
+            ["id"],
+            (cb) => cb.onDelete("cascade")
+        )
+        .addForeignKeyConstraint(
+            "item_id_fk",
+            ["item_id"],
+            "item",
+            ["id"],
+            (cb) => cb.onDelete("cascade")
+        )
+        .addForeignKeyConstraint(
+            "auction_id_fk",
+            ["auction_id"],
+            "auction",
+            ["id"],
+            (cb) => cb.onDelete("cascade")
+        )
         .execute();
 };

@@ -8,6 +8,7 @@ import {
 
 export interface Database {
     user: UserTable;
+    auction: AuctionTable;
     item: ItemTable;
     bid: BidTable;
 }
