@@ -1,47 +1,23 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 
-import { Generated } from "kysely";
 import { Pool } from "pg";
 import { Kysely, PostgresDialect } from "kysely";
+import { Database } from "./types";
 
-export const db = new Kysely<Database>({
-    dialect: new PostgresDialect({
-        pool: new Pool({
-            host: "localhost",
-            database: "kysely_test",
-            user: "username",
-            password: "password",
-        }),
+const dialect = new PostgresDialect({
+    pool: new Pool({
+        host: "localhost",
+        database: "kysely_test",
+        user: "username",
+        password: "password",
     }),
 });
 
-interface UserTable {
-    id: Generated<number>;
-    name: string;
-}
-
-interface ItemTable {
-    id: Generated<number>;
-    model: string;
-    make: string;
-    info?: string;
-    starting_price: number;
-}
-
-interface BidTable {
-    id: Generated<number>;
-    price: number;
-    user_id: number;
-    item_id: number;
-    time: Date;
-}
-
-interface Database {
-    user: UserTable;
-    item: ItemTable;
-    bid: BidTable;
-}
+// Kysely instance for queries
+export const db = new Kysely<Database>({
+    dialect,
+});
 
 export const createTables = async () => {
     await db.schema

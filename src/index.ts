@@ -3,7 +3,7 @@
 
 import express from "express";
 import * as dotenv from "dotenv";
-import { createTables } from "./db/schema";
+import { createTables } from "./database";
 
 dotenv.config();
 const app = express();
@@ -18,7 +18,6 @@ createTables()
     });
 
 app.get("/ping", (_req, res) => {
-    console.log("ping");
     res.send("pong");
 });
 
