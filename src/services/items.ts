@@ -1,5 +1,6 @@
 import { db } from "../database";
-import { Item, NewItem, ItemUpdate } from "../types";
+import { Item, NewItem, ItemUpdate, ItemWithBids } from "../types";
+import bidService from "./bids";
 
 const getAllItems = async (): Promise<Item[]> => {
     return await db.selectFrom("item").selectAll().execute();
@@ -13,14 +14,16 @@ const getItemsByAuction = async (auctionId: number): Promise<Item[]> => {
         .execute();
 };
 
-const getItemById = async (itemId: number): Promise<Item> => {
+const getItemById = async (itemId: number): Promise<ItemWithBids> => {
     try {
         const item = await db
             .selectFrom("item")
             .where("id", "=", itemId)
             .selectAll()
             .executeTakeFirstOrThrow();
-        return item;
+        // Get bids
+        const bids = await bidService.getBidsByItem(item.id);
+        return { ...item, bids };
     } catch (error: unknown) {
         throw new Error("item not found");
     }

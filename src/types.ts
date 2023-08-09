@@ -60,3 +60,7 @@ interface AuctionTable {
 export type Auction = Selectable<AuctionTable>;
 export type NewAuction = Insertable<AuctionTable>;
 export type AuctionUpdate = Updateable<AuctionTable>;
+
+export type ItemWithBids = Item & {
+    bids: Bid[];
+};
