@@ -1,5 +1,5 @@
 import { db } from "../database";
-import { Item, NewItem } from "../types";
+import { Item, NewItem, ItemUpdate } from "../types";
 
 const getAllItems = async (): Promise<Item[]> => {
     return await db.selectFrom("item").selectAll().execute();
@@ -26,6 +26,18 @@ const getItemById = async (itemId: number): Promise<Item> => {
     }
 };
 
+const updateItem = async (itemId: number, updateWith: ItemUpdate) => {
+    try {
+        await db
+            .updateTable("item")
+            .set(updateWith)
+            .where("id", "=", itemId)
+            .execute();
+    } catch (error: unknown) {
+        throw new Error("could not update item");
+    }
+};
+
 const createItem = async (item: NewItem): Promise<Item> => {
     return await db
         .insertInto("item")
@@ -38,5 +50,6 @@ export default {
     getAllItems,
     getItemById,
     getItemsByAuction,
+    updateItem,
     createItem,
 };
