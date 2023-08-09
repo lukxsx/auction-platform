@@ -5,7 +5,7 @@ const getBids = async (): Promise<Bid[]> => {
     return await db.selectFrom("bid").selectAll().execute();
 };
 
-const createBid = async (bid: NewBid) => {
+const createBid = async (bid: NewBid): Promise<Bid> => {
     return await db
         .insertInto("bid")
         .values(bid)

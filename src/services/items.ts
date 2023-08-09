@@ -5,7 +5,7 @@ const getItems = async (): Promise<Item[]> => {
     return await db.selectFrom("item").selectAll().execute();
 };
 
-const createItem = async (item: NewItem) => {
+const createItem = async (item: NewItem): Promise<Item> => {
     return await db
         .insertInto("item")
         .values(item)
