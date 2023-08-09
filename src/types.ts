@@ -34,6 +34,7 @@ interface ItemTable {
 
 export type Item = Selectable<ItemTable>;
 export type NewItem = Insertable<ItemTable>;
+export type NewItemFromAPI = Omit<NewItem, "auction_id">;
 export type ItemUpdate = Updateable<ItemTable>;
 
 interface BidTable {

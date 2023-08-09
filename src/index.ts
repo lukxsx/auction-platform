@@ -5,7 +5,6 @@ import express from "express";
 import * as dotenv from "dotenv";
 import { createTables } from "./database";
 import userRouter from "./routes/users";
-import itemRouter from "./routes/items";
 import auctionRouter from "./routes/auctions";
 
 dotenv.config();
@@ -21,11 +20,14 @@ createTables()
     });
 
 app.use("/api/users", userRouter);
-app.use("/api/items", itemRouter);
 app.use("/api/auctions", auctionRouter);
 
 app.get("/ping", (_req, res) => {
     res.send("pong");
+});
+
+app.use((_req, res) => {
+    res.status(404).json({ error: "not found" });
 });
 
 app.listen(PORT, () => {

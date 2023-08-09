@@ -45,6 +45,7 @@ export const createTables = async () => {
         .addColumn("info", "varchar(2048)")
         .addColumn("auction_id", "integer", (cb) => cb.notNull())
         .addColumn("starting_price", "integer", (cb) => cb.notNull())
+        .addColumn("current_price", "integer", (cb) => cb.notNull())
         .addForeignKeyConstraint(
             "auction_id_fk",
             ["auction_id"],
