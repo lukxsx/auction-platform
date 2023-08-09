@@ -8,7 +8,11 @@ const router = express.Router({ mergeParams: true });
 
 router.get("/", async (req, res) => {
     const { auctionId } = req.params as typeof req.params & parentParam;
-    res.json(await itemService.getAuctionItems(auctionId));
+    if (!auctionId) {
+        res.json(await itemService.getAllItems());
+        return;
+    }
+    res.json(await itemService.getItemsByAuction(auctionId));
 });
 
 router.get("/:itemId", async (req, res) => {

@@ -5,7 +5,7 @@ const getAllItems = async (): Promise<Item[]> => {
     return await db.selectFrom("item").selectAll().execute();
 };
 
-const getAuctionItems = async (auctionId: number): Promise<Item[]> => {
+const getItemsByAuction = async (auctionId: number): Promise<Item[]> => {
     return await db
         .selectFrom("item")
         .where("auction_id", "=", auctionId)
@@ -37,6 +37,6 @@ const createItem = async (item: NewItem): Promise<Item> => {
 export default {
     getAllItems,
     getItemById,
-    getAuctionItems,
+    getItemsByAuction,
     createItem,
 };
