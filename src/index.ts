@@ -3,8 +3,7 @@
 
 import express from "express";
 import * as dotenv from "dotenv";
-import { Pool } from "pg";
-import { Kysely, PostgresDialect, Generated } from "kysely";
+import { createTables } from "./db/schema";
 
 dotenv.config();
 const app = express();
@@ -12,16 +11,11 @@ app.use(express.json());
 
 const PORT = process.env.PORT;
 
-const db = new Kysely<Database>({
-    dialect: new PostgresDialect({
-        pool: new Pool({
-            host: "localhost",
-            database: "kysely_test",
-            user: "username",
-            password: "password",
-        }),
-    }),
-});
+createTables()
+    .then(() => console.log("tables created"))
+    .catch((e) => {
+        console.error(e);
+    });
 
 app.get("/ping", (_req, res) => {
     console.log("ping");
