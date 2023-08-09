@@ -1,17 +1,27 @@
 import express from "express";
 import itemService from "../services/items";
 import { parseItemEntry } from "../utils/validate";
+import { atoi } from "../utils/helpers";
 
 type parentParam = { auctionId: number };
 const router = express.Router({ mergeParams: true });
 
-router.get("/", async (_req, res) => {
-    res.json(await itemService.getItems());
+router.get("/", async (req, res) => {
+    const { auctionId } = req.params as typeof req.params & parentParam;
+    res.json(await itemService.getAuctionItems(auctionId));
 });
 
-router.get("/:itemId", (req, res) => {
-    const { auctionId, itemId } = req.params as typeof req.params & parentParam;
-    res.send("hello item " + itemId + " from auction " + auctionId);
+router.get("/:itemId", async (req, res) => {
+    try {
+        const itemId = atoi(req.params.itemId);
+        res.json(await itemService.getItemById(itemId));
+    } catch (error: unknown) {
+        if (error instanceof Error) {
+            res.status(400).json({ error: error.message });
+            return;
+        }
+        res.status(400).json({ error: "not found" });
+    }
 });
 
 router.post("/", async (req, res) => {
