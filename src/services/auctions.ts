@@ -1,5 +1,5 @@
 import { db } from "../database";
-import { Auction, NewAuction } from "../types";
+import { Auction, NewAuction, AuctionUpdate } from "../types";
 
 const getAuctions = async (): Promise<Auction[]> => {
     return await db.selectFrom("auction").selectAll().orderBy("id").execute();
@@ -26,8 +26,18 @@ const createAuction = async (auction: NewAuction): Promise<Auction> => {
         .executeTakeFirstOrThrow();
 };
 
+// Update auction with new values
+const updateAuction = async (auctionId: number, updateWith: AuctionUpdate) => {
+    await db
+        .updateTable("auction")
+        .set(updateWith)
+        .where("id", "=", auctionId)
+        .executeTakeFirstOrThrow();
+};
+
 export default {
     getAuctions,
     getAuctionById,
     createAuction,
+    updateAuction,
 };

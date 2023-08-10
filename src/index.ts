@@ -4,11 +4,13 @@
 import express from "express";
 import * as dotenv from "dotenv";
 import morgan from "morgan";
-import { createTables /*createTestData*/ } from "./database";
+import { schedule } from "node-cron";
+import { createTables /*, createTestData*/ } from "./database";
 import userRouter from "./routes/users";
 import auctionRouter from "./routes/auctions";
 import bidsRouter from "./routes/bids";
 import authRouter from "./routes/auth";
+import { checkAuctions } from "./scheduler";
 
 dotenv.config();
 const app = express();
@@ -26,6 +28,12 @@ createTables()
 // createTestData()
 //     .then(() => console.log("test data created"))
 //     .catch((e) => console.error(e));
+
+schedule("*/5 * * * * *", () => {
+    checkAuctions()
+        .then()
+        .catch((e) => console.error(e));
+});
 
 app.use("/api/users", userRouter);
 app.use("/api/auth", authRouter);

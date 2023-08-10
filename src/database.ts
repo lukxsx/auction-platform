@@ -34,6 +34,7 @@ export const createTables = async () => {
         .addColumn("name", "varchar(255)", (cb) => cb.notNull())
         .addColumn("start_date", "timestamp", (cb) => cb.notNull())
         .addColumn("end_date", "timestamp", (cb) => cb.notNull())
+        .addColumn("active", "boolean", (cb) => cb.notNull())
         .execute();
 
     await db.schema
@@ -116,15 +117,30 @@ export const createTestData = async () => {
 
     await db
         .insertInto("auction")
-        .values({ name: "current", start_date: today, end_date: tomorrow })
+        .values({
+            name: "current",
+            start_date: today,
+            end_date: tomorrow,
+            active: false,
+        })
         .execute();
     await db
         .insertInto("auction")
-        .values({ name: "old", start_date: old, end_date: yesterday })
+        .values({
+            name: "old",
+            start_date: old,
+            end_date: yesterday,
+            active: false,
+        })
         .execute();
     await db
         .insertInto("auction")
-        .values({ name: "upcoming", start_date: tomorrow, end_date: future })
+        .values({
+            name: "upcoming",
+            start_date: tomorrow,
+            end_date: future,
+            active: false,
+        })
         .execute();
 
     await db

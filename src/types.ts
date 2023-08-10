@@ -58,6 +58,7 @@ interface AuctionTable {
     name: string;
     start_date: Date;
     end_date: Date;
+    active: boolean;
 }
 
 export type Auction = Selectable<AuctionTable>;
