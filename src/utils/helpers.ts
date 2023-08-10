@@ -13,9 +13,17 @@ export const checkDate = (start: Date, end: Date): boolean => {
         // Too late
         return false;
     } else if (currentDate < start) {
-        // Too earle
+        // Too early
         return false;
     } else {
         return true;
     }
+};
+
+export const isOneMinuteLater = (date1: Date, date2: Date): boolean => {
+    const timeDifference = Math.abs(date1.getTime() - date2.getTime());
+
+    const timeDifferenceInMinutes = timeDifference / (1000 * 60);
+
+    return timeDifferenceInMinutes <= 1;
 };
