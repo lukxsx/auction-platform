@@ -3,6 +3,7 @@
 
 import express from "express";
 import * as dotenv from "dotenv";
+import cors from "cors";
 import morgan from "morgan";
 import { schedule } from "node-cron";
 import { createTables /*, createTestData*/ } from "./database";
@@ -14,6 +15,7 @@ import { checkAuctions } from "./scheduler";
 
 dotenv.config();
 const app = express();
+app.use(cors());
 app.use(express.json());
 app.use(morgan(":method :url :status :response-time ms"));
 
