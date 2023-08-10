@@ -24,7 +24,9 @@ router.post("/login", async (req, res) => {
         }
         const { username, password } = parseLoginEntry(req.body);
 
-        if (authenticate(username, password)) {
+        // Authenticate user
+        const authResult = authenticate(username, password);
+        if (authResult.success) {
             console.log("User", username, "logged in");
             let user: User = { name: "", id: 0 };
             // Does the user exist?
@@ -34,7 +36,11 @@ router.post("/login", async (req, res) => {
             }
             user = await userService.getUserByName(username);
 
-            const tokenData: TokenData = { username, user_id: user.id };
+            const tokenData: TokenData = {
+                username,
+                user_id: user.id,
+                is_admin: authResult.admin,
+            };
 
             const token = sign(tokenData, process.env.JWT_SECRET, {
                 expiresIn: 60 * 120,

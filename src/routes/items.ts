@@ -2,10 +2,13 @@ import express from "express";
 import itemService from "../services/items";
 import { parseItemEntry } from "../utils/validate";
 import { atoi } from "../utils/helpers";
+import { tokenExtractor, isAdmin } from "../middleware";
 
 type parentParam = { auctionId: number };
 const router = express.Router({ mergeParams: true });
+router.use(tokenExtractor);
 
+// Get all items
 router.get("/", async (req, res) => {
     const { auctionId } = req.params as typeof req.params & parentParam;
     if (!auctionId) {
@@ -15,6 +18,7 @@ router.get("/", async (req, res) => {
     res.json(await itemService.getItemsByAuction(auctionId));
 });
 
+// Get item by id
 router.get("/:itemId", async (req, res) => {
     try {
         const itemId = atoi(req.params.itemId);
@@ -28,7 +32,8 @@ router.get("/:itemId", async (req, res) => {
     }
 });
 
-router.post("/", async (req, res) => {
+// Add new item, requires admin
+router.post("/", isAdmin, async (req, res) => {
     const { auctionId } = req.params as typeof req.params & parentParam;
     try {
         const newItem = parseItemEntry(req.body);

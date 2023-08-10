@@ -17,6 +17,44 @@ export const tokenExtractor = (
     next();
 };
 
+export const isAdmin = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+) => {
+    if (!process.env.JWT_SECRET) {
+        console.error("JWT_SECRET not set");
+        res.status(500).json({ error: "internal server error" }).end();
+        return;
+    }
+    if (!req.token) {
+        res.status(401).json({ error: "token missing or invalid" }).end();
+        return;
+    }
+    const decodedToken = verify(
+        req.token,
+        process.env.JWT_SECRET
+    ) as JwtPayload;
+    if (!decodedToken.username && !decodedToken.user_id) {
+        res.status(401).json({ error: "token missing or invalid" }).end();
+        return;
+    }
+
+    if (!isString(decodedToken.username)) {
+        res.status(401).json({ error: "token missing or invalid" }).end();
+        return;
+    }
+
+    if (decodedToken.is_admin) {
+        req.admin = true;
+    } else {
+        res.status(401).json({ error: "unauthorized" }).end();
+        return;
+    }
+
+    next();
+};
+
 export const userExtractor = async (
     req: Request,
     res: Response,

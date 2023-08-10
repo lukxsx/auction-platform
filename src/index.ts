@@ -23,11 +23,9 @@ createTables()
         console.error(e);
     });
 
-// if (process.env.NODE_ENV === "development") {
-//     createTestData()
-//         .then(() => console.log("test data created"))
-//         .catch((e) => console.error(e));
-// }
+// createTestData()
+//     .then(() => console.log("test data created"))
+//     .catch((e) => console.error(e));
 
 app.use("/api/users", userRouter);
 app.use("/api/auth", authRouter);

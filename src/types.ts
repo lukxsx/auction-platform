@@ -73,7 +73,13 @@ export interface LoginEntry {
     password: string;
 }
 
+export interface AuthResult {
+    success: boolean;
+    admin: boolean;
+}
+
 export interface TokenData {
     username: string;
     user_id: number;
+    is_admin: boolean;
 }

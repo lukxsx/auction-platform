@@ -3,8 +3,10 @@ import auctionService from "../services/auctions";
 import { parseAuctionEntry } from "../utils/validate";
 import itemRouter from "../routes/items";
 import { atoi } from "../utils/helpers";
+import { isAdmin, tokenExtractor } from "../middleware";
 
 const router = express.Router();
+router.use(tokenExtractor);
 
 // Get all auctions
 router.get("/", async (_req, res) => {
@@ -28,7 +30,7 @@ router.get("/:auctionId", async (req, res) => {
 router.use("/:auctionId/items", itemRouter);
 
 // Add new auction
-router.post("/", async (req, res) => {
+router.post("/", isAdmin, async (req, res) => {
     try {
         const newAuction = parseAuctionEntry(req.body);
         const added = await auctionService.createAuction(newAuction);

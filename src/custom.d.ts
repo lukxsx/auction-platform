@@ -4,5 +4,6 @@ declare module "express" {
     interface Request {
         token?: string;
         user?: User;
+        admin?: boolean;
     }
 }

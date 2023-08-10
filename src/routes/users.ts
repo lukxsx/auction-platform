@@ -1,13 +1,18 @@
 import express from "express";
 import userService from "../services/users";
 import { parseUserEntry } from "../utils/validate";
+import { tokenExtractor, isAdmin } from "../middleware";
 
 const router = express.Router();
+router.use(tokenExtractor);
+router.use(isAdmin);
 
+// List users, admin required
 router.get("/", async (_req, res) => {
     res.json(await userService.getUsers());
 });
 
+// Add user, admin required
 router.post("/", async (req, res) => {
     try {
         const newUser = parseUserEntry(req.body);
