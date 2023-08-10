@@ -48,6 +48,14 @@ const bidOnItem = async (bidEntry: NewBid): Promise<Bid> => {
 
         // Create bid entry
         const newBid = await createBid(bidEntry);
+        console.log(
+            "New bid on item",
+            item.id,
+            "from user",
+            newBid.user_id,
+            ". The current price is",
+            newBid.price
+        );
 
         return newBid;
     } catch (error: unknown) {

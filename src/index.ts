@@ -3,6 +3,7 @@
 
 import express from "express";
 import * as dotenv from "dotenv";
+import morgan from "morgan";
 import { createTables /*createTestData*/ } from "./database";
 import userRouter from "./routes/users";
 import auctionRouter from "./routes/auctions";
@@ -12,6 +13,7 @@ import authRouter from "./routes/auth";
 dotenv.config();
 const app = express();
 app.use(express.json());
+app.use(morgan(":method :url :status :response-time ms"));
 
 const PORT = process.env.PORT;
 
