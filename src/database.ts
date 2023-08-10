@@ -46,12 +46,21 @@ export const createTables = async () => {
         .addColumn("auction_id", "integer", (cb) => cb.notNull())
         .addColumn("starting_price", "integer", (cb) => cb.notNull())
         .addColumn("current_price", "integer", (cb) => cb.notNull())
+        .addColumn("winner_id", "integer")
+        .addColumn("winner_name", "varchar(64)")
         .addForeignKeyConstraint(
             "auction_id_fk",
             ["auction_id"],
             "auction",
             ["id"],
             (cb) => cb.onDelete("cascade")
+        )
+        .addForeignKeyConstraint(
+            "winner_id_fk",
+            ["winner_id"],
+            "user",
+            ["id"],
+            (cb) => cb.onDelete("set null")
         )
         .execute();
 

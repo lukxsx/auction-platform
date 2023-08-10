@@ -30,6 +30,8 @@ interface ItemTable {
     auction_id: number;
     starting_price: number;
     current_price: number;
+    winner_id?: number;
+    winner_name?: string;
 }
 
 export type Item = Selectable<ItemTable>;

@@ -42,8 +42,10 @@ const bidOnItem = async (bidEntry: NewBid): Promise<Bid> => {
             throw new Error("Bid is too low");
         }
 
-        // Update new price on item entry
+        // Update new price and current winner on item entry
         item.current_price = bidEntry.price;
+        item.winner_id = bidEntry.user_id;
+        item.winner_name = bidEntry.username;
         await itemService.updateItem(bidEntry.item_id, item);
 
         // Create bid entry
@@ -52,8 +54,7 @@ const bidOnItem = async (bidEntry: NewBid): Promise<Bid> => {
             "New bid on item",
             item.id,
             "from user",
-            newBid.user_id,
-            ". The current price is",
+            newBid.user_id + ". The current price is",
             newBid.price
         );
 
