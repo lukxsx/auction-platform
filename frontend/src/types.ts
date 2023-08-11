@@ -14,3 +14,15 @@ export interface UserFromAPI {
     name: string;
     token: string;
 }
+
+export interface Auction {
+    id: number;
+    name: string;
+    start_date: Date;
+    end_date: Date;
+    active: boolean;
+}
+
+export interface RootState {
+    auctions: Auction[];
+}
