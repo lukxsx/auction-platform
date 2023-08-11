@@ -3,7 +3,7 @@
 
 import { Pool } from "pg";
 import { Kysely, PostgresDialect, sql } from "kysely";
-import { Database } from "./types";
+import { Database, AuctionState, ItemState } from "./types";
 
 const dialect = new PostgresDialect({
     pool: new Pool({
@@ -34,7 +34,7 @@ export const createTables = async () => {
         .addColumn("name", "varchar(255)", (cb) => cb.notNull())
         .addColumn("start_date", "timestamp", (cb) => cb.notNull())
         .addColumn("end_date", "timestamp", (cb) => cb.notNull())
-        .addColumn("active", "boolean", (cb) => cb.notNull())
+        .addColumn("state", "varchar(16)", (cb) => cb.notNull())
         .execute();
 
     await db.schema
@@ -49,6 +49,7 @@ export const createTables = async () => {
         .addColumn("current_price", "integer", (cb) => cb.notNull())
         .addColumn("winner_id", "integer")
         .addColumn("winner_name", "varchar(64)")
+        .addColumn("state", "varchar(16)", (cb) => cb.notNull())
         .addForeignKeyConstraint(
             "auction_id_fk",
             ["auction_id"],
@@ -121,7 +122,7 @@ export const createTestData = async () => {
             name: "current",
             start_date: today,
             end_date: tomorrow,
-            active: false,
+            state: AuctionState.Pending,
         })
         .execute();
     await db
@@ -130,7 +131,7 @@ export const createTestData = async () => {
             name: "old",
             start_date: old,
             end_date: yesterday,
-            active: false,
+            state: AuctionState.Pending,
         })
         .execute();
     await db
@@ -139,7 +140,7 @@ export const createTestData = async () => {
             name: "upcoming",
             start_date: tomorrow,
             end_date: future,
-            active: false,
+            state: AuctionState.Pending,
         })
         .execute();
 
@@ -152,6 +153,7 @@ export const createTestData = async () => {
             starting_price: 5,
             current_price: 5,
             auction_id: 1,
+            state: ItemState.Open,
         })
         .execute();
 
@@ -164,6 +166,7 @@ export const createTestData = async () => {
             starting_price: 3,
             current_price: 3,
             auction_id: 1,
+            state: ItemState.Open,
         })
         .execute();
 
@@ -176,6 +179,7 @@ export const createTestData = async () => {
             starting_price: 5,
             current_price: 5,
             auction_id: 2,
+            state: ItemState.Open,
         })
         .execute();
 
@@ -188,6 +192,7 @@ export const createTestData = async () => {
             starting_price: 3,
             current_price: 3,
             auction_id: 2,
+            state: ItemState.Open,
         })
         .execute();
 
@@ -200,6 +205,7 @@ export const createTestData = async () => {
             starting_price: 5,
             current_price: 5,
             auction_id: 3,
+            state: ItemState.Open,
         })
         .execute();
 
@@ -212,6 +218,7 @@ export const createTestData = async () => {
             starting_price: 3,
             current_price: 3,
             auction_id: 3,
+            state: ItemState.Open,
         })
         .execute();
 };

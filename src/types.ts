@@ -32,6 +32,7 @@ interface ItemTable {
     current_price: number;
     winner_id?: number;
     winner_name?: string;
+    state: ItemState;
 }
 
 export type Item = Selectable<ItemTable>;
@@ -58,7 +59,7 @@ interface AuctionTable {
     name: string;
     start_date: Date;
     end_date: Date;
-    active: boolean;
+    state: AuctionState;
 }
 
 export type Auction = Selectable<AuctionTable>;
@@ -83,4 +84,16 @@ export interface TokenData {
     username: string;
     user_id: number;
     is_admin: boolean;
+}
+
+export enum AuctionState {
+    Pending = "pending",
+    Running = "running",
+    Finished = "finished",
+}
+
+export enum ItemState {
+    Open = "open",
+    Sold = "sold",
+    Unsold = "unsold",
 }

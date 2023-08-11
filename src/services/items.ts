@@ -1,6 +1,58 @@
 import { jsonArrayFrom } from "kysely/helpers/postgres";
+import { sql } from "kysely";
 import { db } from "../database";
 import { Item, NewItem, ItemUpdate, ItemWithBids } from "../types";
+
+export const sqlItemsQuery = sql<Item[]>`SELECT
+i.*,
+COALESCE(hb.current_price, i.starting_price) AS current_price,
+hb.winner
+FROM
+item AS i
+LEFT JOIN (
+SELECT
+  b.item_id,
+  b.price AS current_price,
+  b.user_id AS winner
+FROM
+  bid AS b
+WHERE
+  (b.item_id, b.price) IN (
+    SELECT
+      item_id,
+      MAX(price) AS max_price
+    FROM
+      bid
+    GROUP BY
+      item_id
+  )
+) AS hb ON i.id = hb.item_id;
+`;
+
+// SELECT
+//   i.*,
+//   COALESCE(hb.current_price, i.starting_price) AS current_price,
+//   hb.winner
+// FROM
+//   item AS i
+// LEFT JOIN (
+//   SELECT
+//     b.item_id,
+//     b.price AS current_price,
+//     b.user_id AS winner
+//   FROM
+//     bid AS b
+//   WHERE
+//     (b.item_id, b.price) IN (
+//       SELECT
+//         item_id,
+//         MAX(price) AS max_price
+//       FROM
+//         bid
+//       GROUP BY
+//         item_id
+//     )
+// ) AS hb ON i.id = hb.item_id;
 
 // Return all items in database
 const getAllItems = async (): Promise<Item[]> => {
@@ -46,6 +98,7 @@ const getItemByIdWithBids = async (itemId: number): Promise<ItemWithBids> => {
                 "current_price",
                 "winner_id",
                 "winner_name",
+                "state",
                 jsonArrayFrom(
                     eb
                         .selectFrom("bid")
