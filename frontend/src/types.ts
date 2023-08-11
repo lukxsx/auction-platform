@@ -15,14 +15,49 @@ export interface UserFromAPI {
     token: string;
 }
 
+export interface Item {
+    id: number;
+    model: string;
+    make: string;
+    info?: string;
+    auction_id: number;
+    starting_price: number;
+    current_price: number;
+    winner_id?: number;
+    winner_name?: string;
+    state: ItemState;
+}
+
+export interface Bid {
+    id: number;
+    price: number;
+    username?: string;
+    user_id: number;
+    item_id: number;
+    auction_id: number;
+    created_at: Date;
+}
+
 export interface Auction {
     id: number;
     name: string;
     start_date: Date;
     end_date: Date;
-    active: boolean;
+    state: AuctionState;
 }
 
 export interface RootState {
     auctions: Auction[];
+}
+
+export enum AuctionState {
+    Pending = "pending",
+    Running = "running",
+    Finished = "finished",
+}
+
+export enum ItemState {
+    Open = "open",
+    Sold = "sold",
+    Unsold = "unsold",
 }
