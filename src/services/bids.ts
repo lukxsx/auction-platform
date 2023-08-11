@@ -1,8 +1,7 @@
 import { db } from "../database";
-import { Bid, NewBid } from "../types";
+import { AuctionState, ItemState, Bid, NewBid } from "../types";
 import auctionService from "./auctions";
 import itemService from "./items";
-import { checkDate } from "../utils/helpers";
 
 const getBids = async (): Promise<Bid[]> => {
     return await db.selectFrom("bid").selectAll().execute();
@@ -25,7 +24,7 @@ const bidOnItem = async (bidEntry: NewBid): Promise<Bid> => {
         );
 
         // Check if auction is ongoing
-        if (!checkDate(auction.start_date, auction.end_date)) {
+        if (auction.state != AuctionState.Running) {
             throw new Error("Auction is not running at the moment");
         }
 
@@ -35,6 +34,11 @@ const bidOnItem = async (bidEntry: NewBid): Promise<Bid> => {
         // Check if item's auction id matches auction id
         if (bidEntry.auction_id !== item.auction_id) {
             throw new Error("This item is not part of this auction");
+        }
+
+        // Check item state
+        if (item.state != ItemState.Open) {
+            throw new Error("This item cannot be bidded on at the moment");
         }
 
         // Compare prices
@@ -75,9 +79,23 @@ const createBid = async (bid: NewBid): Promise<Bid> => {
         .executeTakeFirstOrThrow();
 };
 
+const underMinuteSinceLastBid = async (itemId: number): Promise<boolean> => {
+    const bids = await getBidsByItem(itemId);
+    if (bids.length == 0) return false;
+    const lastBid = bids[bids.length - 1];
+    const currentDate = new Date();
+    const timeDifference = Math.abs(
+        currentDate.getTime() - lastBid.created_at.getTime()
+    );
+    const timeDifferenceInMinutes = timeDifference / (1000 * 60);
+
+    return timeDifferenceInMinutes <= 1;
+};
+
 export default {
     getBids,
     getBidsByItem,
     bidOnItem,
     createBid,
+    underMinuteSinceLastBid,
 };
