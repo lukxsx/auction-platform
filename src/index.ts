@@ -5,7 +5,7 @@ import express from "express";
 import * as dotenv from "dotenv";
 import morgan from "morgan";
 import { schedule } from "node-cron";
-import { createTables /*, createTestData*/ } from "./database";
+import { createTables /*, createTestData */ } from "./database";
 import userRouter from "./routes/users";
 import auctionRouter from "./routes/auctions";
 import bidsRouter from "./routes/bids";

@@ -1,4 +1,6 @@
 import {
+    AuctionState,
+    ItemState,
     NewUser,
     NewAuction,
     NewItemFromAPI,
@@ -68,6 +70,7 @@ export const parseItemEntry = (object: unknown): NewItemFromAPI => {
             info: "info" in object ? parseString(object.info) : "",
             starting_price: parseNumber(object.starting_price),
             current_price: parseNumber(object.starting_price),
+            state: ItemState.Open,
         };
 
         return newItemEntry;
@@ -86,7 +89,7 @@ export const parseAuctionEntry = (object: unknown): NewAuction => {
             name: parseString(object.name),
             start_date: parseDate(object.start_date),
             end_date: parseDate(object.end_date),
-            active: false,
+            state: AuctionState.Pending,
         };
 
         return newAuctionEntry;
