@@ -1,6 +1,6 @@
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
-import Auctions from "./components/Auctions";
+import ItemList from "./components/ItemList";
 import auctionService from "./services/auctions";
 import { setAuctions } from "./reducers/auctions";
 import "normalize.css";
@@ -14,7 +14,7 @@ function App() {
     }, [dispatch]);
     return (
         <div>
-            <Auctions />
+            <ItemList auctionId={1} />
         </div>
     );
 }

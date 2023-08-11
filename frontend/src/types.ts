@@ -46,8 +46,13 @@ export interface Auction {
     state: AuctionState;
 }
 
+export interface AuctionItemsState {
+    itemsByAuctionId: Record<number, Item[]>;
+}
+
 export interface RootState {
     auctions: Auction[];
+    items: AuctionItemsState;
 }
 
 export enum AuctionState {

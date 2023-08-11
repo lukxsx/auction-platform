@@ -4,10 +4,12 @@ import { configureStore } from "@reduxjs/toolkit";
 import { Provider } from "react-redux";
 import App from "./App";
 import auctionReducer from "./reducers/auctions";
+import itemReducer from "./reducers/items";
 
 const store = configureStore({
     reducer: {
         auctions: auctionReducer,
+        items: itemReducer,
     },
 });
 

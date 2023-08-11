@@ -1,7 +1,7 @@
 import { useSelector } from "react-redux";
-import { Auction, RootState } from "../types";
+import { RootState } from "../types";
 
-const Auctions = () => {
+const AuctionList = () => {
     const auctions = useSelector((state: RootState) => state.auctions);
 
     return (
@@ -13,4 +13,4 @@ const Auctions = () => {
     );
 };
 
-export default Auctions;
+export default AuctionList;
