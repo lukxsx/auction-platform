@@ -3,6 +3,7 @@ import itemService from "../services/items";
 import { parseItemEntry } from "../utils/validate";
 import { atoi } from "../utils/helpers";
 import { tokenExtractor, isAdmin } from "../middleware";
+import bidService from "../services/bids";
 
 type parentParam = { auctionId: number };
 const router = express.Router({ mergeParams: true });
@@ -23,6 +24,20 @@ router.get("/:itemId", async (req, res) => {
     try {
         const itemId = atoi(req.params.itemId);
         res.json(await itemService.getItemByIdWithBids(itemId));
+    } catch (error: unknown) {
+        if (error instanceof Error) {
+            res.status(400).json({ error: error.message });
+            return;
+        }
+        res.status(400).json({ error: "not found" });
+    }
+});
+
+// Get item's bids
+router.get("/:itemId/bids", async (req, res) => {
+    try {
+        const itemId = atoi(req.params.itemId);
+        res.json(await bidService.getBidsByItem(itemId));
     } catch (error: unknown) {
         if (error instanceof Error) {
             res.status(400).json({ error: error.message });
