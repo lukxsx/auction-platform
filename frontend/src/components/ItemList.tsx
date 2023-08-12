@@ -1,8 +1,11 @@
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { Container, Row, Col, Card } from "react-bootstrap";
 import { setItems, selectItemsByAuctionId } from "../reducers/items";
 import { RootState } from "../types";
 import itemService from "../services/items";
+
+import ItemCard from "./ItemCard";
 
 const ItemList = ({ auctionId }: { auctionId: number }) => {
     const dispatch = useDispatch();
@@ -20,11 +23,15 @@ const ItemList = ({ auctionId }: { auctionId: number }) => {
     }, [dispatch, auctionId]);
 
     return (
-        <div>
-            {items.map((item) => (
-                <div key={item.id}>{item.model}</div>
-            ))}
-        </div>
+        <Container className="mt-4">
+            <Row>
+                {items.map((item) => (
+                    <Col md={4} className="mb-4">
+                        <ItemCard item={item} />
+                    </Col>
+                ))}
+            </Row>
+        </Container>
     );
 };
 

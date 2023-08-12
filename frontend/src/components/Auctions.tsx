@@ -5,11 +5,13 @@ const AuctionList = () => {
     const auctions = useSelector((state: RootState) => state.auctions);
 
     return (
-        <ul>
-            {auctions.map((a) => (
-                <li>{a.name}</li>
-            ))}
-        </ul>
+        <div>
+            <ul>
+                {auctions.map((a) => (
+                    <li>{a.name}</li>
+                ))}
+            </ul>
+        </div>
     );
 };
 

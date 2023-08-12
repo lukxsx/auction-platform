@@ -20,6 +20,7 @@ export interface Item {
     model: string;
     make: string;
     info?: string;
+    code?: string;
     auction_id: number;
     starting_price: number;
     current_price: number;

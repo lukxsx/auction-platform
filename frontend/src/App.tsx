@@ -3,7 +3,6 @@ import { useEffect } from "react";
 import ItemList from "./components/ItemList";
 import auctionService from "./services/auctions";
 import { setAuctions } from "./reducers/auctions";
-import "normalize.css";
 
 function App() {
     const dispatch = useDispatch();
