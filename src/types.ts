@@ -24,6 +24,7 @@ export type UserUpdate = Updateable<UserTable>;
 
 interface ItemTable {
     id: Generated<number>;
+    code?: string;
     model: string;
     make: string;
     info?: string;

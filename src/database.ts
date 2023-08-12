@@ -43,6 +43,7 @@ export const createTables = async () => {
         .addColumn("id", "serial", (cb) => cb.primaryKey())
         .addColumn("model", "varchar(255)", (cb) => cb.notNull())
         .addColumn("make", "varchar(255)", (cb) => cb.notNull())
+        .addColumn("code", "varchar(64)")
         .addColumn("info", "varchar(2048)")
         .addColumn("auction_id", "integer", (cb) => cb.notNull())
         .addColumn("starting_price", "integer", (cb) => cb.notNull())
@@ -149,6 +150,7 @@ export const createTestData = async () => {
         .values({
             model: "MacBook Pro",
             make: "Apple",
+            code: "m01",
             info: "",
             starting_price: 5,
             current_price: 5,
@@ -162,6 +164,7 @@ export const createTestData = async () => {
         .values({
             model: "MacBook Air",
             make: "Apple",
+            code: "m02",
             info: "",
             starting_price: 3,
             current_price: 3,
@@ -175,6 +178,7 @@ export const createTestData = async () => {
         .values({
             model: "iPhone 5",
             make: "Apple",
+            code: "i01",
             info: "",
             starting_price: 5,
             current_price: 5,
@@ -188,6 +192,7 @@ export const createTestData = async () => {
         .values({
             model: "One",
             make: "OnePlus",
+            code: "a01",
             info: "",
             starting_price: 3,
             current_price: 3,
@@ -201,6 +206,7 @@ export const createTestData = async () => {
         .values({
             model: "ThinkPad T42",
             make: "IBM",
+            code: "t42",
             info: "",
             starting_price: 5,
             current_price: 5,
@@ -215,6 +221,7 @@ export const createTestData = async () => {
             model: "ThinkPad T60",
             make: "Lenovo",
             info: "",
+            code: "t60",
             starting_price: 3,
             current_price: 3,
             auction_id: 3,
