@@ -27,7 +27,7 @@ export const checkAuctions = async () => {
                     await auctionService.updateAuction(a.id, a);
                 }
             } else if (a.state == AuctionState.Running) {
-                console.log("Aucton", a.name, "is running");
+                console.log("Auction", a.name, "is running");
                 // Running
                 // Check all items if end_time has passed
                 if (!checkDate(a.start_date, a.end_date)) {

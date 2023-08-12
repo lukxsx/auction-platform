@@ -93,6 +93,7 @@ const getItemByIdWithBids = async (itemId: number): Promise<ItemWithBids> => {
                 "model",
                 "make",
                 "info",
+                "code",
                 "auction_id",
                 "starting_price",
                 "current_price",
