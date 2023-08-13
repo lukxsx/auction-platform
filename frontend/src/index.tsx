@@ -2,6 +2,8 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import { configureStore } from "@reduxjs/toolkit";
 import { Provider } from "react-redux";
+import { BrowserRouter as Router } from "react-router-dom";
+
 import App from "./App";
 import auctionReducer from "./reducers/auctions";
 import itemReducer from "./reducers/items";
@@ -21,8 +23,10 @@ const root = ReactDOM.createRoot(
 );
 root.render(
     <React.StrictMode>
-        <Provider store={store}>
-            <App />
-        </Provider>
+        <Router>
+            <Provider store={store}>
+                <App />
+            </Provider>
+        </Router>
     </React.StrictMode>
 );

@@ -1,4 +1,5 @@
 import { Nav, Col } from "react-bootstrap";
+import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { RootState, AuctionState } from "../../types";
 import "./Sidebar.css";
@@ -32,7 +33,13 @@ const Sidebar = () => {
                     <h4>Running auctions</h4>
                     <Nav className="flex-column">
                         {currentAuctions.map((a) => (
-                            <Nav.Link href="#">{a.name}</Nav.Link>
+                            <Nav.Link
+                                as={Link}
+                                key={a.id}
+                                to={`/auction/${a.id}`}
+                            >
+                                {a.name}
+                            </Nav.Link>
                         ))}
                     </Nav>
                 </div>
@@ -42,15 +49,28 @@ const Sidebar = () => {
                     <h4>Upcoming auctions</h4>
                     <Nav className="flex-column">
                         {upcomingAuctions.map((a) => (
-                            <Nav.Link href="#">{a.name}</Nav.Link>
+                            <Nav.Link
+                                as={Link}
+                                key={a.id}
+                                to={`/auction/${a.id}`}
+                            >
+                                {a.name}
+                            </Nav.Link>
                         ))}
                     </Nav>
                 </div>
+                <hr />
                 <div className="sidebar-section">
                     <h4>Past auctions</h4>
                     <Nav className="flex-column">
                         {pastAuctions.map((a) => (
-                            <Nav.Link href="#">{a.name}</Nav.Link>
+                            <Nav.Link
+                                as={Link}
+                                key={a.id}
+                                to={`/auction/${a.id}`}
+                            >
+                                {a.name}
+                            </Nav.Link>
                         ))}
                     </Nav>
                 </div>

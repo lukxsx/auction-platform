@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { Auction } from "../types";
+import { Auction, RootState } from "../types";
 
 const auctionSlice = createSlice({
     name: "auctions",
@@ -14,6 +14,9 @@ const auctionSlice = createSlice({
         },
     },
 });
+
+export const selectAuctionById = (state: RootState, auctionId: number) =>
+    state.auctions.find((i) => i.id === auctionId);
 
 export const { setAuctions } = auctionSlice.actions;
 export default auctionSlice.reducer;
