@@ -1,8 +1,8 @@
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
-import ItemList from "./components/ItemList";
 import auctionService from "./services/auctions";
 import { setAuctions } from "./reducers/auctions";
+import Layout from "./components/Layout";
 
 function App() {
     const dispatch = useDispatch();
@@ -13,7 +13,9 @@ function App() {
     }, [dispatch]);
     return (
         <div>
-            <ItemList auctionId={1} />
+            <Layout>
+                <p>Hello</p>
+            </Layout>
         </div>
     );
 }

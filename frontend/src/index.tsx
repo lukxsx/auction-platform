@@ -7,7 +7,7 @@ import auctionReducer from "./reducers/auctions";
 import itemReducer from "./reducers/items";
 
 import "bootstrap/dist/css/bootstrap.min.css";
-import "normalize.css";
+//import "normalize.css";
 
 const store = configureStore({
     reducer: {
