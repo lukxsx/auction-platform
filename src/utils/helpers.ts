@@ -1,9 +1,25 @@
+import { DateState } from "../types";
+
 export const atoi = (input: string): number => {
     const parsedNumber = parseInt(input);
     if (!isNaN(parsedNumber)) {
         return parsedNumber;
     }
     throw new Error("id is not a number");
+};
+
+// Check if current date is between start and end dates
+export const checkDateWithState = (start: Date, end: Date): DateState => {
+    const currentDate = new Date();
+    if (currentDate > end) {
+        // Too late
+        return DateState.Late;
+    } else if (currentDate < start) {
+        // Too early
+        return DateState.Early;
+    } else {
+        return DateState.Ok;
+    }
 };
 
 // Check if current date is between start and end dates

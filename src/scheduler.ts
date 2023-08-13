@@ -1,8 +1,8 @@
 import auctionService from "./services/auctions";
 import itemService from "./services/items";
 import bidService from "./services/bids";
-import { AuctionState, Bid, ItemState } from "./types";
-import { checkDate } from "./utils/helpers";
+import { AuctionState, Bid, ItemState, DateState } from "./types";
+import { checkDate, checkDateWithState } from "./utils/helpers";
 
 const underMinuteSinceLastBid = (lastBid: Bid) => {
     const currentDate = new Date();
@@ -18,12 +18,18 @@ export const checkAuctions = async () => {
     try {
         const auctions = await auctionService.getAuctions();
         auctions.forEach(async (a) => {
+            const dateRange = checkDateWithState(a.start_date, a.end_date);
             if (a.state == AuctionState.Pending) {
                 // Pending
                 // Check if auction can be started
-                if (checkDate(a.start_date, a.end_date)) {
+                if (dateRange == DateState.Ok) {
                     console.log("Starting auction", a.name);
                     a.state = AuctionState.Running;
+                    await auctionService.updateAuction(a.id, a);
+                } else if (dateRange == DateState.Late) {
+                    // Auction is expired, but is marked pending. Setting auction as finished
+                    console.log("Setting auction", a.name, "as finished");
+                    a.state = AuctionState.Finished;
                     await auctionService.updateAuction(a.id, a);
                 }
             } else if (a.state == AuctionState.Running) {

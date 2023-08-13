@@ -98,3 +98,9 @@ export enum ItemState {
     Sold = "sold",
     Unsold = "unsold",
 }
+
+export enum DateState {
+    Early = "early",
+    Late = "late",
+    Ok = "ok",
+}
