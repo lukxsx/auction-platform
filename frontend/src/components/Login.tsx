@@ -1,9 +1,12 @@
 import React from "react";
 import axios from "axios";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { setUser } from "../reducers/user";
 import loginService from "../services/login";
 
 const Login = () => {
+    const dispatch = useDispatch();
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
 
@@ -15,7 +18,7 @@ const Login = () => {
             setUsername("");
             setPassword("");
             console.log(user);
-            window.localStorage.setItem("appUser", JSON.stringify(user));
+            dispatch(setUser(user));
         } catch (error) {
             if (axios.isAxiosError(error)) {
                 console.error("Failed login:", error.response?.data.error);

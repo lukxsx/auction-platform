@@ -9,7 +9,7 @@ export interface TokenData {
     is_admin: boolean;
 }
 
-export interface UserFromAPI {
+export interface LoginUser {
     id: number;
     name: string;
     token: string;
@@ -54,6 +54,9 @@ export interface AuctionItemsState {
 export interface RootState {
     auctions: Auction[];
     items: AuctionItemsState;
+    user: {
+        user: LoginUser | null;
+    };
 }
 
 export enum AuctionState {

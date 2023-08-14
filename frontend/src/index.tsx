@@ -7,6 +7,8 @@ import { BrowserRouter as Router } from "react-router-dom";
 import App from "./App";
 import auctionReducer from "./reducers/auctions";
 import itemReducer from "./reducers/items";
+import userReducer from "./reducers/user";
+import localStorageMiddleware from "./reducers/middleware";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 //import "normalize.css";
@@ -15,7 +17,9 @@ const store = configureStore({
     reducer: {
         auctions: auctionReducer,
         items: itemReducer,
+        user: userReducer,
     },
+    middleware: [localStorageMiddleware],
 });
 
 const root = ReactDOM.createRoot(

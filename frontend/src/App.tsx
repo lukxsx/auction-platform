@@ -6,6 +6,7 @@ import { setAuctions } from "./reducers/auctions";
 import Layout from "./components/Layout";
 import AuctionPage from "./components/AuctionPage";
 import Home from "./components/Home";
+import Login from "./components/Login";
 
 function App() {
     const dispatch = useDispatch();
@@ -20,6 +21,7 @@ function App() {
                 <Routes>
                     <Route path="/" element={<Home />} />
                     <Route path="auction/:id" element={<AuctionPage />} />
+                    <Route path="login" element={<Login />} />
                 </Routes>
             </Layout>
         </div>
