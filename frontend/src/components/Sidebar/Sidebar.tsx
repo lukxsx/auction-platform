@@ -24,7 +24,9 @@ const Sidebar = () => {
                         <strong>Auctions</strong>
                     </h3>
                     <Nav className="flex-column">
-                        <Nav.Link href="#home">Home</Nav.Link>
+                        <Nav.Link as={Link} to="/">
+                            Home
+                        </Nav.Link>
                     </Nav>
                 </div>
                 <hr />

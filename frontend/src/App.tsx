@@ -1,8 +1,11 @@
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import auctionService from "./services/auctions";
+import { Routes, Route } from "react-router-dom";
 import { setAuctions } from "./reducers/auctions";
 import Layout from "./components/Layout";
+import AuctionPage from "./components/AuctionPage";
+import Home from "./components/Home";
 
 function App() {
     const dispatch = useDispatch();
@@ -14,7 +17,10 @@ function App() {
     return (
         <div>
             <Layout>
-                <p>Hello</p>
+                <Routes>
+                    <Route path="/" element={<Home />} />
+                    <Route path="auction/:id" element={<AuctionPage />} />
+                </Routes>
             </Layout>
         </div>
     );

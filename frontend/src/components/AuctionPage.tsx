@@ -5,6 +5,16 @@ import { RootState } from "../types";
 import { atoi } from "../utils/helpers";
 import ItemList from "./ItemList";
 
+const formatDate = (date: Date): string => {
+    const day: string = String(date.getDate()).padStart(2, "0");
+    const month: string = String(date.getMonth() + 1).padStart(2, "0");
+    const year: number = date.getFullYear();
+    const hours: string = String(date.getHours()).padStart(2, "0");
+    const minutes: string = String(date.getMinutes()).padStart(2, "0");
+
+    return `${day}.${month}.${year} ${hours}:${minutes}`;
+};
+
 const AuctionPage = () => {
     let { id } = useParams();
     const auctionId = atoi(id as string);
@@ -12,9 +22,15 @@ const AuctionPage = () => {
         selectAuctionById(state, auctionId)
     );
     if (!auction) return <p>Loading...</p>;
+
+    const startDate = new Date(auction.start_date);
+    const endDate = new Date(auction.end_date);
     return (
         <div>
             <h1>{auction.name}</h1>
+            <h4>
+                {formatDate(startDate)} — {formatDate(endDate)}
+            </h4>
             <ItemList auctionId={auctionId} />
         </div>
     );
