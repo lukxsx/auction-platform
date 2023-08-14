@@ -1,15 +1,10 @@
-import { useNotification } from "../contexts/NotificationContext";
+import { Container } from "react-bootstrap";
 
 const Home = () => {
-    const { addNotification } = useNotification();
-    const handleClick = () => {
-        addNotification("Error", "This is a notification message.", "danger");
-    };
     return (
-        <div>
+        <Container>
             <h2>Welcome to Auctions</h2>
-            <button onClick={handleClick}>Show Notification</button>
-        </div>
+        </Container>
     );
 };
 

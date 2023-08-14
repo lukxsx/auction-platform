@@ -1,10 +1,13 @@
 import { Nav, Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState, AuctionState } from "../../types";
 import "./Sidebar.css";
+import { clearUser } from "../../reducers/user";
 
 const Sidebar = () => {
+    const dispatch = useDispatch();
+    const user = useSelector((state: RootState) => state.user.user);
     const auctions = useSelector((state: RootState) => state.auctions);
     const currentAuctions = auctions.filter(
         (a) => a.state === AuctionState.Running
@@ -21,12 +24,22 @@ const Sidebar = () => {
             <div className="sidebar-content">
                 <div className="sidebar-section">
                     <h3>
-                        <strong>Auctions</strong>
+                        <Link
+                            to="/"
+                            style={{ textDecoration: "none", color: "black" }}
+                        >
+                            <strong>Auctions</strong>
+                        </Link>
                     </h3>
                     <Nav className="flex-column">
-                        <Nav.Link as={Link} to="/">
-                            Home
-                        </Nav.Link>
+                        {user && (
+                            <>
+                                <Nav.Item>Logged in as {user.name}</Nav.Item>
+                                <Nav.Link onClick={() => dispatch(clearUser())}>
+                                    Logout
+                                </Nav.Link>
+                            </>
+                        )}
                     </Nav>
                 </div>
                 <hr />

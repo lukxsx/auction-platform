@@ -4,6 +4,7 @@ import { selectAuctionById } from "../reducers/auctions";
 import { RootState } from "../types";
 import { atoi } from "../utils/helpers";
 import ItemList from "./ItemList";
+import { Container } from "react-bootstrap";
 
 const formatDate = (date: Date): string => {
     const day: string = String(date.getDate()).padStart(2, "0");
@@ -26,13 +27,13 @@ const AuctionPage = () => {
     const startDate = new Date(auction.start_date);
     const endDate = new Date(auction.end_date);
     return (
-        <div>
+        <Container>
             <h1>{auction.name}</h1>
             <h4>
                 {formatDate(startDate)} — {formatDate(endDate)}
             </h4>
             <ItemList auctionId={auctionId} />
-        </div>
+        </Container>
     );
 };
 
