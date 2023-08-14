@@ -2,11 +2,13 @@ import React from "react";
 import axios from "axios";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { setUser } from "../reducers/user";
 import loginService from "../services/login";
 
 const Login = () => {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
 
@@ -19,6 +21,7 @@ const Login = () => {
             setPassword("");
             console.log(user);
             dispatch(setUser(user));
+            navigate("/");
         } catch (error) {
             if (axios.isAxiosError(error)) {
                 console.error("Failed login:", error.response?.data.error);
