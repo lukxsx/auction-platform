@@ -1,7 +1,8 @@
+/* eslint-disable import/no-anonymous-default-export */
 import axios from "axios";
 import { BACKEND_URL } from "../utils/config";
 import { headers } from "../utils/helpers";
-import { Item } from "../types";
+import { Item, Bid } from "../types";
 
 const getAll = async (auctionId: number) => {
     const response = await axios.get<Item[]>(
@@ -11,6 +12,15 @@ const getAll = async (auctionId: number) => {
     return response.data;
 };
 
+const getBids = async (auctionId: number, itemId: number) => {
+    const response = await axios.get<Bid[]>(
+        `${BACKEND_URL}/auctions/${auctionId}/items/${itemId}/bids`,
+        headers()
+    );
+    return response.data;
+};
+
 export default {
     getAll,
+    getBids,
 };

@@ -1,3 +1,5 @@
+/* eslint-disable import/no-anonymous-default-export */
+
 import axios from "axios";
 import { BACKEND_URL } from "../utils/config";
 import { headers } from "../utils/helpers";

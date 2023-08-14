@@ -1,10 +1,11 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Container, Row, Col } from "react-bootstrap";
 import { setItems, selectItemsByAuctionId } from "../reducers/items";
-import { RootState } from "../types";
+import { RootState, Item } from "../types";
 import itemService from "../services/items";
 
+import ItemView from "./ItemView";
 import ItemCard from "./ItemCard";
 import { isAxiosError } from "axios";
 import { useNotification } from "../contexts/NotificationContext";
@@ -15,6 +16,11 @@ const ItemList = ({ auctionId }: { auctionId: number }) => {
     const items = useSelector((state: RootState) =>
         selectItemsByAuctionId(state, auctionId)
     );
+
+    const [selectedItem, setSelectedItem] = useState<Item | undefined>(
+        undefined
+    );
+    const [showItemView, setShowItemView] = useState(false);
 
     useEffect(() => {
         itemService
@@ -36,12 +42,22 @@ const ItemList = ({ auctionId }: { auctionId: number }) => {
             });
     }, [dispatch, auctionId]);
 
+    const handleShowItem = (itemId: number) => {
+        setSelectedItem(items.find((i) => i.id === itemId));
+        setShowItemView(true);
+    };
+
     return (
         <Container className="mt-4">
+            <ItemView
+                item={selectedItem}
+                show={showItemView}
+                setShow={setShowItemView}
+            />
             <Row>
                 {items.map((item) => (
                     <Col key={item.id.toString()} md={4} className="mb-4">
-                        <ItemCard item={item} />
+                        <ItemCard item={item} handleShowItem={handleShowItem} />
                     </Col>
                 ))}
             </Row>
