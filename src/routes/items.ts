@@ -2,12 +2,13 @@ import express from "express";
 import itemService from "../services/items";
 import { parseItemEntry } from "../utils/validate";
 import { atoi } from "../utils/helpers";
-import { tokenExtractor, isAdmin } from "../middleware";
+import { tokenExtractor, userExtractor, isAdmin } from "../middleware";
 import bidService from "../services/bids";
 
 type parentParam = { auctionId: number };
 const router = express.Router({ mergeParams: true });
 router.use(tokenExtractor);
+router.use(userExtractor);
 
 // Get all items
 router.get("/", async (req, res) => {

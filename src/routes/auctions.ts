@@ -3,10 +3,11 @@ import auctionService from "../services/auctions";
 import { parseAuctionEntry } from "../utils/validate";
 import itemRouter from "../routes/items";
 import { atoi } from "../utils/helpers";
-import { isAdmin, tokenExtractor } from "../middleware";
+import { isAdmin, tokenExtractor, userExtractor } from "../middleware";
 
 const router = express.Router();
 router.use(tokenExtractor);
+router.use(userExtractor);
 
 // Get all auctions
 router.get("/", async (_req, res) => {

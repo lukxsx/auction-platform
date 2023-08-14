@@ -11,6 +11,7 @@ import userReducer from "./reducers/user";
 import localStorageMiddleware from "./reducers/middleware";
 
 import "bootstrap/dist/css/bootstrap.min.css";
+import { NotificationProvider } from "./contexts/NotificationContext";
 //import "normalize.css";
 
 const store = configureStore({
@@ -28,9 +29,11 @@ const root = ReactDOM.createRoot(
 root.render(
     <React.StrictMode>
         <Provider store={store}>
-            <Router>
-                <App />
-            </Router>
+            <NotificationProvider>
+                <Router>
+                    <App />
+                </Router>
+            </NotificationProvider>
         </Provider>
     </React.StrictMode>
 );

@@ -6,19 +6,34 @@ import { RootState } from "../types";
 import itemService from "../services/items";
 
 import ItemCard from "./ItemCard";
+import { isAxiosError } from "axios";
+import { useNotification } from "../contexts/NotificationContext";
 
 const ItemList = ({ auctionId }: { auctionId: number }) => {
+    const { addNotification } = useNotification();
     const dispatch = useDispatch();
     const items = useSelector((state: RootState) =>
         selectItemsByAuctionId(state, auctionId)
     );
 
     useEffect(() => {
-        const fetchData = async () => {
-            const fetchedItems = await itemService.getAll(auctionId);
-            dispatch(setItems({ auctionId, items: fetchedItems }));
-        };
-        fetchData();
+        itemService
+            .getAll(auctionId)
+            .then((fetchedItems) =>
+                dispatch(setItems({ auctionId, items: fetchedItems }))
+            )
+            .catch((error) => {
+                if (isAxiosError(error)) {
+                    addNotification(
+                        "Error",
+                        error.response?.data?.error,
+                        "danger"
+                    );
+                } else {
+                    addNotification("Error", "Something happened", "danger");
+                    console.error(error);
+                }
+            });
     }, [dispatch, auctionId]);
 
     return (
