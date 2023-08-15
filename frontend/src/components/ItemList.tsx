@@ -22,6 +22,11 @@ const ItemList = ({ auctionId }: { auctionId: number }) => {
     );
     const [showItemView, setShowItemView] = useState(false);
 
+    const closeItemView = () => {
+        setShowItemView(false);
+        setSelectedItem(undefined);
+    };
+
     useEffect(() => {
         itemService
             .getAll(auctionId)
@@ -52,7 +57,7 @@ const ItemList = ({ auctionId }: { auctionId: number }) => {
             <ItemView
                 item={selectedItem}
                 show={showItemView}
-                setShow={setShowItemView}
+                close={closeItemView}
             />
             <Row>
                 {items.map((item) => (

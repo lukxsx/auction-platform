@@ -1,5 +1,5 @@
 import { Card, ListGroup, Button } from "react-bootstrap";
-import { Item } from "../types";
+import { Item, ItemState } from "../types";
 import InfoText from "./InfoText";
 
 const ItemCard = ({
@@ -26,18 +26,26 @@ const ItemCard = ({
                     <ListGroup.Item>
                         <strong>Status:</strong> {item.state}
                     </ListGroup.Item>
-                    {item.winner_name && (
+                    {/* If auction is still ongoing, show highest bidder, otherwise show winner */}
+                    {item.state === ItemState.Open && item.winner_name && (
                         <ListGroup.Item>
                             <strong>Highest bidder:</strong> {item.winner_name}
                         </ListGroup.Item>
                     )}
+                    {item.state === ItemState.Sold && (
+                        <ListGroup.Item>
+                            <strong>Winner:</strong> {item.winner_name}
+                        </ListGroup.Item>
+                    )}
                 </ListGroup>
-                <Button
-                    variant="primary"
-                    onClick={() => handleShowItem(item.id)}
-                >
-                    View and bid
-                </Button>
+                <Card.Footer>
+                    <Button
+                        variant="primary"
+                        onClick={() => handleShowItem(item.id)}
+                    >
+                        View and bid
+                    </Button>
+                </Card.Footer>
             </Card.Body>
         </Card>
     );

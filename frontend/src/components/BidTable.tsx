@@ -16,10 +16,10 @@ const BidTable = ({ bids }: { bids: Bid[] }) => {
                 </tr>
             </thead>
             <tbody>
-                {bids.map((bid) => (
+                {bids.map((bid, index) => (
                     <tr key={bid.id}>
-                        <td>{bid.id}</td>
-                        <td>{bid.price}</td>
+                        <td>{index + 1}</td>
+                        <td>{bid.price} €</td>
                         <td>{bid.username}</td>
                         <td>{formatDate(new Date(bid.created_at))}</td>
                     </tr>
