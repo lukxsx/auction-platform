@@ -69,6 +69,40 @@ const getItemsByAuction = async (auctionId: number): Promise<Item[]> => {
         .execute();
 };
 
+const getItemsByAuctionWithBids = async (
+    auctionId: number
+): Promise<ItemWithBids[]> => {
+    try {
+        const items = await db
+            .selectFrom("item")
+            .select((eb) => [
+                "id",
+                "model",
+                "make",
+                "info",
+                "code",
+                "auction_id",
+                "starting_price",
+                "current_price",
+                "winner_id",
+                "winner_name",
+                "state",
+                jsonArrayFrom(
+                    eb
+                        .selectFrom("bid")
+                        .selectAll()
+                        .whereRef("bid.item_id", "=", "item.id")
+                        .orderBy("bid.id")
+                ).as("bids"),
+            ])
+            .where("auction_id", "=", auctionId)
+            .execute();
+        return items;
+    } catch (error: unknown) {
+        throw new Error("items not found");
+    }
+};
+
 // Get item by id
 const getItemById = async (itemId: number): Promise<Item> => {
     try {
@@ -139,6 +173,7 @@ export default {
     getItemById,
     getItemByIdWithBids,
     getItemsByAuction,
+    getItemsByAuctionWithBids,
     updateItem,
     createItem,
 };

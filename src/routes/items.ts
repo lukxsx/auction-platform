@@ -17,7 +17,7 @@ router.get("/", async (req, res) => {
         res.json(await itemService.getAllItems());
         return;
     }
-    res.json(await itemService.getItemsByAuction(auctionId));
+    res.json(await itemService.getItemsByAuctionWithBids(auctionId));
 });
 
 // Get item by id

@@ -27,6 +27,7 @@ export interface Item {
     winner_id?: number;
     winner_name?: string;
     state: ItemState;
+    bids: Bid[];
 }
 
 export interface Bid {
