@@ -1,4 +1,5 @@
 import { db } from "../database";
+import { io } from "../index";
 import { AuctionState, ItemState, Bid, NewBid } from "../types";
 import auctionService from "./auctions";
 import itemService from "./items";
@@ -61,6 +62,7 @@ const bidOnItem = async (bidEntry: NewBid): Promise<Bid> => {
             newBid.user_id + ". The current price is",
             newBid.price
         );
+        io.emit("item:update", item);
 
         return newBid;
     } catch (error: unknown) {

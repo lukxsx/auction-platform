@@ -17,10 +17,23 @@ const itemsSlice = createSlice({
             const { auctionId, items } = action.payload;
             state.itemsByAuctionId[auctionId] = items;
         },
+        updateItem: (
+            state,
+            action: PayloadAction<{
+                auctionId: number;
+                itemId: number;
+                newItem: Item;
+            }>
+        ) => {
+            const { auctionId, itemId, newItem } = action.payload;
+            state.itemsByAuctionId[auctionId] = state.itemsByAuctionId[
+                auctionId
+            ].map((item) => (item.id === itemId ? newItem : item));
+        },
     },
 });
 
-export const { setItems } = itemsSlice.actions;
+export const { setItems, updateItem } = itemsSlice.actions;
 export default itemsSlice.reducer;
 
 //export const selectItemsByAuctionId = (state: RootState, auctionId: number) =>

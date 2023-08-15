@@ -24,16 +24,16 @@ app.use(morgan(":method :url :status :response-time ms"));
 
 const PORT = process.env.PORT;
 
-const io = new Server(httpServer, {
+export const io = new Server(httpServer, {
     cors: {
         origin: "http://localhost:3000",
     },
 });
 
 io.on("connection", (socket) => {
-    console.log("user connected");
+    console.log("Client connected");
     socket.on("disconnect", function () {
-        console.log("user disconnected");
+        console.log("Client disconnected");
     });
 });
 

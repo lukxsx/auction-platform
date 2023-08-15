@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Container, Row, Col } from "react-bootstrap";
+import socketService from "../services/socket";
 import { setItems, selectItemsByAuctionId } from "../reducers/items";
 import { RootState, Item } from "../types";
 import itemService from "../services/items";
@@ -47,6 +48,13 @@ const ItemList = ({ auctionId }: { auctionId: number }) => {
             });
     }, [dispatch, auctionId]);
 
+    useEffect(() => {
+        socketService.connect();
+
+        return () => {
+            socketService.disconnect();
+        };
+    }, []);
     const handleShowItem = (itemId: number) => {
         setSelectedItem(items.find((i) => i.id === itemId));
         setShowItemView(true);
