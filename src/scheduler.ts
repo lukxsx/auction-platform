@@ -2,7 +2,7 @@ import auctionService from "./services/auctions";
 import itemService from "./services/items";
 import bidService from "./services/bids";
 import { AuctionState, Bid, ItemState, DateState } from "./types";
-import { checkDate, checkDateWithState } from "./utils/helpers";
+import { checkDateWithState } from "./utils/helpers";
 
 const underMinuteSinceLastBid = (lastBid: Bid) => {
     const currentDate = new Date();
@@ -36,7 +36,7 @@ export const checkAuctions = async () => {
                 console.log("Auction", a.name, "is running");
                 // Running
                 // Check all items if end_time has passed
-                if (!checkDate(a.start_date, a.end_date)) {
+                if (dateRange == DateState.Late) {
                     console.log(
                         "Auction",
                         a.name,
@@ -64,6 +64,7 @@ export const checkAuctions = async () => {
                                 );
                                 i.state = ItemState.Unsold;
                                 await itemService.updateItem(i.id, i);
+                                nclosed++;
                                 return;
                             }
 
@@ -76,6 +77,7 @@ export const checkAuctions = async () => {
                                 );
                                 i.state = ItemState.Sold;
                                 await itemService.updateItem(i.id, i);
+                                nclosed++;
                                 return;
                             } else {
                                 console.log(
@@ -87,15 +89,14 @@ export const checkAuctions = async () => {
                             nclosed++;
                         }
                     });
-                    if (items.length >= nclosed) {
+                    if (nclosed >= items.length) {
+                        console.log("All items are closed");
                         // All items are sold or not sold, but auction is no longer running
                         // Stop the auction
                         a.state = AuctionState.Finished;
                         await auctionService.updateAuction(a.id, a);
                     }
                 }
-            } else {
-                // Finished, do nothing
             }
         });
     } catch (error) {
