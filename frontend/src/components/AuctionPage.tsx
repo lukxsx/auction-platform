@@ -1,5 +1,6 @@
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
+import { io } from "socket.io-client";
 import { selectAuctionById } from "../reducers/auctions";
 import { RootState } from "../types";
 import { atoi, formatDate } from "../utils/helpers";
@@ -7,6 +8,11 @@ import ItemList from "./ItemList";
 import { Container } from "react-bootstrap";
 
 const AuctionPage = () => {
+    const socket = io("http://localhost:3001");
+    socket.on("connect", () => {
+        console.log(socket.connected); // true
+    });
+
     let { id } = useParams();
     const auctionId = atoi(id as string);
     const auction = useSelector((state: RootState) =>

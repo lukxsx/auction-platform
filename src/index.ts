@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 
+import { createServer } from "http";
 import express from "express";
 import * as dotenv from "dotenv";
 import cors from "cors";
@@ -12,14 +13,29 @@ import auctionRouter from "./routes/auctions";
 import bidsRouter from "./routes/bids";
 import authRouter from "./routes/auth";
 import { checkAuctions } from "./scheduler";
+import { Server } from "socket.io";
 
 dotenv.config();
 const app = express();
+const httpServer = createServer(app);
 app.use(cors());
 app.use(express.json());
 app.use(morgan(":method :url :status :response-time ms"));
 
 const PORT = process.env.PORT;
+
+const io = new Server(httpServer, {
+    cors: {
+        origin: "http://localhost:3000",
+    },
+});
+
+io.on("connection", (socket) => {
+    console.log("user connected");
+    socket.on("disconnect", function () {
+        console.log("user disconnected");
+    });
+});
 
 createTables()
     .then(() => console.log("tables created"))
@@ -50,6 +66,6 @@ app.use((_req, res) => {
     res.status(404).json({ error: "not found" });
 });
 
-app.listen(PORT, () => {
+httpServer.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
 });
