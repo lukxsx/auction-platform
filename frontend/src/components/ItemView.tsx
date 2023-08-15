@@ -1,7 +1,5 @@
-import { useEffect, useState } from "react";
 import { Modal, ListGroup } from "react-bootstrap";
-import { Item, Bid, ItemState } from "../types";
-import itemService from "../services/items";
+import { Item, ItemState } from "../types";
 import BidTable from "./BidTable";
 import BidForm from "./BidForm";
 import InfoText from "./InfoText";
@@ -15,17 +13,6 @@ const ItemView = ({
     close: () => void;
     item: Item | undefined;
 }) => {
-    const [bids, setBids] = useState<Bid[]>([]);
-    useEffect(() => {
-        if (item) {
-            itemService
-                .getBids(item?.auction_id, item.id)
-                .then((fetchedBids) => setBids(fetchedBids))
-                .catch((error) => {
-                    console.error(error);
-                });
-        }
-    }, [item]);
     if (!item) return <></>;
     return (
         <Modal
@@ -79,7 +66,7 @@ const ItemView = ({
                     )}
                 </ListGroup>
                 <BidForm item={item} />
-                <BidTable bids={bids} />
+                <BidTable bids={item.bids} />
             </Modal.Body>
         </Modal>
     );

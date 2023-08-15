@@ -96,6 +96,7 @@ const getItemsByAuctionWithBids = async (
                 ).as("bids"),
             ])
             .where("auction_id", "=", auctionId)
+            .orderBy("item.id")
             .execute();
         return items;
     } catch (error: unknown) {
