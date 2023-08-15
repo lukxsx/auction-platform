@@ -3,6 +3,7 @@ import { Modal, ListGroup } from "react-bootstrap";
 import { Item, Bid, ItemState } from "../types";
 import itemService from "../services/items";
 import BidTable from "./BidTable";
+import BidForm from "./BidForm";
 import InfoText from "./InfoText";
 
 const ItemView = ({
@@ -77,6 +78,7 @@ const ItemView = ({
                         </ListGroup.Item>
                     )}
                 </ListGroup>
+                <BidForm item={item} />
                 <BidTable bids={bids} />
             </Modal.Body>
         </Modal>

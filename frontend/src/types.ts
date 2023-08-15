@@ -39,6 +39,8 @@ export interface Bid {
     created_at: Date;
 }
 
+export type NewBid = Omit<Bid, "id" | "created_at">;
+
 export interface Auction {
     id: number;
     name: string;
