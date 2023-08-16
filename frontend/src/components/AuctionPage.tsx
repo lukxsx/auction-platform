@@ -7,10 +7,10 @@ import { RootState } from "../types";
 import { atoi, formatDate } from "../utils/helpers";
 import ItemList from "./ItemList";
 import AddItem from "./AddItem";
+import { isAdmin } from "../utils/helpers";
 
 const AuctionPage = () => {
     let { id } = useParams();
-    const user = useSelector((state: RootState) => state.user.user);
     const auctionId = atoi(id as string);
     const auction = useSelector((state: RootState) =>
         selectAuctionById(state, auctionId)
@@ -36,7 +36,7 @@ const AuctionPage = () => {
                     {formatDate(endDate, false)}
                 </h4>
             </ListGroup>
-            {user && user.is_admin && (
+            {isAdmin() && (
                 <div>
                     <Button>Edit auction</Button>{" "}
                     <Button onClick={() => setShowItemAddForm(true)}>

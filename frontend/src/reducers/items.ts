@@ -12,6 +12,9 @@ const itemsSlice = createSlice({
         addItem(state, action) {
             return state.concat(action.payload);
         },
+        deleteItem(state, action) {
+            return state.filter((item) => item.id !== action.payload);
+        },
         updateItem(
             state,
             action: PayloadAction<{
@@ -29,7 +32,7 @@ const itemsSlice = createSlice({
     },
 });
 
-export const { setItems, updateItem, addItem } = itemsSlice.actions;
+export const { setItems, updateItem, addItem, deleteItem } = itemsSlice.actions;
 export default itemsSlice.reducer;
 
 //export const selectItemsByAuctionId = (state: RootState, auctionId: number) =>

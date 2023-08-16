@@ -4,7 +4,6 @@ import { useSelector } from "react-redux";
 import { useNotification } from "../contexts/NotificationContext";
 import ErrorHandlingService from "../services/errors";
 import { Item, RootState } from "../types";
-import { atoi } from "../utils/helpers";
 import bidService from "../services/bids";
 
 const BidForm = ({ item }: { item: Item }) => {
@@ -45,7 +44,16 @@ const BidForm = ({ item }: { item: Item }) => {
                     type="number"
                     value={amount}
                     min={item.current_price + 1}
-                    onChange={(e) => setAmount(atoi(e.target.value))}
+                    onChange={(e) => {
+                        const inputText = e.target.value;
+                        if (/^\d*$/.test(inputText)) {
+                            setAmount(
+                                inputText === ""
+                                    ? item.current_price + 1
+                                    : parseInt(inputText, 10)
+                            );
+                        }
+                    }}
                 />
                 <InputGroup.Text>€</InputGroup.Text>
                 <Button

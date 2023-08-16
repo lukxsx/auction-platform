@@ -1,8 +1,14 @@
-import { Modal, ListGroup } from "react-bootstrap";
+import { Modal, ListGroup, Button } from "react-bootstrap";
+import { useDispatch } from "react-redux";
+import { deleteItem } from "../reducers/items";
 import { AuctionState, Item, ItemState } from "../types";
+import { isAdmin } from "../utils/helpers";
 import BidTable from "./BidTable";
 import BidForm from "./BidForm";
 import InfoText from "./InfoText";
+import itemService from "../services/items";
+import ErrorHandlingService from "../services/errors";
+import { useNotification } from "../contexts/NotificationContext";
 
 const ItemView = ({
     close,
@@ -15,12 +21,25 @@ const ItemView = ({
     itemId: number;
     auctionState: AuctionState;
 }) => {
+    const { addNotification } = useNotification();
+    const dispatch = useDispatch();
+
     // Select item to show
     const show = itemId !== 0;
     const item = items.find((i) => i.id === itemId);
     if (!item) {
         return <></>;
     }
+
+    const handleDelete = async () => {
+        try {
+            await itemService.deleteItem(item);
+            dispatch(deleteItem(item.id));
+            close();
+        } catch (error) {
+            ErrorHandlingService.handleError(error, addNotification);
+        }
+    };
 
     return (
         <Modal
@@ -35,6 +54,15 @@ const ItemView = ({
                 </Modal.Title>
             </Modal.Header>
             <Modal.Body>
+                {isAdmin() && (
+                    <Button
+                        size="sm"
+                        className="mb-3"
+                        onClick={() => handleDelete()}
+                    >
+                        Delete
+                    </Button>
+                )}
                 <ListGroup className="mb-3">
                     <ListGroup.Item>
                         <strong>Model:</strong> {item.model}

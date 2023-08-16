@@ -2,7 +2,6 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { Form, Button, Modal, InputGroup } from "react-bootstrap";
 import { addItem } from "../reducers/items";
-import { atoi } from "../utils/helpers";
 import { InfoValue, NewItem } from "../types";
 import InfoValues from "./InfoValues";
 import itemService from "../services/items";
@@ -66,16 +65,9 @@ const AddItem = ({
     };
 
     return (
-        <Modal
-            size="lg"
-            show={show}
-            onHide={() => close()}
-            aria-labelledby="example-modal-sizes-title-lg"
-        >
+        <Modal size="lg" show={show} onHide={() => close()}>
             <Modal.Header closeButton>
-                <Modal.Title id="example-modal-sizes-title-lg">
-                    Add item
-                </Modal.Title>
+                <Modal.Title>Add item</Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 <Form>
@@ -112,9 +104,16 @@ const AddItem = ({
                             <Form.Control
                                 type="number"
                                 value={startingPrice}
-                                onChange={(e) =>
-                                    setStartingPrice(atoi(e.target.value))
-                                }
+                                onChange={(e) => {
+                                    const inputText = e.target.value;
+                                    if (/^\d*$/.test(inputText)) {
+                                        setStartingPrice(
+                                            inputText === ""
+                                                ? 0
+                                                : parseInt(inputText, 10)
+                                        );
+                                    }
+                                }}
                             />
                             <InputGroup.Text>€</InputGroup.Text>
                         </InputGroup>

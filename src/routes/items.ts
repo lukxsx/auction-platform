@@ -67,4 +67,18 @@ router.post("/", isAdmin, async (req, res) => {
     }
 });
 
+// Delete item, requires admin
+router.delete("/:itemId", isAdmin, async (req, res) => {
+    try {
+        const itemId = atoi(req.params.itemId);
+        await itemService.deleteItem(itemId);
+    } catch (error: unknown) {
+        let errorMessage = "Error deleting item";
+        if (error instanceof Error) {
+            errorMessage += ": " + error.message;
+        }
+        res.status(400).send({ error: errorMessage });
+    }
+});
+
 export default router;

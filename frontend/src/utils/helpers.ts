@@ -1,9 +1,20 @@
+import { LoginUser } from "../types";
+
 export const atoi = (input: string): number => {
     const parsedNumber = parseInt(input);
     if (!isNaN(parsedNumber)) {
         return parsedNumber;
     }
     throw new Error("id is not a number");
+};
+
+export const isAdmin = (): boolean => {
+    const userFromStore = localStorage.getItem("user");
+    if (userFromStore) {
+        const user: LoginUser = JSON.parse(userFromStore);
+        return user.is_admin;
+    }
+    return false;
 };
 
 export const headers = () => {

@@ -135,6 +135,14 @@ const createItem = async (item: NewItem): Promise<Item> => {
         .executeTakeFirstOrThrow();
 };
 
+// Delete item
+const deleteItem = async (itemId: number) => {
+    return await db
+        .deleteFrom("item")
+        .where("item.id", "=", itemId)
+        .executeTakeFirstOrThrow();
+};
+
 export default {
     getAllItems,
     getItemById,
@@ -142,4 +150,5 @@ export default {
     getItemsByAuction,
     updateItem,
     createItem,
+    deleteItem,
 };

@@ -29,8 +29,16 @@ const addItem = async (item: NewItem) => {
     return response.data;
 };
 
+const deleteItem = async (item: Item) => {
+    await axios.delete(
+        `${BACKEND_URL}/auctions/${item.auction_id}/items/${item.id}`,
+        headers()
+    );
+};
+
 export default {
     getAll,
     getBids,
     addItem,
+    deleteItem,
 };
