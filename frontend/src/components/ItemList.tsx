@@ -3,7 +3,6 @@ import { useSelector, useDispatch } from "react-redux";
 import { Container, Row, Col } from "react-bootstrap";
 import socketService from "../services/socket";
 import { setItems, selectItemsByAuctionId } from "../reducers/items";
-import { RootState, Item } from "../types";
 import itemService from "../services/items";
 
 import ItemView from "./ItemView";
@@ -14,26 +13,18 @@ import { useNotification } from "../contexts/NotificationContext";
 const ItemList = ({ auctionId }: { auctionId: number }) => {
     const { addNotification } = useNotification();
     const dispatch = useDispatch();
-    const items = useSelector((state: RootState) =>
-        selectItemsByAuctionId(state, auctionId)
-    );
+    const items = useSelector(selectItemsByAuctionId(auctionId));
 
-    const [selectedItem, setSelectedItem] = useState<Item | undefined>(
-        undefined
-    );
-    const [showItemView, setShowItemView] = useState(false);
+    const [selectedItemId, setSelectedItemId] = useState(0);
 
     const closeItemView = () => {
-        setShowItemView(false);
-        setSelectedItem(undefined);
+        setSelectedItemId(0);
     };
 
     useEffect(() => {
         itemService
             .getAll(auctionId)
-            .then((fetchedItems) =>
-                dispatch(setItems({ auctionId, items: fetchedItems }))
-            )
+            .then((fetchedItems) => dispatch(setItems(fetchedItems)))
             .catch((error) => {
                 if (isAxiosError(error)) {
                     addNotification(
@@ -56,15 +47,19 @@ const ItemList = ({ auctionId }: { auctionId: number }) => {
         };
     }, []);
     const handleShowItem = (itemId: number) => {
-        setSelectedItem(items.find((i) => i.id === itemId));
-        setShowItemView(true);
+        const selectedItem = items.find((i) => i.id === itemId);
+        if (selectedItem) {
+            setSelectedItemId(selectedItem.id);
+        } else {
+            setSelectedItemId(0);
+        }
     };
 
     return (
         <Container className="mt-4">
             <ItemView
-                item={selectedItem}
-                show={showItemView}
+                items={items}
+                itemId={selectedItemId}
                 close={closeItemView}
             />
             <Row>

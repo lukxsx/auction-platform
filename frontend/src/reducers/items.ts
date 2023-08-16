@@ -1,34 +1,31 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { createSelector } from "reselect";
-import { Item, RootState, AuctionItemsState } from "../types";
-
-const initialState: AuctionItemsState = {
-    itemsByAuctionId: {},
-};
+import { Item, RootState } from "../types";
 
 const itemsSlice = createSlice({
     name: "items",
-    initialState,
+    initialState: [] as Item[],
     reducers: {
-        setItems: (
-            state,
-            action: PayloadAction<{ auctionId: number; items: Item[] }>
-        ) => {
-            const { auctionId, items } = action.payload;
-            state.itemsByAuctionId[auctionId] = items;
+        setItems(state, action) {
+            return action.payload;
         },
-        updateItem: (
+        updateItem(
             state,
             action: PayloadAction<{
-                auctionId: number;
                 itemId: number;
-                newItem: Item;
+                updatedItem: Item;
             }>
-        ) => {
-            const { auctionId, itemId, newItem } = action.payload;
-            state.itemsByAuctionId[auctionId] = state.itemsByAuctionId[
-                auctionId
-            ].map((item) => (item.id === itemId ? newItem : item));
+        ) {
+            console.log("Updating item...");
+            const { itemId, updatedItem } = action.payload;
+            console.log("We got:", updatedItem);
+
+            const updatedItems = state.map((item) =>
+                item.id === itemId ? { ...item, ...updatedItem } : item
+            );
+            console.log("Updated state:");
+            console.log(updatedItems);
+            return updatedItems;
         },
     },
 });
@@ -39,8 +36,9 @@ export default itemsSlice.reducer;
 //export const selectItemsByAuctionId = (state: RootState, auctionId: number) =>
 //state.items.itemsByAuctionId[auctionId] || [];
 
-const selectAuctionItems = (state: RootState) => state.items.itemsByAuctionId;
-export const selectItemsByAuctionId = createSelector(
-    [selectAuctionItems, (_state: RootState, auctionId: number) => auctionId],
-    (itemsByAuctionId, auctionId) => itemsByAuctionId[auctionId] || []
-);
+const selectItems = (state: RootState) => state.items;
+
+export const selectItemsByAuctionId = (auctionId: number) =>
+    createSelector([selectItems], (items) =>
+        items.filter((item) => item.auction_id === auctionId)
+    );

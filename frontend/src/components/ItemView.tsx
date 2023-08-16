@@ -5,15 +5,19 @@ import BidForm from "./BidForm";
 import InfoText from "./InfoText";
 
 const ItemView = ({
-    show,
     close,
-    item,
+    items,
+    itemId,
 }: {
-    show: boolean;
     close: () => void;
-    item: Item | undefined;
+    items: Item[];
+    itemId: number;
 }) => {
-    if (!item) return <></>;
+    const show = itemId === 0;
+    const item = items.find((i) => i.id === itemId);
+    if (!item) {
+        return <>Loading</>;
+    }
     return (
         <Modal
             size="lg"

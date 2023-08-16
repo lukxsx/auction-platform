@@ -19,9 +19,8 @@ class SocketService {
                 console.log(updatedItem);
                 store.dispatch(
                     updateItem({
-                        auctionId: updatedItem.auction_id,
                         itemId: updatedItem.id,
-                        newItem: updatedItem,
+                        updatedItem: updatedItem,
                     })
                 );
             });
