@@ -8,7 +8,7 @@ const Notification = () => {
         <ToastContainer
             position="top-end"
             className="p-3"
-            style={{ zIndex: 1 }}
+            style={{ zIndex: 10000 }}
         >
             {notifications.map((notification) => (
                 <Toast

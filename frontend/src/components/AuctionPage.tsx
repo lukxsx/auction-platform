@@ -22,7 +22,7 @@ const AuctionPage = () => {
             <h4>
                 {formatDate(startDate)} — {formatDate(endDate)}
             </h4>
-            <ItemList auctionId={auctionId} />
+            <ItemList auctionId={auctionId} auctionState={auction.state} />
         </Container>
     );
 };
