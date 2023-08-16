@@ -1,75 +1,41 @@
 import { jsonArrayFrom } from "kysely/helpers/postgres";
-import { sql } from "kysely";
 import { db } from "../database";
 import { Item, NewItem, ItemUpdate, ItemWithBids } from "../types";
 
-export const sqlItemsQuery = sql<Item[]>`SELECT
-i.*,
-COALESCE(hb.current_price, i.starting_price) AS current_price,
-hb.winner
-FROM
-item AS i
-LEFT JOIN (
-SELECT
-  b.item_id,
-  b.price AS current_price,
-  b.user_id AS winner
-FROM
-  bid AS b
-WHERE
-  (b.item_id, b.price) IN (
-    SELECT
-      item_id,
-      MAX(price) AS max_price
-    FROM
-      bid
-    GROUP BY
-      item_id
-  )
-) AS hb ON i.id = hb.item_id;
-`;
-
-// SELECT
-//   i.*,
-//   COALESCE(hb.current_price, i.starting_price) AS current_price,
-//   hb.winner
+// export const sqlItemsQuery = sql<Item[]>`SELECT
+// i.*,
+// COALESCE(hb.current_price, i.starting_price) AS current_price,
+// hb.winner
 // FROM
-//   item AS i
+// item AS i
 // LEFT JOIN (
-//   SELECT
-//     b.item_id,
-//     b.price AS current_price,
-//     b.user_id AS winner
-//   FROM
-//     bid AS b
-//   WHERE
-//     (b.item_id, b.price) IN (
-//       SELECT
-//         item_id,
-//         MAX(price) AS max_price
-//       FROM
-//         bid
-//       GROUP BY
-//         item_id
-//     )
-// ) AS hb ON i.id = hb.item_id;
+// SELECT
+//   b.item_id,
+//   b.price AS current_price,
+//   b.user_id AS winner
+// FROM
+//   bid AS b
+// WHERE
+//   (b.item_id, b.price) IN (
+//     SELECT
+//       item_id,
+//       MAX(price) AS max_price
+//     FROM
+//       bid
+//     GROUP BY
+//       item_id
+//   )
+// ) AS hb ON i.id = hb.item_id
+// WHERE i.auction_id = ${auctionId};
+// `;
 
 // Return all items in database
 const getAllItems = async (): Promise<Item[]> => {
     return await db.selectFrom("item").selectAll().orderBy("id").execute();
 };
 
-// Return items included in a specific auction (bid data not included)
-const getItemsByAuction = async (auctionId: number): Promise<Item[]> => {
-    return await db
-        .selectFrom("item")
-        .where("auction_id", "=", auctionId)
-        .selectAll()
-        .orderBy("id")
-        .execute();
-};
-
-const getItemsByAuctionWithBids = async (
+// Return items included in a specific auction
+const getItemsByAuction = async (
     auctionId: number
 ): Promise<ItemWithBids[]> => {
     try {
@@ -104,8 +70,8 @@ const getItemsByAuctionWithBids = async (
     }
 };
 
-// Get item by id
-const getItemById = async (itemId: number): Promise<Item> => {
+// Get item by id without bids
+const getItemByIdWithoutBids = async (itemId: number): Promise<Item> => {
     try {
         const item = await db
             .selectFrom("item")
@@ -118,8 +84,8 @@ const getItemById = async (itemId: number): Promise<Item> => {
     }
 };
 
-// Get item by id, but also include bid data
-const getItemByIdWithBids = async (itemId: number): Promise<ItemWithBids> => {
+// Get item by id
+const getItemById = async (itemId: number): Promise<ItemWithBids> => {
     try {
         const item = await db
             .selectFrom("item")
@@ -172,9 +138,8 @@ const createItem = async (item: NewItem): Promise<Item> => {
 export default {
     getAllItems,
     getItemById,
-    getItemByIdWithBids,
+    getItemByIdWithoutBids,
     getItemsByAuction,
-    getItemsByAuctionWithBids,
     updateItem,
     createItem,
 };

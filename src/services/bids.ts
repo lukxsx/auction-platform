@@ -1,6 +1,6 @@
 import { db } from "../database";
 import { io } from "../index";
-import { AuctionState, ItemState, Bid, NewBid } from "../types";
+import { AuctionState, ItemState, Bid, NewBid, ItemWithBids } from "../types";
 import auctionService from "./auctions";
 import itemService from "./items";
 
@@ -30,7 +30,7 @@ const bidOnItem = async (bidEntry: NewBid): Promise<Bid> => {
         }
 
         // Get item details
-        const item = await itemService.getItemById(bidEntry.item_id);
+        const item = await itemService.getItemByIdWithoutBids(bidEntry.item_id);
 
         // Check if item's auction id matches auction id
         if (bidEntry.auction_id !== item.auction_id) {
@@ -62,7 +62,13 @@ const bidOnItem = async (bidEntry: NewBid): Promise<Bid> => {
             newBid.user_id + ". The current price is",
             newBid.price
         );
-        io.emit("item:update", item);
+
+        const itemBids = await getBidsByItem(item.id);
+        const itemWithBids = item as ItemWithBids;
+        itemWithBids.bids = itemBids;
+
+        // Get full list of bids
+        io.emit("item:update", itemWithBids);
 
         return newBid;
     } catch (error: unknown) {

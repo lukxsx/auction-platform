@@ -16,15 +16,11 @@ const itemsSlice = createSlice({
                 updatedItem: Item;
             }>
         ) {
-            console.log("Updating item...");
             const { itemId, updatedItem } = action.payload;
-            console.log("We got:", updatedItem);
 
             const updatedItems = state.map((item) =>
                 item.id === itemId ? { ...item, ...updatedItem } : item
             );
-            console.log("Updated state:");
-            console.log(updatedItems);
             return updatedItems;
         },
     },

@@ -14,13 +14,11 @@ class SocketService {
 
     private setupListeners() {
         if (this.socket) {
-            this.socket.on("item:update", (updatedItem: Item) => {
-                console.log("Received item");
-                console.log(updatedItem);
+            this.socket.on("item:update", (item: Item) => {
                 store.dispatch(
                     updateItem({
-                        itemId: updatedItem.id,
-                        updatedItem: updatedItem,
+                        itemId: item.id,
+                        updatedItem: item,
                     })
                 );
             });

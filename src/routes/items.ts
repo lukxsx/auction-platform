@@ -17,14 +17,14 @@ router.get("/", async (req, res) => {
         res.json(await itemService.getAllItems());
         return;
     }
-    res.json(await itemService.getItemsByAuctionWithBids(auctionId));
+    res.json(await itemService.getItemsByAuction(auctionId));
 });
 
 // Get item by id
 router.get("/:itemId", async (req, res) => {
     try {
         const itemId = atoi(req.params.itemId);
-        res.json(await itemService.getItemByIdWithBids(itemId));
+        res.json(await itemService.getItemById(itemId));
     } catch (error: unknown) {
         if (error instanceof Error) {
             res.status(400).json({ error: error.message });
