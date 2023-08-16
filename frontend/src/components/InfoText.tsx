@@ -17,16 +17,13 @@ const InfoText = ({ info }: { info: string }) => {
         // Render as ul
         const jsonList = Object.entries(infoData);
         return (
-            <ListGroup.Item>
-                <strong>Info:</strong>
-                <ul>
-                    {jsonList.map(([key, value]) => (
-                        <li key={key}>
-                            <strong>{key}:</strong> {value}
-                        </li>
-                    ))}
-                </ul>
-            </ListGroup.Item>
+            <>
+                {jsonList.map(([key, value]) => (
+                    <ListGroup.Item key={key}>
+                        <strong>{key}:</strong> {value}
+                    </ListGroup.Item>
+                ))}
+            </>
         );
     } else {
         // Render as text

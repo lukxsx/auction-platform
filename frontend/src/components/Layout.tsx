@@ -16,7 +16,13 @@ const Layout = ({ children }: { children: ReactNode }) => {
     useEffect(() => {
         auctionService
             .getAll()
-            .then((auctions) => dispatch(setAuctions(auctions)))
+            .then((auctions) => {
+                auctions.forEach((auction) => {
+                    auction.start_date = new Date(auction.start_date);
+                    auction.end_date = new Date(auction.end_date);
+                });
+                dispatch(setAuctions(auctions));
+            })
             .catch((error) => {
                 ErrorHandlingService.handleError(error, addNotification);
             });

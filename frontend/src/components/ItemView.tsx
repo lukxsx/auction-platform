@@ -2,7 +2,7 @@ import { Modal, ListGroup, Button } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { deleteItem } from "../reducers/items";
 import { AuctionState, Item, ItemState } from "../types";
-import { isAdmin } from "../utils/helpers";
+import { isAdmin, stateToStatus } from "../utils/helpers";
 import BidTable from "./BidTable";
 import BidForm from "./BidForm";
 import InfoText from "./InfoText";
@@ -90,7 +90,7 @@ const ItemView = ({
                     {/* Show item info only if it exists */}
                     {item.info && <InfoText info={item.info} />}
                     <ListGroup.Item>
-                        <strong>Status:</strong> {item.state}
+                        <strong>Status:</strong> {stateToStatus(item.state)}
                     </ListGroup.Item>
                     {/* If auction is still ongoing, show highest bidder */}
                     {item.state === ItemState.Open && item.winner_name && (

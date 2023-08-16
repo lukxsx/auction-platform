@@ -59,6 +59,7 @@ const AddItem = ({
             setStartingPrice(0);
             setInfo("");
             setInfoValues([]);
+            addNotification("Info", "New item addedd successfully", "");
         } catch (error) {
             ErrorHandlingService.handleError(error, addNotification);
         }

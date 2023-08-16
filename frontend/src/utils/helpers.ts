@@ -43,3 +43,16 @@ export const formatDate = (date: Date, showSeconds: boolean): string => {
         ? `${day}.${month}.${year} ${hours}:${minutes}:${seconds}`
         : `${day}.${month}.${year} ${hours}:${minutes}`;
 };
+
+export const stateToStatus = (state: string): string => {
+    switch (state) {
+        case "open":
+            return "Bidding in progress";
+        case "unsold":
+            return "Didn't sell";
+        case "sold":
+            return "Sold";
+        default:
+            return "";
+    }
+};

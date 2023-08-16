@@ -2,6 +2,7 @@ import { Card, ListGroup, Button } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import { Item, ItemState, RootState, LoginUser } from "../types";
 import InfoText from "./InfoText";
+import { stateToStatus } from "../utils/helpers";
 
 // Using React Bootsrap's color definitions as the enum values
 // to use these easily for changing colors
@@ -40,16 +41,18 @@ const ItemCard = ({
                 <Card.Subtitle>{item.make}</Card.Subtitle>
                 <hr />
                 <ListGroup className="list-group-flush">
-                    {item.info && <InfoText info={item.info} />}
                     <ListGroup.Item>
                         <strong>Starting price:</strong> {item.starting_price} €
                     </ListGroup.Item>
                     <ListGroup.Item>
                         <strong>Current price:</strong> {item.current_price} €
                     </ListGroup.Item>
-                    <ListGroup.Item>
-                        <strong>Status:</strong> {item.state}
-                    </ListGroup.Item>
+                    {item.info && <InfoText info={item.info} />}
+                    {item.state !== ItemState.Open && (
+                        <ListGroup.Item>
+                            <strong>Status:</strong> {stateToStatus(item.state)}
+                        </ListGroup.Item>
+                    )}
                     {/* If auction is still ongoing, show highest bidder, otherwise show winner */}
                     {item.state === ItemState.Open && item.winner_name && (
                         <ListGroup.Item>
