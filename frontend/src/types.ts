@@ -31,6 +31,8 @@ export interface Item {
     bids: Bid[];
 }
 
+export type NewItem = Omit<Item, "id" | "bids" | "current_price" | "state">;
+
 export interface Bid {
     id: number;
     price: number;
@@ -69,4 +71,9 @@ export enum ItemState {
     Open = "open",
     Sold = "sold",
     Unsold = "unsold",
+}
+
+export interface InfoValue {
+    key: string;
+    value: string;
 }

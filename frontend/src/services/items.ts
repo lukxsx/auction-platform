@@ -2,7 +2,7 @@
 import axios from "axios";
 import { BACKEND_URL } from "../utils/config";
 import { headers } from "../utils/helpers";
-import { Item, Bid } from "../types";
+import { Item, Bid, NewItem } from "../types";
 
 const getAll = async (auctionId: number) => {
     const response = await axios.get<Item[]>(
@@ -20,7 +20,17 @@ const getBids = async (auctionId: number, itemId: number) => {
     return response.data;
 };
 
+const addItem = async (item: NewItem) => {
+    const response = await axios.post<Item>(
+        `${BACKEND_URL}/auctions/${item.auction_id}/items/`,
+        item,
+        headers()
+    );
+    return response.data;
+};
+
 export default {
     getAll,
     getBids,
+    addItem,
 };

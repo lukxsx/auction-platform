@@ -35,7 +35,7 @@ const BidForm = ({ item }: { item: Item }) => {
     };
 
     return (
-        <Form.Group controlId="formFileMultiple" className="mb-3">
+        <Form.Group className="mb-3">
             <Form.Label>Bid on this item</Form.Label>
             <InputGroup className="mb-4">
                 <InputGroup.Text>Bid amount</InputGroup.Text>
@@ -45,9 +45,7 @@ const BidForm = ({ item }: { item: Item }) => {
                     type="number"
                     value={amount}
                     min={item.current_price + 1}
-                    onChange={(e) => {
-                        setAmount(atoi(e.target.value));
-                    }}
+                    onChange={(e) => setAmount(atoi(e.target.value))}
                 />
                 <InputGroup.Text>€</InputGroup.Text>
                 <Button
