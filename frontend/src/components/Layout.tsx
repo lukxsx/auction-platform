@@ -1,8 +1,9 @@
-import React, { ReactNode, useEffect } from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import { ReactNode, useEffect } from "react";
 import { Container, Row, Col } from "react-bootstrap";
+import { useDispatch } from "react-redux";
 import Sidebar from "./Sidebar/Sidebar";
 import Notification from "./Notification";
-import { useDispatch } from "react-redux";
 import auctionService from "../services/auctions";
 import { useNotification } from "../contexts/NotificationContext";
 import { setAuctions } from "../reducers/auctions";

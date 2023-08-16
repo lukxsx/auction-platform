@@ -4,10 +4,11 @@ import { selectAuctionById } from "../reducers/auctions";
 import { RootState } from "../types";
 import { atoi, formatDate } from "../utils/helpers";
 import ItemList from "./ItemList";
-import { Container } from "react-bootstrap";
+import { Container, ListGroup, Button } from "react-bootstrap";
 
 const AuctionPage = () => {
     let { id } = useParams();
+    const user = useSelector((state: RootState) => state.user.user);
     const auctionId = atoi(id as string);
     const auction = useSelector((state: RootState) =>
         selectAuctionById(state, auctionId)
@@ -18,10 +19,18 @@ const AuctionPage = () => {
     const endDate = new Date(auction.end_date);
     return (
         <Container>
-            <h1>{auction.name}</h1>
-            <h4>
-                {formatDate(startDate)} — {formatDate(endDate)}
-            </h4>
+            <ListGroup>
+                <h1>{auction.name}</h1>
+                <h4>
+                    {formatDate(startDate, false)} —{" "}
+                    {formatDate(endDate, false)}
+                </h4>
+            </ListGroup>
+            {user && user.is_admin && (
+                <div>
+                    <Button>Edit auction</Button> <Button>Add items</Button>{" "}
+                </div>
+            )}
             <ItemList auctionId={auctionId} auctionState={auction.state} />
         </Container>
     );

@@ -35,7 +35,7 @@ const ItemView = ({
                 </Modal.Title>
             </Modal.Header>
             <Modal.Body>
-                <ListGroup>
+                <ListGroup className="mb-3">
                     <ListGroup.Item>
                         <strong>Model:</strong> {item.model}
                     </ListGroup.Item>

@@ -21,7 +21,7 @@ const BidTable = ({ bids }: { bids: Bid[] }) => {
                         <td>{index + 1}</td>
                         <td>{bid.price} €</td>
                         <td>{bid.username}</td>
-                        <td>{formatDate(new Date(bid.created_at))}</td>
+                        <td>{formatDate(new Date(bid.created_at), true)}</td>
                     </tr>
                 ))}
             </tbody>

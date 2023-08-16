@@ -46,7 +46,7 @@ router.post("/login", async (req, res) => {
                 expiresIn: 60 * 120,
             });
 
-            res.json({ ...user, token });
+            res.json({ ...user, token, is_admin: authResult.admin });
         } else {
             console.log("Failed login by " + username);
             res.status(400).json({ error: "incorrect username or password" });

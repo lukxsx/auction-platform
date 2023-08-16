@@ -1,6 +1,29 @@
 import { Card, ListGroup, Button } from "react-bootstrap";
-import { Item, ItemState } from "../types";
+import { useSelector } from "react-redux";
+import { Item, ItemState, RootState, LoginUser } from "../types";
 import InfoText from "./InfoText";
+
+// Using React Bootsrap's color definitions as the enum values
+// to use these easily for changing colors
+enum Status {
+    Winning = "success",
+    Losing = "danger",
+    NotBidded = "",
+}
+
+// Check if the user has bidded on the item and are they winning
+const myBidStatus = (user: LoginUser | null, item: Item): Status => {
+    if (!user) return Status.NotBidded;
+    if (item.winner_name) {
+        if (item.winner_name === user.name) {
+            return Status.Winning;
+        } else if (item.bids.find((i) => i.username === user.name)) {
+            return Status.Losing;
+        }
+    }
+
+    return Status.NotBidded;
+};
 
 const ItemCard = ({
     item,
@@ -9,8 +32,9 @@ const ItemCard = ({
     item: Item;
     handleShowItem: (itemId: number) => void;
 }) => {
+    const user = useSelector((state: RootState) => state.user.user);
     return (
-        <Card>
+        <Card border={myBidStatus(user, item)}>
             <Card.Body>
                 <Card.Title>{item.model}</Card.Title>
                 <Card.Subtitle>{item.make}</Card.Subtitle>

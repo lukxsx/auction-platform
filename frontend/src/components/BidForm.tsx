@@ -18,32 +18,47 @@ const BidForm = ({ item }: { item: Item }) => {
             if (!user) {
                 throw new Error("User not found");
             }
-            const newBid = await bidService.addBid({
+            await bidService.addBid({
                 item_id: item.id,
                 auction_id: item.auction_id,
                 user_id: user?.id,
                 price: amount,
             });
+            addNotification(
+                "Info",
+                "A new bid was added on item " + item.model,
+                ""
+            );
         } catch (error) {
             ErrorHandlingService.handleError(error, addNotification);
         }
     };
 
     return (
-        <InputGroup className="mb-4 mt-3">
-            <InputGroup.Text>Bid amount</InputGroup.Text>
-            <Form.Control
-                type="number"
-                value={amount}
-                onChange={(e) => {
-                    setAmount(atoi(e.target.value));
-                }}
-            />
-            <InputGroup.Text>€</InputGroup.Text>
-            <Button variant="primary" type="submit" onClick={() => handleBid()}>
-                Submit
-            </Button>
-        </InputGroup>
+        <Form.Group controlId="formFileMultiple" className="mb-3">
+            <Form.Label>Bid on this item</Form.Label>
+            <InputGroup className="mb-4">
+                <InputGroup.Text>Bid amount</InputGroup.Text>
+                <Form.Control
+                    size="lg"
+                    style={{ maxWidth: "20%" }}
+                    type="number"
+                    value={amount}
+                    min={item.current_price + 1}
+                    onChange={(e) => {
+                        setAmount(atoi(e.target.value));
+                    }}
+                />
+                <InputGroup.Text>€</InputGroup.Text>
+                <Button
+                    variant="primary"
+                    type="submit"
+                    onClick={() => handleBid()}
+                >
+                    Submit
+                </Button>
+            </InputGroup>
+        </Form.Group>
     );
 };
 

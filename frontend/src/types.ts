@@ -13,6 +13,7 @@ export interface LoginUser {
     id: number;
     name: string;
     token: string;
+    is_admin: boolean;
 }
 
 export interface Item {
