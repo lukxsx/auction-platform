@@ -72,6 +72,7 @@ router.delete("/:itemId", isAdmin, async (req, res) => {
     try {
         const itemId = atoi(req.params.itemId);
         await itemService.deleteItem(itemId);
+        res.status(200).send();
     } catch (error: unknown) {
         let errorMessage = "Error deleting item";
         if (error instanceof Error) {
