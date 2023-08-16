@@ -20,8 +20,6 @@ const AuctionPage = () => {
 
     if (!auction) return <p>Loading...</p>;
 
-    const startDate = new Date(auction.start_date);
-    const endDate = new Date(auction.end_date);
     return (
         <Container>
             <AddItem
@@ -32,18 +30,20 @@ const AuctionPage = () => {
             <ListGroup>
                 <h1>{auction.name}</h1>
                 <h4>
-                    {formatDate(startDate, false)} —{" "}
-                    {formatDate(endDate, false)}
+                    {formatDate(auction.start_date, false)} —{" "}
+                    {formatDate(auction.end_date, false)}
                 </h4>
             </ListGroup>
             {isAdmin() && (
-                <div>
+                <div className="mb-3">
                     <Button>Edit auction</Button>{" "}
                     <Button onClick={() => setShowItemAddForm(true)}>
                         Add items
                     </Button>{" "}
+                    <Button>Download report</Button>
                 </div>
             )}
+
             <ItemList auctionId={auctionId} auctionState={auction.state} />
         </Container>
     );

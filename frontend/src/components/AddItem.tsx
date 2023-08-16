@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { SyntheticEvent, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Form, Button, Modal, InputGroup } from "react-bootstrap";
 import { addItem } from "../reducers/items";
@@ -27,7 +27,8 @@ const AddItem = ({
     const [infoAsText, setInfoAsText] = useState(false);
     const [infoValues, setInfoValues] = useState<InfoValue[]>([]);
 
-    const handleAddItem = async () => {
+    const handleAddItem = async (event: SyntheticEvent) => {
+        event.preventDefault();
         try {
             const newItem: NewItem = {
                 code,
@@ -71,7 +72,7 @@ const AddItem = ({
                 <Modal.Title>Add item</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-                <Form>
+                <Form onSubmit={handleAddItem}>
                     <Form.Group className="mb-2">
                         <Form.Label>Item code</Form.Label>
                         <Form.Control
@@ -86,6 +87,9 @@ const AddItem = ({
                         <Form.Control
                             type="text"
                             value={make}
+                            required
+                            minLength={1}
+                            maxLength={255}
                             onChange={(e) => setMake(e.target.value)}
                         />
                     </Form.Group>
@@ -95,6 +99,9 @@ const AddItem = ({
                         <Form.Control
                             type="text"
                             value={model}
+                            minLength={1}
+                            maxLength={255}
+                            required
                             onChange={(e) => setModel(e.target.value)}
                         />
                     </Form.Group>
@@ -105,6 +112,8 @@ const AddItem = ({
                             <Form.Control
                                 type="number"
                                 value={startingPrice}
+                                min={0}
+                                required
                                 onChange={(e) => {
                                     const inputText = e.target.value;
                                     if (/^\d*$/.test(inputText)) {
@@ -147,11 +156,7 @@ const AddItem = ({
                     </Form.Group>
 
                     <Form.Group className="mb-2">
-                        <Button
-                            variant="primary"
-                            type="submit"
-                            onClick={() => handleAddItem()}
-                        >
+                        <Button variant="primary" type="submit">
                             Submit
                         </Button>
                     </Form.Group>

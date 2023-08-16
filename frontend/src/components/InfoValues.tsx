@@ -27,14 +27,12 @@ const InfoValues = ({
                 <InputGroup.Text>Key</InputGroup.Text>
                 <Form.Control
                     value={key}
-                    required
                     minLength={1}
                     onChange={(e) => setKey(e.target.value)}
                 />
                 <InputGroup.Text>Value</InputGroup.Text>
                 <Form.Control
                     value={value}
-                    required
                     minLength={1}
                     onChange={(e) => setValue(e.target.value)}
                 />

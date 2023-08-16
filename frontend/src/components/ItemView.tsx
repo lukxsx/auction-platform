@@ -50,7 +50,7 @@ const ItemView = ({
         >
             <Modal.Header closeButton>
                 <Modal.Title id="example-modal-sizes-title-lg">
-                    {item.model}
+                    {item.make} {item.model}
                 </Modal.Title>
             </Modal.Header>
             <Modal.Body>
@@ -65,10 +65,10 @@ const ItemView = ({
                 )}
                 <ListGroup className="mb-3">
                     <ListGroup.Item>
-                        <strong>Model:</strong> {item.model}
+                        <strong>Manufacturer:</strong> {item.make}
                     </ListGroup.Item>
                     <ListGroup.Item>
-                        <strong>Manufacturer:</strong> {item.make}
+                        <strong>Model:</strong> {item.model}
                     </ListGroup.Item>
                     <ListGroup.Item>
                         <strong>Starting price:</strong> {item.starting_price} €

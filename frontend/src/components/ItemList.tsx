@@ -1,15 +1,16 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+import { Tab, Tabs } from "react-bootstrap";
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Container, Row, Col } from "react-bootstrap";
 import socketService from "../services/socket";
 import { setItems, selectItemsByAuctionId } from "../reducers/items";
 import itemService from "../services/items";
 import ItemView from "./ItemView";
-import ItemCard from "./ItemCard";
 import { isAxiosError } from "axios";
 import { useNotification } from "../contexts/NotificationContext";
 import { AuctionState } from "../types";
+import ItemListCards from "./ItemListCards";
+import ItemListTable from "./ItemListTable";
 
 const ItemList = ({
     auctionId,
@@ -23,6 +24,7 @@ const ItemList = ({
     const items = useSelector(selectItemsByAuctionId(auctionId));
 
     const [selectedItemId, setSelectedItemId] = useState(0); // modal is hidden when 0
+    const [view, setView] = useState("cards");
 
     // Fetch items of this auction
     useEffect(() => {
@@ -62,21 +64,28 @@ const ItemList = ({
     const closeItemView = () => setSelectedItemId(0);
 
     return (
-        <Container className="mt-4">
+        <>
+            <Tabs
+                activeKey={view}
+                onSelect={(k) => setView(k as string)}
+                className="mb-3"
+            >
+                <Tab eventKey="cards" title="Card view"></Tab>
+                <Tab eventKey="table" title="List view"></Tab>
+            </Tabs>
             <ItemView
                 items={items}
                 itemId={selectedItemId}
                 close={closeItemView}
                 auctionState={auctionState}
             />
-            <Row>
-                {items.map((item) => (
-                    <Col key={item.id.toString()} md={4} className="mb-4">
-                        <ItemCard item={item} handleShowItem={handleShowItem} />
-                    </Col>
-                ))}
-            </Row>
-        </Container>
+            {view === "cards" && (
+                <ItemListCards items={items} handleShowItem={handleShowItem} />
+            )}
+            {view === "table" && (
+                <ItemListTable items={items} handleShowItem={handleShowItem} />
+            )}
+        </>
     );
 };
 
