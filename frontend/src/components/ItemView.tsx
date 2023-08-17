@@ -104,7 +104,10 @@ const ItemView = ({
                         <InfoText addPrefix={true} info={item.info} />
                     )}
                     <ListGroup.Item>
-                        <strong>Status:</strong> {stateToStatus(item.state)}
+                        <strong>Status:</strong>{" "}
+                        {auctionState === AuctionState.Pending
+                            ? "Waiting"
+                            : stateToStatus(item.state)}
                     </ListGroup.Item>
                     {/* If auction is still ongoing, show highest bidder */}
                     {item.state === ItemState.Open && item.winner_name && (

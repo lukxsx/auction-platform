@@ -1,6 +1,6 @@
 import { Card, ListGroup, Button } from "react-bootstrap";
 import { useSelector } from "react-redux";
-import { Item, ItemState, RootState, LoginUser } from "../types";
+import { Item, ItemState, RootState, LoginUser, AuctionState } from "../types";
 import InfoText from "./InfoText";
 import { stateToStatus } from "../utils/helpers";
 
@@ -29,9 +29,11 @@ const myBidStatus = (user: LoginUser | null, item: Item): Status => {
 const ItemCard = ({
     item,
     handleShowItem,
+    auctionState,
 }: {
     item: Item;
     handleShowItem: (itemId: number) => void;
+    auctionState: AuctionState;
 }) => {
     const user = useSelector((state: RootState) => state.user.user);
     return (
@@ -72,7 +74,8 @@ const ItemCard = ({
                         variant="primary"
                         onClick={() => handleShowItem(item.id)}
                     >
-                        {item.state === ItemState.Open
+                        {item.state === ItemState.Open &&
+                        auctionState === AuctionState.Running
                             ? "View and bid"
                             : "View"}
                     </Button>
