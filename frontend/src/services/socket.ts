@@ -3,8 +3,24 @@ import { io, Socket } from "socket.io-client";
 import { store } from "../store";
 import { updateItem } from "../reducers/items";
 import { updateAuction } from "../reducers/auctions";
-import { Auction, AuctionState, Item } from "../types";
+import {
+    Auction,
+    AuctionState,
+    Item,
+    SocketUpdate,
+    UpdateType,
+} from "../types";
 import { addNotification } from "../reducers/notifications";
+
+const sendNotification = (title: string, message: string, variant: string) => {
+    store.dispatch(
+        addNotification({
+            title,
+            message,
+            variant,
+        })
+    );
+};
 
 class SocketService {
     private socket: Socket | null = null;
@@ -24,18 +40,25 @@ class SocketService {
                     })
                 );
             });
-            this.socket.on("auction:update", (auction: Auction) => {
+            this.socket.on("auction:update", (update: SocketUpdate) => {
+                const auction = update.value as Auction;
+                if (update.updateType === UpdateType.AuctionFinished) {
+                    sendNotification(
+                        "Info",
+                        "Auction " + auction.name + " has finished!",
+                        ""
+                    );
+                }
+                if (update.updateType === UpdateType.AuctionStarted) {
+                    sendNotification(
+                        "Info",
+                        "Auction " + auction.name + " has started!",
+                        ""
+                    );
+                }
                 auction.start_date = new Date(auction.start_date);
                 auction.end_date = new Date(auction.end_date);
                 if (auction.state === AuctionState.Finished) {
-                    store.dispatch(
-                        addNotification({
-                            title: "Info",
-                            message:
-                                "Auction " + auction.name + " has finished!",
-                            variant: "success",
-                        })
-                    );
                 }
                 store.dispatch(
                     updateAuction({

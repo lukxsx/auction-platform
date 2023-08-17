@@ -1,5 +1,6 @@
 import { Card } from "react-bootstrap";
 import AuctionMenu from "./AuctionMenu";
+import EditAuction from "./EditAuction";
 
 const Home = () => {
     return (

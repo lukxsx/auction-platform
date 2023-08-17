@@ -2,7 +2,6 @@
 import { Tab, Tabs } from "react-bootstrap";
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import socketService from "../services/socket";
 import { setItems, selectItemsByAuctionId } from "../reducers/items";
 import itemService from "../services/items";
 import ItemView from "./ItemView";
@@ -35,13 +34,6 @@ const ItemList = ({
     }, [dispatch, auctionId]);
 
     // Listen on a websocket to catch new updates
-    useEffect(() => {
-        socketService.connect();
-
-        return () => {
-            socketService.disconnect();
-        };
-    }, []);
 
     // Show the item view modal
     const handleShowItem = (itemId: number) => {

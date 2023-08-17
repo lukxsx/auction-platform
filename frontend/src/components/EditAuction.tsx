@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import { Form, Button, Modal, InputGroup } from "react-bootstrap";
 import ErrorHandlingService from "../services/errors";
 import { Auction } from "../types";
-import { updateAuction } from "../reducers/auctions";
+import { createAuction, updateAuction } from "../reducers/auctions";
 import auctionService from "../services/auctions";
 import { addNotification } from "../reducers/notifications";
 
@@ -14,21 +14,21 @@ const EditAuction = ({
 }: {
     show: boolean;
     close: () => void;
-    auction: Auction;
+    auction?: Auction;
 }) => {
     const dispatch = useDispatch();
-    const [name, setName] = useState(auction.name);
+    const [name, setName] = useState(auction ? auction.name : "");
     const [startTime, setStartTime] = useState(
-        auction.start_date.toTimeString().slice(0, 5)
+        auction ? auction.start_date.toTimeString().slice(0, 5) : ""
     );
     const [startDate, setStartDate] = useState(
-        auction.start_date.toISOString().slice(0, 10)
+        auction ? auction.start_date.toISOString().slice(0, 10) : ""
     );
     const [endTime, setEndTime] = useState(
-        auction.end_date.toTimeString().slice(0, 5)
+        auction ? auction.end_date.toTimeString().slice(0, 5) : ""
     );
     const [endDate, setEndDate] = useState(
-        auction.end_date.toISOString().slice(0, 10)
+        auction ? auction.end_date.toISOString().slice(0, 10) : ""
     );
 
     const handleEditAuction = async (event: SyntheticEvent) => {
@@ -57,31 +57,59 @@ const EditAuction = ({
             const startDateObject = new Date(`${startDate}T${startTime}`);
             const endDateObject = new Date(`${endDate}T${endTime}`);
 
-            // Generate and send auction update
-            const auctionUpdate: Auction = {
-                ...auction,
-                name,
-                start_date: startDateObject,
-                end_date: endDateObject,
-            };
+            // Are we creating a new auction or editing existing one?
+            if (!auction) {
+                // Create new
+                const newAuction = {
+                    name,
+                    start_date: startDateObject,
+                    end_date: endDateObject,
+                };
+                const auctionFromApi = await auctionService.createAuction(
+                    newAuction
+                );
 
-            const updatedAuction = await auctionService.updateAuction(
-                auctionUpdate
-            );
+                // Convert dates into correct Date objects
+                auctionFromApi.start_date = new Date(auctionFromApi.start_date);
+                auctionFromApi.end_date = new Date(auctionFromApi.end_date);
 
-            // Convert dates into correct Date objects
-            updatedAuction.start_date = new Date(updatedAuction.start_date);
-            updatedAuction.end_date = new Date(updatedAuction.end_date);
+                // Dispatch the update
+                dispatch(createAuction(auctionFromApi));
+                dispatch(
+                    addNotification({
+                        title: "Info",
+                        message: "Successfully added auction",
+                        variant: "success",
+                    })
+                );
+            } else {
+                // Edit auction
+                // Generate and send auction update
+                const auctionUpdate: Auction = {
+                    ...auction,
+                    name,
+                    start_date: startDateObject,
+                    end_date: endDateObject,
+                };
 
-            // Dispatch the update
-            dispatch(updateAuction({ updatedAuction }));
-            dispatch(
-                addNotification({
-                    title: "Info",
-                    message: "Successfully edited auction",
-                    variant: "success",
-                })
-            );
+                const updatedAuction = await auctionService.updateAuction(
+                    auctionUpdate
+                );
+
+                // Convert dates into correct Date objects
+                updatedAuction.start_date = new Date(updatedAuction.start_date);
+                updatedAuction.end_date = new Date(updatedAuction.end_date);
+
+                // Dispatch the update
+                dispatch(updateAuction({ updatedAuction }));
+                dispatch(
+                    addNotification({
+                        title: "Info",
+                        message: "Successfully edited auction",
+                        variant: "success",
+                    })
+                );
+            }
         } catch (error) {
             ErrorHandlingService.handleError(error);
         }
@@ -90,7 +118,9 @@ const EditAuction = ({
     return (
         <Modal size="lg" show={show} onHide={() => close()}>
             <Modal.Header closeButton>
-                <Modal.Title>Edit auction</Modal.Title>
+                <Modal.Title>
+                    {auction ? "Edit auction" : "Add auction"}
+                </Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 <Form onSubmit={handleEditAuction}>

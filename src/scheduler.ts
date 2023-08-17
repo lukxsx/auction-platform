@@ -8,6 +8,7 @@ import {
     DateState,
     Item,
     ItemWithBids,
+    UpdateType,
 } from "./types";
 import { checkDateWithState } from "./utils/helpers";
 import { io } from "./index";
@@ -50,13 +51,19 @@ export const checkAuctions = async () => {
                     console.log("Starting auction", a.name);
                     a.state = AuctionState.Running;
                     await auctionService.updateAuction(a.id, a);
-                    io.emit("auction:update", a);
+                    io.emit("auction:update", {
+                        updateType: UpdateType.AuctionStarted,
+                        value: a,
+                    });
                 } else if (dateRange == DateState.Late) {
                     // Auction is expired, but is marked pending. Setting auction as finished
                     console.log("Setting auction", a.name, "as finished");
                     a.state = AuctionState.Finished;
                     await auctionService.updateAuction(a.id, a);
-                    io.emit("auction:update", a);
+                    io.emit("auction:update", {
+                        updateType: UpdateType.AuctionFinished,
+                        value: a,
+                    });
                 }
             } else if (a.state == AuctionState.Running) {
                 console.log("Auction", a.name, "is running");
@@ -130,7 +137,10 @@ export const checkAuctions = async () => {
                         // Stop the auction
                         a.state = AuctionState.Finished;
                         await auctionService.updateAuction(a.id, a);
-                        io.emit("auction:update", a);
+                        io.emit("auction:update", {
+                            updateType: UpdateType.AuctionFinished,
+                            value: a,
+                        });
                     }
                 }
             }

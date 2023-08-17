@@ -88,3 +88,13 @@ export interface Notification {
     variant: string;
     show: boolean;
 }
+
+export enum UpdateType {
+    AuctionFinished = "auctionfinished",
+    AuctionStarted = "auctionstarted",
+}
+
+export interface SocketUpdate {
+    updateType: UpdateType;
+    value: Auction | Item;
+}

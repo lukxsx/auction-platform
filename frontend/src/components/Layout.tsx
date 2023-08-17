@@ -6,6 +6,7 @@ import Notification from "./Notification";
 import auctionService from "../services/auctions";
 import { setAuctions } from "../reducers/auctions";
 import ErrorHandlingService from "../services/errors";
+import socketService from "../services/socket";
 import NavBar from "./NavBar";
 
 const Layout = ({ children }: { children: ReactNode }) => {
@@ -25,6 +26,14 @@ const Layout = ({ children }: { children: ReactNode }) => {
                 ErrorHandlingService.handleError(error);
             });
     }, [dispatch]);
+
+    useEffect(() => {
+        socketService.connect();
+
+        return () => {
+            socketService.disconnect();
+        };
+    }, []);
 
     return (
         <div>

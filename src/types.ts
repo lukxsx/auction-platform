@@ -104,3 +104,13 @@ export enum DateState {
     Late = "late",
     Ok = "ok",
 }
+
+export enum UpdateType {
+    AuctionFinished = "auctionfinished",
+    AuctionStarted = "auctionstarted",
+}
+
+export interface SocketUpdate {
+    updateType: UpdateType;
+    value: Auction | Item;
+}
