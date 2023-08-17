@@ -1,8 +1,16 @@
 import auctionService from "./services/auctions";
 import itemService from "./services/items";
 import bidService from "./services/bids";
-import { AuctionState, Bid, ItemState, DateState } from "./types";
+import {
+    AuctionState,
+    Bid,
+    ItemState,
+    DateState,
+    Item,
+    ItemWithBids,
+} from "./types";
 import { checkDateWithState } from "./utils/helpers";
+import { io } from "./index";
 
 const underMinuteSinceLastBid = (lastBid: Bid) => {
     const currentDate = new Date();
@@ -12,6 +20,22 @@ const underMinuteSinceLastBid = (lastBid: Bid) => {
     const timeDifferenceInMinutes = timeDifference / (1000 * 60);
 
     return timeDifferenceInMinutes <= 1;
+};
+
+const toItemWithoutBids = (i: ItemWithBids): Item => {
+    return {
+        id: i.id,
+        make: i.make,
+        model: i.model,
+        code: i.code,
+        info: i.info,
+        auction_id: i.auction_id,
+        state: i.state,
+        starting_price: i.starting_price,
+        current_price: i.current_price,
+        winner_id: i.winner_id,
+        winner_name: i.winner_name,
+    };
 };
 
 export const checkAuctions = async () => {
@@ -26,11 +50,13 @@ export const checkAuctions = async () => {
                     console.log("Starting auction", a.name);
                     a.state = AuctionState.Running;
                     await auctionService.updateAuction(a.id, a);
+                    io.emit("auction:update", a);
                 } else if (dateRange == DateState.Late) {
                     // Auction is expired, but is marked pending. Setting auction as finished
                     console.log("Setting auction", a.name, "as finished");
                     a.state = AuctionState.Finished;
                     await auctionService.updateAuction(a.id, a);
+                    io.emit("auction:update", a);
                 }
             } else if (a.state == AuctionState.Running) {
                 console.log("Auction", a.name, "is running");
@@ -63,7 +89,11 @@ export const checkAuctions = async () => {
                                     "  The item has no bids, let's mark it as unsold"
                                 );
                                 i.state = ItemState.Unsold;
-                                await itemService.updateItem(i.id, i);
+                                await itemService.updateItem(
+                                    i.id,
+                                    toItemWithoutBids(i)
+                                );
+                                io.emit("item:update", i);
                                 nclosed++;
                                 return;
                             }
@@ -76,7 +106,12 @@ export const checkAuctions = async () => {
                                     "  There hasn't been any bids in the last minute, let's mark this as sold"
                                 );
                                 i.state = ItemState.Sold;
-                                await itemService.updateItem(i.id, i);
+
+                                await itemService.updateItem(
+                                    i.id,
+                                    toItemWithoutBids(i)
+                                );
+                                io.emit("item:update", i);
                                 nclosed++;
                                 return;
                             } else {
@@ -95,6 +130,7 @@ export const checkAuctions = async () => {
                         // Stop the auction
                         a.state = AuctionState.Finished;
                         await auctionService.updateAuction(a.id, a);
+                        io.emit("auction:update", a);
                     }
                 }
             }

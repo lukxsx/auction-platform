@@ -70,7 +70,9 @@ const ItemCard = ({
                         variant="primary"
                         onClick={() => handleShowItem(item.id)}
                     >
-                        View and bid
+                        {item.state === ItemState.Open
+                            ? "View and bid"
+                            : "View"}
                     </Button>
                 </Card.Footer>
             </Card.Body>

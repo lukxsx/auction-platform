@@ -2,7 +2,8 @@
 import { io, Socket } from "socket.io-client";
 import { store } from "../store";
 import { updateItem } from "../reducers/items";
-import { Item } from "../types";
+import { updateAuction } from "../reducers/auctions";
+import { Auction, Item } from "../types";
 
 class SocketService {
     private socket: Socket | null = null;
@@ -19,6 +20,15 @@ class SocketService {
                     updateItem({
                         itemId: item.id,
                         updatedItem: item,
+                    })
+                );
+            });
+            this.socket.on("auction:update", (auction: Auction) => {
+                auction.start_date = new Date(auction.start_date);
+                auction.end_date = new Date(auction.end_date);
+                store.dispatch(
+                    updateAuction({
+                        updatedAuction: auction,
                     })
                 );
             });
