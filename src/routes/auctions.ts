@@ -2,7 +2,6 @@ import express from "express";
 import auctionService from "../services/auctions";
 import { parseAuctionEntry } from "../utils/validate";
 import itemRouter from "../routes/items";
-import { atoi } from "../utils/helpers";
 import { isAdmin, tokenExtractor, userExtractor } from "../middleware";
 
 const router = express.Router();
@@ -17,7 +16,7 @@ router.get("/", async (_req, res) => {
 // Get auction by id
 router.get("/:auctionId", async (req, res) => {
     try {
-        const auctionId = atoi(req.params.auctionId);
+        const auctionId = parseInt(req.params.auctionId, 10);
         res.json(await auctionService.getAuctionById(auctionId));
     } catch (error: unknown) {
         if (error instanceof Error) {

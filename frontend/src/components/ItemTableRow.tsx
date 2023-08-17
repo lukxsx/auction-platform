@@ -14,7 +14,7 @@ const ItemTableRow = ({
         <tr>
             <td>{item.make}</td>
             <td>{item.model}</td>
-            <td>{item.info && <InfoText info={item.info} />}</td>
+            <td>{item.info ? <InfoText info={item.info} /> : ""}</td>
             <td>{stateToStatus(item.state)}</td>
             <td>{item.starting_price}</td>
             <td>{item.current_price}</td>

@@ -11,7 +11,7 @@ import { isAdmin } from "../utils/helpers";
 
 const AuctionPage = () => {
     let { id } = useParams();
-    const auctionId = atoi(id as string);
+    const auctionId = parseInt(id as string, 10);
     const auction = useSelector((state: RootState) =>
         selectAuctionById(state, auctionId)
     );

@@ -1,7 +1,6 @@
 import express from "express";
 import itemService from "../services/items";
 import { parseItemEntry } from "../utils/validate";
-import { atoi } from "../utils/helpers";
 import { tokenExtractor, userExtractor, isAdmin } from "../middleware";
 import bidService from "../services/bids";
 
@@ -23,7 +22,7 @@ router.get("/", async (req, res) => {
 // Get item by id
 router.get("/:itemId", async (req, res) => {
     try {
-        const itemId = atoi(req.params.itemId);
+        const itemId = parseInt(req.params.itemId, 10);
         res.json(await itemService.getItemById(itemId));
     } catch (error: unknown) {
         if (error instanceof Error) {
@@ -37,7 +36,7 @@ router.get("/:itemId", async (req, res) => {
 // Get item's bids
 router.get("/:itemId/bids", async (req, res) => {
     try {
-        const itemId = atoi(req.params.itemId);
+        const itemId = parseInt(req.params.itemId, 10);
         res.json(await bidService.getBidsByItem(itemId));
     } catch (error: unknown) {
         if (error instanceof Error) {
@@ -70,7 +69,7 @@ router.post("/", isAdmin, async (req, res) => {
 // Delete item, requires admin
 router.delete("/:itemId", isAdmin, async (req, res) => {
     try {
-        const itemId = atoi(req.params.itemId);
+        const itemId = parseInt(req.params.itemId, 10);
         await itemService.deleteItem(itemId);
         res.status(200).send();
     } catch (error: unknown) {
