@@ -28,6 +28,7 @@ const AuctionPage = () => {
 
     if (!auction) return <p>Loading...</p>;
 
+    // Code for deleting auction
     const handleDelete = async () => {
         try {
             await auctionService.deleteAuction(auction);
@@ -69,13 +70,15 @@ const AuctionPage = () => {
                     {formatDate(auction.end_date, false)}
                 </h4>
             </ListGroup>
+
+            {/* Admin buttons */}
             {isAdmin() && (
                 <div className="mb-3">
                     <Button onClick={() => setShowEditAuctionForm(true)}>
                         Edit auction
                     </Button>{" "}
                     <Button onClick={() => setShowItemAddForm(true)}>
-                        Add items
+                        Add item
                     </Button>{" "}
                     <Button>Download report</Button>{" "}
                     <Button
@@ -87,6 +90,7 @@ const AuctionPage = () => {
                 </div>
             )}
 
+            {/* Actual item list */}
             <ItemList auctionId={auctionId} auctionState={auction.state} />
         </Container>
     );

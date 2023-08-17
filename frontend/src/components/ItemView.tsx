@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Modal, ListGroup, Button } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { deleteItem } from "../reducers/items";
@@ -6,6 +7,7 @@ import { isAdmin, stateToStatus } from "../utils/helpers";
 import BidTable from "./BidTable";
 import BidForm from "./BidForm";
 import InfoText from "./InfoText";
+import AlertModal from "./AlertModal";
 import itemService from "../services/items";
 import ErrorHandlingService from "../services/errors";
 
@@ -21,6 +23,7 @@ const ItemView = ({
     auctionState: AuctionState;
 }) => {
     const dispatch = useDispatch();
+    const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
 
     // Select item to show
     const show = itemId !== 0;
@@ -46,6 +49,16 @@ const ItemView = ({
             onHide={() => close()}
             aria-labelledby="example-modal-sizes-title-lg"
         >
+            {/* Delete confirmation */}
+            <AlertModal
+                show={showDeleteConfirm}
+                close={() => setShowDeleteConfirm(false)}
+                action={() => handleDelete()}
+                title="Are you sure?"
+                message={
+                    "Do you really want to delete item " + item.model + "?"
+                }
+            />
             <Modal.Header closeButton>
                 <Modal.Title id="example-modal-sizes-title-lg">
                     {item.make} {item.model}
@@ -54,9 +67,10 @@ const ItemView = ({
             <Modal.Body>
                 {isAdmin() && (
                     <Button
+                        variant="danger"
                         size="sm"
                         className="mb-3"
-                        onClick={() => handleDelete()}
+                        onClick={() => setShowDeleteConfirm(true)}
                     >
                         Delete
                     </Button>
