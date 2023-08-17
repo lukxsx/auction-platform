@@ -1,14 +1,15 @@
 import { useState, useEffect } from "react";
 import { InputGroup, Form, Button } from "react-bootstrap";
-import { useDispatch, useSelector } from "react-redux";
-import ErrorHandlingService from "../services/errors";
+import { useSelector } from "react-redux";
 import { Item, RootState } from "../types";
 import bidService from "../services/bids";
-import { addNotification } from "../reducers/notifications";
+import { useAlert } from "../contexts/AlertContext";
+import Alert from "./Alert";
+import { isAxiosError } from "axios";
 
 const BidForm = ({ item }: { item: Item }) => {
-    const dispatch = useDispatch();
     const user = useSelector((state: RootState) => state.user.user);
+    const { setAlert } = useAlert();
     const [amount, setAmount] = useState(0);
     useEffect(() => setAmount(item.current_price + 1), [item.current_price]);
 
@@ -23,20 +24,24 @@ const BidForm = ({ item }: { item: Item }) => {
                 user_id: user?.id,
                 price: amount,
             });
-            dispatch(
-                addNotification({
-                    title: "Info",
-                    message: "A new bid was added on item " + item.model,
-                    variant: "",
-                })
-            );
+            setAlert("Bid added", "success");
         } catch (error) {
-            ErrorHandlingService.handleError(error);
+            // The error handler service only supports toast notifications
+            // But I want to use Alert badge notifications here.
+            // Should add error handling function with Alert badge support
+            if (isAxiosError(error) && error.response?.data) {
+                setAlert(error.response?.data.error, "danger");
+            } else if (error instanceof Error) {
+                setAlert(error.message, "danger");
+            } else {
+                setAlert("Something bad happened", "danger");
+            }
         }
     };
 
     return (
         <Form.Group className="mb-3">
+            <Alert />
             <Form.Label>Bid on this item</Form.Label>
             <InputGroup className="mb-4">
                 <InputGroup.Text>Bid amount</InputGroup.Text>
