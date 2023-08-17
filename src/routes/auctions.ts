@@ -44,4 +44,28 @@ router.post("/", isAdmin, async (req, res) => {
     }
 });
 
+// Update auction
+router.put("/:auctionId", isAdmin, async (req, res) => {
+    try {
+        const auctionId = parseInt(req.params.auctionId, 10);
+        const auctionUpdate = parseAuctionEntry(req.body);
+        if (!auctionUpdate.id) {
+            throw new Error("invalid auction");
+        }
+
+        // Update auction
+        await auctionService.updateAuction(auctionId, auctionUpdate);
+
+        // Get updated auction
+        const updated = await auctionService.getAuctionById(auctionUpdate.id);
+        res.json(updated);
+    } catch (error: unknown) {
+        if (error instanceof Error) {
+            res.status(400).json({ error: error.message });
+            return;
+        }
+        res.status(400).json({ error: "not found" });
+    }
+});
+
 export default router;

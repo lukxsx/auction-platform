@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { Auction, RootState } from "../types";
 
 const auctionSlice = createSlice({
@@ -6,11 +6,22 @@ const auctionSlice = createSlice({
     initialState: [] as Auction[],
     reducers: {
         createAuction(state, action) {
-            const newAuction = action.payload;
-            state.push(newAuction);
+            return state.concat(action.payload);
         },
         setAuctions(state, action) {
             return action.payload;
+        },
+        updateAuction(
+            state,
+            action: PayloadAction<{
+                updatedAuction: Auction;
+            }>
+        ) {
+            const { updatedAuction } = action.payload;
+
+            return state.map((auction) =>
+                auction.id === updatedAuction.id ? updatedAuction : auction
+            );
         },
     },
 });
@@ -18,5 +29,6 @@ const auctionSlice = createSlice({
 export const selectAuctionById = (state: RootState, auctionId: number) =>
     state.auctions.find((i) => i.id === auctionId);
 
-export const { setAuctions } = auctionSlice.actions;
+export const { setAuctions, createAuction, updateAuction } =
+    auctionSlice.actions;
 export default auctionSlice.reducer;

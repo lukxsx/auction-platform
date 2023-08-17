@@ -8,6 +8,7 @@ import { formatDate } from "../utils/helpers";
 import ItemList from "./ItemList";
 import AddItem from "./AddItem";
 import { isAdmin } from "../utils/helpers";
+import EditAuction from "./EditAuction";
 
 const AuctionPage = () => {
     let { id } = useParams();
@@ -17,6 +18,7 @@ const AuctionPage = () => {
     );
 
     const [showItemAddForm, setShowItemAddForm] = useState(false);
+    const [showEditAuctionForm, setShowEditAuctionForm] = useState(false);
 
     if (!auction) return <p>Loading...</p>;
 
@@ -27,6 +29,11 @@ const AuctionPage = () => {
                 close={() => setShowItemAddForm(false)}
                 auctionId={auctionId}
             />
+            <EditAuction
+                show={showEditAuctionForm}
+                close={() => setShowEditAuctionForm(false)}
+                auction={auction}
+            />
             <ListGroup>
                 <h1>{auction.name}</h1>
                 <h4>
@@ -36,7 +43,9 @@ const AuctionPage = () => {
             </ListGroup>
             {isAdmin() && (
                 <div className="mb-3">
-                    <Button>Edit auction</Button>{" "}
+                    <Button onClick={() => setShowEditAuctionForm(true)}>
+                        Edit auction
+                    </Button>{" "}
                     <Button onClick={() => setShowItemAddForm(true)}>
                         Add items
                     </Button>{" "}

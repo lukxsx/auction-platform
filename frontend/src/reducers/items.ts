@@ -25,7 +25,7 @@ const itemsSlice = createSlice({
             const { itemId, updatedItem } = action.payload;
 
             const updatedItems = state.map((item) =>
-                item.id === itemId ? { ...item, ...updatedItem } : item
+                item.id === itemId ? updatedItem : item
             );
             return updatedItems;
         },

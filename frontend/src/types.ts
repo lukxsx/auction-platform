@@ -53,6 +53,8 @@ export interface Auction {
     state: AuctionState;
 }
 
+export type NewAuction = Omit<Auction, "id" | "state">;
+
 export interface RootState {
     auctions: Auction[];
     items: Item[];

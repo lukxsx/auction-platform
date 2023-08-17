@@ -53,9 +53,12 @@ class ErrorHandlingService {
             this.addErrorNotification(
                 addNotification,
                 "Error",
-                "Something bad happened",
+                error instanceof Error
+                    ? error.message
+                    : "Something bad happened",
                 "danger"
             );
+
             console.error(error);
         }
     }

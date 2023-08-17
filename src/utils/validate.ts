@@ -42,6 +42,19 @@ const parseNumber = (num: unknown): number => {
     return num;
 };
 
+const isAuctionState = (param: string): param is AuctionState => {
+    return Object.values(AuctionState)
+        .map((v) => v.toString())
+        .includes(param);
+};
+
+const parseAuctionState = (state: unknown): AuctionState => {
+    if (!state || !isString(state) || !isAuctionState(state)) {
+        throw new Error("Incorrect or missing auction state: " + state);
+    }
+    return state;
+};
+
 export const parseUserEntry = (object: unknown): NewUser => {
     if (!object || typeof object !== "object") {
         throw new Error("Incorrect or missing data");
@@ -133,6 +146,11 @@ export const parseAuctionEntry = (object: unknown): NewAuction => {
             end_date: parseDate(object.end_date),
             state: AuctionState.Pending,
         };
+
+        if ("id" in object && "state" in object) {
+            newAuctionEntry.id = parseNumber(object.id);
+            newAuctionEntry.state = parseAuctionState(object.state);
+        }
 
         return newAuctionEntry;
     }
