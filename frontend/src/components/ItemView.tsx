@@ -100,7 +100,9 @@ const ItemView = ({
                         </ListGroup.Item>
                     )}
                     {/* Show item info only if it exists */}
-                    {item.info && <InfoText info={item.info} />}
+                    {item.info && (
+                        <InfoText addPrefix={true} info={item.info} />
+                    )}
                     <ListGroup.Item>
                         <strong>Status:</strong> {stateToStatus(item.state)}
                     </ListGroup.Item>

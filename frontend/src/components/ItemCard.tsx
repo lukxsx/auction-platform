@@ -47,7 +47,9 @@ const ItemCard = ({
                     <ListGroup.Item>
                         <strong>Current price:</strong> {item.current_price} €
                     </ListGroup.Item>
-                    {item.info && <InfoText info={item.info} />}
+                    {item.info && (
+                        <InfoText addPrefix={true} info={item.info} />
+                    )}
                     {item.state !== ItemState.Open && (
                         <ListGroup.Item>
                             <strong>Status:</strong> {stateToStatus(item.state)}

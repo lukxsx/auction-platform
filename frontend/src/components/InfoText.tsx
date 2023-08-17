@@ -1,6 +1,12 @@
 import { ListGroup } from "react-bootstrap";
 
-const InfoText = ({ info }: { info: string }) => {
+const InfoText = ({
+    info,
+    addPrefix,
+}: {
+    info: string;
+    addPrefix: boolean;
+}) => {
     let infoData: string | object = "";
     try {
         // Check if info field is in JSON format
@@ -29,7 +35,11 @@ const InfoText = ({ info }: { info: string }) => {
         // Render as text
         return (
             <ListGroup.Item>
-                <strong>Info:</strong> {infoData}
+                {(addPrefix && (
+                    <>
+                        <strong>Info:</strong> {infoData}
+                    </>
+                )) || <>{infoData}</>}
             </ListGroup.Item>
         );
     }
