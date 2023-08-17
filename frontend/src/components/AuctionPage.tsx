@@ -1,17 +1,22 @@
 import { useState } from "react";
-import { useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate, useParams } from "react-router-dom";
 import { Container, ListGroup, Button } from "react-bootstrap";
 import { selectAuctionById } from "../reducers/auctions";
 import { RootState } from "../types";
-import { formatDate } from "../utils/helpers";
+import { formatDate, isAdmin } from "../utils/helpers";
+import { deleteAuction } from "../reducers/auctions";
 import ItemList from "./ItemList";
 import AddItem from "./AddItem";
-import { isAdmin } from "../utils/helpers";
 import EditAuction from "./EditAuction";
+import AlertModal from "./AlertModal";
+import auctionService from "../services/auctions";
+import ErrorHandlingService from "../services/errors";
 
 const AuctionPage = () => {
     let { id } = useParams();
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
     const auctionId = parseInt(id as string, 10);
     const auction = useSelector((state: RootState) =>
         selectAuctionById(state, auctionId)
@@ -19,11 +24,23 @@ const AuctionPage = () => {
 
     const [showItemAddForm, setShowItemAddForm] = useState(false);
     const [showEditAuctionForm, setShowEditAuctionForm] = useState(false);
+    const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
 
     if (!auction) return <p>Loading...</p>;
 
+    const handleDelete = async () => {
+        try {
+            await auctionService.deleteAuction(auction);
+            dispatch(deleteAuction(auction.id));
+            navigate("/");
+        } catch (error) {
+            ErrorHandlingService.handleError(error);
+        }
+    };
+
     return (
         <Container>
+            {/* Form modals that can be launched */}
             <AddItem
                 show={showItemAddForm}
                 close={() => setShowItemAddForm(false)}
@@ -34,6 +51,17 @@ const AuctionPage = () => {
                 close={() => setShowEditAuctionForm(false)}
                 auction={auction}
             />
+            <AlertModal
+                show={showDeleteConfirm}
+                close={() => setShowDeleteConfirm(false)}
+                action={() => handleDelete()}
+                title="Are you sure?"
+                message={
+                    "Do you really want to delete auction " + auction.name + "?"
+                }
+            />
+
+            {/* Auction details */}
             <ListGroup>
                 <h1>{auction.name}</h1>
                 <h4>
@@ -49,7 +77,13 @@ const AuctionPage = () => {
                     <Button onClick={() => setShowItemAddForm(true)}>
                         Add items
                     </Button>{" "}
-                    <Button>Download report</Button>
+                    <Button>Download report</Button>{" "}
+                    <Button
+                        variant="danger"
+                        onClick={() => setShowDeleteConfirm(true)}
+                    >
+                        Delete auction
+                    </Button>
                 </div>
             )}
 

@@ -35,9 +35,18 @@ const updateAuction = async (auctionId: number, updateWith: AuctionUpdate) => {
         .executeTakeFirstOrThrow();
 };
 
+// Delete auction
+const deleteAuction = async (auctionId: number) => {
+    return await db
+        .deleteFrom("auction")
+        .where("auction.id", "=", auctionId)
+        .executeTakeFirstOrThrow();
+};
+
 export default {
     getAuctions,
     getAuctionById,
     createAuction,
     updateAuction,
+    deleteAuction,
 };

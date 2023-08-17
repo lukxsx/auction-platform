@@ -11,6 +11,9 @@ const auctionSlice = createSlice({
         setAuctions(state, action) {
             return action.payload;
         },
+        deleteAuction(state, action) {
+            return state.filter((auction) => auction.id !== action.payload);
+        },
         updateAuction(
             state,
             action: PayloadAction<{
@@ -29,6 +32,6 @@ const auctionSlice = createSlice({
 export const selectAuctionById = (state: RootState, auctionId: number) =>
     state.auctions.find((i) => i.id === auctionId);
 
-export const { setAuctions, createAuction, updateAuction } =
+export const { setAuctions, createAuction, updateAuction, deleteAuction } =
     auctionSlice.actions;
 export default auctionSlice.reducer;

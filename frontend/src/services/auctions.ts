@@ -30,8 +30,14 @@ const updateAuction = async (auctionUpdate: Auction) => {
     );
     return response.data;
 };
+
+const deleteAuction = async (auction: Auction) => {
+    await axios.delete(`${BACKEND_URL}/auctions/${auction.id}`, headers());
+};
+
 export default {
     getAll,
     createAuction,
     updateAuction,
+    deleteAuction,
 };

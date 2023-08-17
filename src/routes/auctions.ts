@@ -68,4 +68,19 @@ router.put("/:auctionId", isAdmin, async (req, res) => {
     }
 });
 
+// Delete auction
+router.delete("/:auctionId", isAdmin, async (req, res) => {
+    try {
+        const auctionId = parseInt(req.params.auctionId, 10);
+        await auctionService.deleteAuction(auctionId);
+        res.status(200).send();
+    } catch (error: unknown) {
+        let errorMessage = "Error deleting auction";
+        if (error instanceof Error) {
+            errorMessage += ": " + error.message;
+        }
+        res.status(400).send({ error: errorMessage });
+    }
+});
+
 export default router;
