@@ -48,3 +48,10 @@ export const stateToStatus = (state: string): string => {
             return "";
     }
 };
+
+export const capitalize = (input: string): string => {
+    if (input.length === 0) {
+        return input;
+    }
+    return input[0].toUpperCase() + input.slice(1);
+};

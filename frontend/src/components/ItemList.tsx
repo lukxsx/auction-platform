@@ -1,5 +1,4 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Tab, Tabs } from "react-bootstrap";
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { setItems, selectItemsByAuctionId } from "../reducers/items";
@@ -13,15 +12,16 @@ import ErrorHandlingService from "../services/errors";
 const ItemList = ({
     auctionId,
     auctionState, // Used for showind different fields based on the current state
+    view, // Card or table view?
 }: {
     auctionId: number;
     auctionState: AuctionState;
+    view: string;
 }) => {
     const dispatch = useDispatch();
     const items = useSelector(selectItemsByAuctionId(auctionId));
 
     const [selectedItemId, setSelectedItemId] = useState(0); // modal is hidden when 0
-    const [view, setView] = useState("cards");
 
     // Fetch items of this auction
     useEffect(() => {
@@ -46,14 +46,6 @@ const ItemList = ({
 
     return (
         <>
-            <Tabs
-                activeKey={view}
-                onSelect={(k) => setView(k as string)}
-                className="mb-3"
-            >
-                <Tab eventKey="cards" title="Card view"></Tab>
-                <Tab eventKey="table" title="List view"></Tab>
-            </Tabs>
             <ItemView
                 items={items}
                 itemId={selectedItemId}

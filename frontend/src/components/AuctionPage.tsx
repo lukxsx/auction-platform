@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import { Container, ListGroup, Button } from "react-bootstrap";
+import { Container, Button, Badge, Card, Tabs, Tab } from "react-bootstrap";
 import { selectAuctionById } from "../reducers/auctions";
-import { RootState } from "../types";
-import { formatDate, isAdmin } from "../utils/helpers";
+import { AuctionState, RootState } from "../types";
+import { capitalize, formatDate, isAdmin } from "../utils/helpers";
 import { deleteAuction } from "../reducers/auctions";
 import ItemList from "./ItemList";
 import AddItem from "./AddItem";
@@ -25,6 +25,7 @@ const AuctionPage = () => {
     const [showItemAddForm, setShowItemAddForm] = useState(false);
     const [showEditAuctionForm, setShowEditAuctionForm] = useState(false);
     const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+    const [view, setView] = useState("cards");
 
     if (!auction) return <p>Loading...</p>;
 
@@ -64,35 +65,69 @@ const AuctionPage = () => {
             />
 
             {/* Auction details */}
-            <ListGroup>
-                <h1>{auction.name}</h1>
-                <h4>
-                    {formatDate(auction.start_date, false)} —{" "}
-                    {formatDate(auction.end_date, false)}
-                </h4>
-            </ListGroup>
-
-            {/* Admin buttons */}
-            {isAdmin() && (
-                <div className="mb-3">
-                    <Button onClick={() => setShowEditAuctionForm(true)}>
-                        Edit auction
-                    </Button>{" "}
-                    <Button onClick={() => setShowItemAddForm(true)}>
-                        Add item
-                    </Button>{" "}
-                    <Button>Download report</Button>{" "}
-                    <Button
-                        variant="danger"
-                        onClick={() => setShowDeleteConfirm(true)}
+            <Card>
+                <Card.Header>
+                    <div style={{ fontSize: "16pt" }}>
+                        <strong>{auction.name}</strong>{" "}
+                        <Badge
+                            bg={
+                                auction.state === AuctionState.Running
+                                    ? "success"
+                                    : "secondary"
+                            }
+                            pill
+                        >
+                            {capitalize(auction.state)}
+                        </Badge>
+                    </div>
+                    <Badge bg="secondary">
+                        Starts: {formatDate(auction.start_date, false)}
+                    </Badge>{" "}
+                    <Badge bg="secondary" className="mb-2">
+                        Ends: {formatDate(auction.end_date, false)}
+                    </Badge>
+                    {/* Admin buttons */}
+                    {isAdmin() && (
+                        <div className="mb-2">
+                            <Button
+                                size="sm"
+                                onClick={() => setShowEditAuctionForm(true)}
+                            >
+                                Edit auction
+                            </Button>{" "}
+                            <Button
+                                size="sm"
+                                onClick={() => setShowItemAddForm(true)}
+                            >
+                                Add item
+                            </Button>{" "}
+                            <Button size="sm">Download report</Button>{" "}
+                            <Button
+                                size="sm"
+                                variant="danger"
+                                onClick={() => setShowDeleteConfirm(true)}
+                            >
+                                Delete auction
+                            </Button>
+                        </div>
+                    )}
+                    <Tabs
+                        activeKey={view}
+                        onSelect={(k) => setView(k as string)}
                     >
-                        Delete auction
-                    </Button>
-                </div>
-            )}
-
-            {/* Actual item list */}
-            <ItemList auctionId={auctionId} auctionState={auction.state} />
+                        <Tab eventKey="cards" title="Card view"></Tab>
+                        <Tab eventKey="table" title="List view"></Tab>
+                    </Tabs>
+                </Card.Header>
+                <Card.Body>
+                    {/* Actual item list */}
+                    <ItemList
+                        view={view}
+                        auctionId={auctionId}
+                        auctionState={auction.state}
+                    />
+                </Card.Body>
+            </Card>
         </Container>
     );
 };

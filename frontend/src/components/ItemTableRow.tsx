@@ -23,8 +23,8 @@ const ItemTableRow = ({
                 )}
             </td>
             <td>{stateToStatus(item.state)}</td>
-            <td>{item.starting_price}</td>
-            <td>{item.current_price}</td>
+            <td>{item.starting_price} €</td>
+            <td>{item.current_price} €</td>
             <td>{item.winner_name}</td>
             <td>
                 <Button
