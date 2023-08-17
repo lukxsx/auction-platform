@@ -12,6 +12,7 @@ const ItemTableRow = ({
 }) => {
     return (
         <tr>
+            {/*<td>{item.code}</td>*/}
             <td>{item.make}</td>
             <td>{item.model}</td>
             <td>

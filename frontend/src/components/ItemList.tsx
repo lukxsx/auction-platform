@@ -68,7 +68,11 @@ const ItemList = ({
                 />
             )}
             {view === "table" && (
-                <ItemListTable items={items} handleShowItem={handleShowItem} />
+                <ItemListTable
+                    auctionState={auctionState}
+                    items={items}
+                    handleShowItem={handleShowItem}
+                />
             )}
         </>
     );
