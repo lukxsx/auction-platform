@@ -98,3 +98,8 @@ export interface SocketUpdate {
     updateType: UpdateType;
     value: Auction | Item;
 }
+
+export interface AlertContent {
+    message: string;
+    variant: string;
+}

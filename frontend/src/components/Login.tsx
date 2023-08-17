@@ -3,21 +3,17 @@ import axios from "axios";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import {
-    Form,
-    Button,
-    InputGroup,
-    Container,
-    Card,
-    Alert,
-} from "react-bootstrap";
+import { Form, Button, InputGroup, Container, Card } from "react-bootstrap";
 import { setUser } from "../reducers/user";
 import loginService from "../services/login";
 import Notification from "./Notification";
+import Alert from "./Alert";
+import { useAlert } from "../contexts/AlertContext";
 
 const Login = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const { setAlert } = useAlert();
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
 
@@ -33,13 +29,7 @@ const Login = () => {
         } catch (error) {
             if (axios.isAxiosError(error)) {
                 const errorMsg = error.response?.data.error as string;
-                setAlertMessage(
-                    errorMsg.charAt(0).toUpperCase() + errorMsg.slice(1)
-                );
-                setTimeout(() => {
-                    setAlertMessage("");
-                }, 3000);
-                console.error(error.response);
+                setAlert(errorMsg, "danger");
             } else {
                 console.error(error);
             }
@@ -48,8 +38,6 @@ const Login = () => {
         }
     };
 
-    const [alertMessage, setAlertMessage] = useState("");
-
     return (
         <div>
             <Notification />
@@ -57,9 +45,7 @@ const Login = () => {
                 <Card>
                     <Card.Header>Login</Card.Header>
                     <Card.Body>
-                        <Alert variant="danger" show={alertMessage.length > 0}>
-                            {alertMessage}
-                        </Alert>
+                        <Alert />
                         <Form onSubmit={handleLogin}>
                             <Form.Group className="mb-3" controlId="username">
                                 <Form.Label>Username</Form.Label>

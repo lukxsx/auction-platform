@@ -34,6 +34,7 @@ const ItemView = ({
 
     const handleDelete = async () => {
         try {
+            setShowDeleteConfirm(false);
             await itemService.deleteItem(item);
             dispatch(deleteItem(item.id));
             close();

@@ -6,7 +6,8 @@ import { InfoValue, NewItem } from "../types";
 import InfoValues from "./InfoValues";
 import itemService from "../services/items";
 import ErrorHandlingService from "../services/errors";
-import { addNotification } from "../reducers/notifications";
+import Alert from "./Alert";
+import { useAlert } from "../contexts/AlertContext";
 
 const AddItem = ({
     show,
@@ -18,6 +19,7 @@ const AddItem = ({
     auctionId: number;
 }) => {
     const dispatch = useDispatch();
+    const { setAlert } = useAlert();
     const [code, setCode] = useState("");
     const [make, setMake] = useState("");
     const [model, setModel] = useState("");
@@ -59,11 +61,7 @@ const AddItem = ({
             setStartingPrice(0);
             setInfo("");
             setInfoValues([]);
-            addNotification({
-                info: "Info",
-                message: "New item addedd successfully",
-                variant: "",
-            });
+            setAlert("Successfully added new item", "success");
         } catch (error) {
             ErrorHandlingService.handleError(error);
         }
@@ -75,6 +73,7 @@ const AddItem = ({
                 <Modal.Title>Add item</Modal.Title>
             </Modal.Header>
             <Modal.Body>
+                <Alert />
                 <Form onSubmit={handleAddItem}>
                     <Form.Group className="mb-2">
                         <Form.Label>Item code</Form.Label>

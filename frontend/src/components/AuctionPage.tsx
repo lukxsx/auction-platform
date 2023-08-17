@@ -31,6 +31,7 @@ const AuctionPage = () => {
     // Code for deleting auction
     const handleDelete = async () => {
         try {
+            setShowDeleteConfirm(false);
             await auctionService.deleteAuction(auction);
             dispatch(deleteAuction(auction.id));
             navigate("/");

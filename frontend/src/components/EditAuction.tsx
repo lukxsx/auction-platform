@@ -5,7 +5,8 @@ import ErrorHandlingService from "../services/errors";
 import { Auction } from "../types";
 import { createAuction, updateAuction } from "../reducers/auctions";
 import auctionService from "../services/auctions";
-import { addNotification } from "../reducers/notifications";
+import Alert from "./Alert";
+import { useAlert } from "../contexts/AlertContext";
 
 const EditAuction = ({
     show,
@@ -17,6 +18,7 @@ const EditAuction = ({
     auction?: Auction;
 }) => {
     const dispatch = useDispatch();
+    const { setAlert } = useAlert();
     const [name, setName] = useState(auction ? auction.name : "");
     const [startTime, setStartTime] = useState(
         auction ? auction.start_date.toTimeString().slice(0, 5) : ""
@@ -75,13 +77,12 @@ const EditAuction = ({
 
                 // Dispatch the update
                 dispatch(createAuction(auctionFromApi));
-                dispatch(
-                    addNotification({
-                        title: "Info",
-                        message: "Successfully added auction",
-                        variant: "success",
-                    })
-                );
+                setAlert("Successfully added new auction", "success");
+                setName("");
+                setStartDate("");
+                setStartTime("");
+                setEndDate("");
+                setEndTime("");
             } else {
                 // Edit auction
                 // Generate and send auction update
@@ -102,13 +103,7 @@ const EditAuction = ({
 
                 // Dispatch the update
                 dispatch(updateAuction({ updatedAuction }));
-                dispatch(
-                    addNotification({
-                        title: "Info",
-                        message: "Successfully edited auction",
-                        variant: "success",
-                    })
-                );
+                close();
             }
         } catch (error) {
             ErrorHandlingService.handleError(error);
@@ -123,6 +118,7 @@ const EditAuction = ({
                 </Modal.Title>
             </Modal.Header>
             <Modal.Body>
+                <Alert />
                 <Form onSubmit={handleEditAuction}>
                     <Form.Group className="mb-2">
                         <Form.Label>Auction name</Form.Label>
