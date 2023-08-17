@@ -53,10 +53,7 @@ const Login = () => {
     return (
         <div>
             <Notification />
-            <Container
-                className="login-container"
-                style={{ marginTop: "20vw", maxWidth: "500px" }}
-            >
+            <Container style={{ marginTop: "20vw", maxWidth: "500px" }}>
                 <Card>
                     <Card.Header>Login</Card.Header>
                     <Card.Body>

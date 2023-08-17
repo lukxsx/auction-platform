@@ -21,7 +21,7 @@ const AuctionMenu = () => {
             {currentAuctions.length > 0 && (
                 <div>
                     <h4>Running auctions</h4>
-                    <ListGroup className="md-3" style={{ marginBottom: "1em" }}>
+                    <ListGroup className="mb-3">
                         {currentAuctions.map((auction) => (
                             <ListGroup.Item
                                 variant="success"
@@ -59,7 +59,7 @@ const AuctionMenu = () => {
             {upcomingAuctions.length > 0 && (
                 <div>
                     <h4>Upcoming auctions</h4>
-                    <ListGroup className="md-3" style={{ marginBottom: "1em" }}>
+                    <ListGroup className="mb-3">
                         {upcomingAuctions.map((auction) => (
                             <ListGroup.Item
                                 key={auction.id}
@@ -97,7 +97,7 @@ const AuctionMenu = () => {
             {pastAuctions.length > 0 && (
                 <div>
                     <h4>Past auctions</h4>
-                    <ListGroup className="md-3" style={{ marginBottom: "1em" }}>
+                    <ListGroup className="mb-3">
                         {pastAuctions.map((auction) => (
                             <ListGroup.Item
                                 key={auction.id}
