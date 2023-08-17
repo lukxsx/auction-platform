@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 import { Container, ListGroup, Button } from "react-bootstrap";
 import { selectAuctionById } from "../reducers/auctions";
 import { RootState } from "../types";
-import { atoi, formatDate } from "../utils/helpers";
+import { formatDate } from "../utils/helpers";
 import ItemList from "./ItemList";
 import AddItem from "./AddItem";
 import { isAdmin } from "../utils/helpers";

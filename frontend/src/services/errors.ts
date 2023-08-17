@@ -1,4 +1,6 @@
 import { isAxiosError } from "axios";
+import { store } from "../store";
+import { clearUser } from "../reducers/user";
 
 class ErrorHandlingService {
     static addErrorNotification(
@@ -27,6 +29,11 @@ class ErrorHandlingService {
         if (isAxiosError(error)) {
             // Does it contain the custom error message?
             if (error.response?.data) {
+                // Session expired
+                if (error.response.data.error === "jwt expired") {
+                    store.dispatch(clearUser());
+                    error.response.data.error = "Session expired";
+                }
                 this.addErrorNotification(
                     addNotification,
                     "Error",
