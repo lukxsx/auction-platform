@@ -61,6 +61,7 @@ export interface RootState {
     user: {
         user: LoginUser | null;
     };
+    notifications: Notification[];
 }
 
 export enum AuctionState {
@@ -78,4 +79,12 @@ export enum ItemState {
 export interface InfoValue {
     key: string;
     value: string;
+}
+
+export interface Notification {
+    id: number;
+    title: string;
+    message: string;
+    variant: string;
+    show: boolean;
 }

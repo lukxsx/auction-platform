@@ -1,8 +1,13 @@
 import { Toast, ToastContainer } from "react-bootstrap";
-import { useNotification } from "../contexts/NotificationContext";
+import { useSelector, useDispatch } from "react-redux";
+import { removeNotification } from "../reducers/notifications";
+import { RootState } from "../types";
 
 const Notification = () => {
-    const { notifications, removeNotification } = useNotification();
+    const dispatch = useDispatch();
+    const notifications = useSelector(
+        (state: RootState) => state.notifications
+    );
 
     return (
         <ToastContainer
@@ -16,7 +21,7 @@ const Notification = () => {
                     key={notification.id}
                     show={notification.show}
                     onClose={() => {
-                        removeNotification(notification.id);
+                        dispatch(removeNotification(notification.id));
                     }}
                     delay={3000}
                     autohide

@@ -28,7 +28,6 @@ const Login = () => {
             const user = await loginService.login({ username, password });
             setUsername("");
             setPassword("");
-            console.log(user);
             dispatch(setUser(user));
             navigate("/");
         } catch (error) {

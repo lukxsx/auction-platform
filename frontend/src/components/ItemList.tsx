@@ -6,7 +6,6 @@ import socketService from "../services/socket";
 import { setItems, selectItemsByAuctionId } from "../reducers/items";
 import itemService from "../services/items";
 import ItemView from "./ItemView";
-import { useNotification } from "../contexts/NotificationContext";
 import { AuctionState } from "../types";
 import ItemListCards from "./ItemListCards";
 import ItemListTable from "./ItemListTable";
@@ -19,7 +18,6 @@ const ItemList = ({
     auctionId: number;
     auctionState: AuctionState;
 }) => {
-    const { addNotification } = useNotification();
     const dispatch = useDispatch();
     const items = useSelector(selectItemsByAuctionId(auctionId));
 
@@ -32,7 +30,7 @@ const ItemList = ({
             .getAll(auctionId)
             .then((fetchedItems) => dispatch(setItems(fetchedItems)))
             .catch((error) => {
-                ErrorHandlingService.handleError(error, addNotification);
+                ErrorHandlingService.handleError(error);
             });
     }, [dispatch, auctionId]);
 

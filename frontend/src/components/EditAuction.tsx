@@ -2,10 +2,10 @@ import { SyntheticEvent, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Form, Button, Modal, InputGroup } from "react-bootstrap";
 import ErrorHandlingService from "../services/errors";
-import { useNotification } from "../contexts/NotificationContext";
 import { Auction } from "../types";
 import { updateAuction } from "../reducers/auctions";
 import auctionService from "../services/auctions";
+import { addNotification } from "../reducers/notifications";
 
 const EditAuction = ({
     show,
@@ -17,7 +17,6 @@ const EditAuction = ({
     auction: Auction;
 }) => {
     const dispatch = useDispatch();
-    const { addNotification } = useNotification();
     const [name, setName] = useState(auction.name);
     const [startTime, setStartTime] = useState(
         auction.start_date.toTimeString().slice(0, 5)
@@ -76,9 +75,15 @@ const EditAuction = ({
 
             // Dispatch the update
             dispatch(updateAuction({ updatedAuction }));
-            addNotification("Info", "Successfully edited auction", "success");
+            dispatch(
+                addNotification({
+                    title: "Info",
+                    message: "Successfully edited auction",
+                    variant: "success",
+                })
+            );
         } catch (error) {
-            ErrorHandlingService.handleError(error, addNotification);
+            ErrorHandlingService.handleError(error);
         }
     };
 

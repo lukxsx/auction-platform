@@ -8,7 +8,6 @@ import BidForm from "./BidForm";
 import InfoText from "./InfoText";
 import itemService from "../services/items";
 import ErrorHandlingService from "../services/errors";
-import { useNotification } from "../contexts/NotificationContext";
 
 const ItemView = ({
     close,
@@ -21,7 +20,6 @@ const ItemView = ({
     itemId: number;
     auctionState: AuctionState;
 }) => {
-    const { addNotification } = useNotification();
     const dispatch = useDispatch();
 
     // Select item to show
@@ -37,7 +35,7 @@ const ItemView = ({
             dispatch(deleteItem(item.id));
             close();
         } catch (error) {
-            ErrorHandlingService.handleError(error, addNotification);
+            ErrorHandlingService.handleError(error);
         }
     };
 

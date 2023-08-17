@@ -6,7 +6,7 @@ import { InfoValue, NewItem } from "../types";
 import InfoValues from "./InfoValues";
 import itemService from "../services/items";
 import ErrorHandlingService from "../services/errors";
-import { useNotification } from "../contexts/NotificationContext";
+import { addNotification } from "../reducers/notifications";
 
 const AddItem = ({
     show,
@@ -18,7 +18,6 @@ const AddItem = ({
     auctionId: number;
 }) => {
     const dispatch = useDispatch();
-    const { addNotification } = useNotification();
     const [code, setCode] = useState("");
     const [make, setMake] = useState("");
     const [model, setModel] = useState("");
@@ -60,9 +59,13 @@ const AddItem = ({
             setStartingPrice(0);
             setInfo("");
             setInfoValues([]);
-            addNotification("Info", "New item addedd successfully", "");
+            addNotification({
+                info: "Info",
+                message: "New item addedd successfully",
+                variant: "",
+            });
         } catch (error) {
-            ErrorHandlingService.handleError(error, addNotification);
+            ErrorHandlingService.handleError(error);
         }
     };
 

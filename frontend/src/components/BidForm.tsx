@@ -1,13 +1,13 @@
 import { useState, useEffect } from "react";
 import { InputGroup, Form, Button } from "react-bootstrap";
-import { useSelector } from "react-redux";
-import { useNotification } from "../contexts/NotificationContext";
+import { useDispatch, useSelector } from "react-redux";
 import ErrorHandlingService from "../services/errors";
 import { Item, RootState } from "../types";
 import bidService from "../services/bids";
+import { addNotification } from "../reducers/notifications";
 
 const BidForm = ({ item }: { item: Item }) => {
-    const { addNotification } = useNotification();
+    const dispatch = useDispatch();
     const user = useSelector((state: RootState) => state.user.user);
     const [amount, setAmount] = useState(0);
     useEffect(() => setAmount(item.current_price + 1), [item.current_price]);
@@ -23,13 +23,15 @@ const BidForm = ({ item }: { item: Item }) => {
                 user_id: user?.id,
                 price: amount,
             });
-            addNotification(
-                "Info",
-                "A new bid was added on item " + item.model,
-                ""
+            dispatch(
+                addNotification({
+                    title: "Info",
+                    message: "A new bid was added on item " + item.model,
+                    variant: "",
+                })
             );
         } catch (error) {
-            ErrorHandlingService.handleError(error, addNotification);
+            ErrorHandlingService.handleError(error);
         }
     };
 

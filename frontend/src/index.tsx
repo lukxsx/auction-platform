@@ -7,7 +7,6 @@ import { store } from "./store";
 import App from "./App";
 
 import "bootstrap/dist/css/bootstrap.min.css";
-import { NotificationProvider } from "./contexts/NotificationContext";
 //import "normalize.css";
 
 const root = ReactDOM.createRoot(
@@ -15,10 +14,8 @@ const root = ReactDOM.createRoot(
 );
 root.render(
     <Provider store={store}>
-        <NotificationProvider>
-            <Router>
-                <App />
-            </Router>
-        </NotificationProvider>
+        <Router>
+            <App />
+        </Router>
     </Provider>
 );

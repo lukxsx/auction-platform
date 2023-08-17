@@ -5,13 +5,11 @@ import { useDispatch } from "react-redux";
 import Sidebar from "./Sidebar/Sidebar";
 import Notification from "./Notification";
 import auctionService from "../services/auctions";
-import { useNotification } from "../contexts/NotificationContext";
 import { setAuctions } from "../reducers/auctions";
 import ErrorHandlingService from "../services/errors";
 
 const Layout = ({ children }: { children: ReactNode }) => {
     const dispatch = useDispatch();
-    const { addNotification } = useNotification();
 
     useEffect(() => {
         auctionService
@@ -24,7 +22,7 @@ const Layout = ({ children }: { children: ReactNode }) => {
                 dispatch(setAuctions(auctions));
             })
             .catch((error) => {
-                ErrorHandlingService.handleError(error, addNotification);
+                ErrorHandlingService.handleError(error);
             });
     }, [dispatch]);
 
