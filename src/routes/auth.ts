@@ -43,7 +43,7 @@ router.post("/login", async (req, res) => {
             };
 
             const token = sign(tokenData, process.env.JWT_SECRET, {
-                expiresIn: 60,
+                expiresIn: 7200,
             });
 
             res.json({ ...user, token, is_admin: authResult.admin });
