@@ -62,6 +62,7 @@ export interface RootState {
         user: LoginUser | null;
     };
     notifications: Notification[];
+    myBids: number[];
 }
 
 export enum AuctionState {

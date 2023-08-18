@@ -69,6 +69,7 @@ const bidOnItem = async (bidEntry: NewBid): Promise<Bid> => {
 
         // Get full list of bids
         io.emit("item:update", itemWithBids);
+        io.emit("bid:new", bidEntry);
 
         return newBid;
     } catch (error: unknown) {
