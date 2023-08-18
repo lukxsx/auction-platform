@@ -11,6 +11,7 @@ import {
     UpdateType,
 } from "../types";
 import { addNotification } from "../reducers/notifications";
+import { SOCKET_IO_ADDR } from "../utils/config";
 
 const sendNotification = (title: string, message: string, variant: string) => {
     store.dispatch(
@@ -26,7 +27,7 @@ class SocketService {
     private socket: Socket | null = null;
 
     connect() {
-        this.socket = io("http://localhost:3001");
+        this.socket = io(SOCKET_IO_ADDR);
         this.setupListeners();
     }
 

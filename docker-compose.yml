@@ -1,0 +1,40 @@
+version: "3"
+services:
+  auctions-app:
+    image: lukxsx/auctions
+    container_name: auctions-app
+    ports:
+      - 3000:3000
+    environment:
+      - JWT_SECRET=EVu2zTfUuqZ5c4kUg6dP2NZWbjNtow32
+      - ADMIN_USERNAME=admin
+      - ADMIN_PASSWORD=adminpass
+      - DB_HOST=auctions-db
+      - DB_USER=auctions
+      - DB_PASS=P3TvcBc3gN6CFUgUyqja8uOoslIXPWsh
+      - DB_NAME=auctions
+    depends_on:
+      auctions-db:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+      - auctions-network
+  auctions-db:
+    image: postgres:15
+    container_name: auctions-db
+    environment:
+      - POSTGRES_USER=auctions
+      - POSTGRES_PASSWORD=P3TvcBc3gN6CFUgUyqja8uOoslIXPWsh
+      - POSTGRES_DB=auctions
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+    networks:
+      - auctions-network
+
+networks:
+  auctions-network:
+

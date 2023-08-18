@@ -3,8 +3,8 @@ FROM node:lts-alpine AS base
 FROM base AS frontend-builder
 WORKDIR /frontend
 COPY ./frontend .
-ENV REACT_APP_BACKEND_URL="http://localhost:3000/api"
-ENV REACT_APP_SOCKET_IO_ADDR="http://localhost:3000"
+ENV REACT_APP_BACKEND_URL="/api"
+ENV REACT_APP_SOCKET_IO_ADDR="/"
 RUN npm ci && npm run build
 
 FROM base AS backend-builder
