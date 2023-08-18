@@ -48,13 +48,6 @@ createTables()
 //     .then(() => console.log("test data created"))
 //     .catch((e) => console.error(e));
 
-if (process.env.NODE_ENV === "production") {
-    app.use(express.static(path.join(__dirname, "frontend")));
-    app.get("/", (_req, res) => {
-        res.sendFile(path.join(__dirname, "frontend", "index.html"));
-    });
-}
-
 schedule("*/5 * * * * *", () => {
     checkAuctions()
         .then()
@@ -66,9 +59,12 @@ app.use("/api/auth", authRouter);
 app.use("/api/bids", bidsRouter);
 app.use("/api/auctions", auctionRouter);
 
-app.get("/ping", (_req, res) => {
-    res.send("pong");
-});
+if (process.env.NODE_ENV === "production") {
+    app.use(express.static(path.join(__dirname, "frontend")));
+    app.get("*", (_req, res) => {
+        res.sendFile(path.join(__dirname, "frontend", "index.html"));
+    });
+}
 
 app.use((_req, res) => {
     res.status(404).json({ error: "not found" });
