@@ -5,6 +5,7 @@ import { createServer } from "http";
 import express from "express";
 import * as dotenv from "dotenv";
 import cors from "cors";
+import path from "path";
 import morgan from "morgan";
 import { schedule } from "node-cron";
 import { createTables /*createTestData*/ } from "./database";
@@ -46,6 +47,13 @@ createTables()
 // createTestData()
 //     .then(() => console.log("test data created"))
 //     .catch((e) => console.error(e));
+
+if (process.env.NODE_ENV === "production") {
+    app.use(express.static(path.join(__dirname, "frontend")));
+    app.get("/", (_req, res) => {
+        res.sendFile(path.join(__dirname, "frontend", "index.html"));
+    });
+}
 
 schedule("*/5 * * * * *", () => {
     checkAuctions()

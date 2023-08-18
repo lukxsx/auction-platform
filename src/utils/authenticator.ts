@@ -1,6 +1,11 @@
 // hard-coded user accounts for testing
 import { AuthResult } from "types";
-const users = [{ username: "localuser", password: "test" }];
+const users = [
+    { username: "localuser", password: "test" },
+    { username: "test1", password: "password" },
+    { username: "test2", password: "password" },
+    { username: "test3", password: "password" },
+];
 
 export const authenticate = (
     username: string,

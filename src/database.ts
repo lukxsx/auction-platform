@@ -4,14 +4,10 @@
 import { Pool } from "pg";
 import { Kysely, PostgresDialect, sql } from "kysely";
 import { Database, AuctionState, ItemState } from "./types";
+import { DATABASE_CREDENTIALS } from "./utils/config";
 
 const dialect = new PostgresDialect({
-    pool: new Pool({
-        host: "localhost",
-        database: "kysely_test",
-        user: "username",
-        password: "password",
-    }),
+    pool: new Pool(DATABASE_CREDENTIALS),
 });
 
 // Kysely instance for queries
