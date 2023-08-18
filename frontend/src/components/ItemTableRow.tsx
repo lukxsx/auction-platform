@@ -1,14 +1,16 @@
 import { Button } from "react-bootstrap";
-import { Item } from "../types";
+import { AuctionState, Item } from "../types";
 import InfoText from "./InfoText";
 import { stateToStatus } from "../utils/helpers";
 
 const ItemTableRow = ({
     item,
     handleShowItem,
+    auctionState,
 }: {
     item: Item;
     handleShowItem: (itemId: number) => void;
+    auctionState: AuctionState;
 }) => {
     return (
         <tr>
@@ -22,7 +24,11 @@ const ItemTableRow = ({
                     ""
                 )}
             </td>
-            <td>{stateToStatus(item.state)}</td>
+            <td>
+                {auctionState === AuctionState.Pending
+                    ? "Waiting"
+                    : stateToStatus(item.state)}
+            </td>
             <td>{item.starting_price} €</td>
             <td>{item.current_price} €</td>
             <td>{item.winner_name}</td>

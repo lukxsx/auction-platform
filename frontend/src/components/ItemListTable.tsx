@@ -36,6 +36,7 @@ const ItemListTable = ({
                             key={item.id.toString()}
                             item={item}
                             handleShowItem={handleShowItem}
+                            auctionState={auctionState}
                         />
                     ))}
                 </tbody>
