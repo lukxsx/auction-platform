@@ -1,6 +1,5 @@
-import { useSelector } from "react-redux";
-import { Card, ListGroup, Button } from "react-bootstrap";
-import { Item, ItemState, RootState, AuctionState } from "../types";
+import { Card, ListGroup, Button, Badge } from "react-bootstrap";
+import { Item, ItemState, AuctionState, LoginUser } from "../types";
 import { stateToStatus, myBidStatus } from "../utils/helpers";
 import InfoText from "./InfoText";
 
@@ -8,12 +7,13 @@ const ItemCard = ({
     item,
     handleShowItem,
     auctionState,
+    user,
 }: {
     item: Item;
     handleShowItem: (itemId: number) => void;
     auctionState: AuctionState;
+    user: LoginUser;
 }) => {
-    const user = useSelector((state: RootState) => state.user.user);
     return (
         <Card border={myBidStatus(user, item)}>
             <Card.Body>
@@ -36,14 +36,17 @@ const ItemCard = ({
                         </ListGroup.Item>
                     )}
                     {/* If auction is still ongoing, show highest bidder, otherwise show winner */}
-                    {item.state === ItemState.Open && item.winner_name && (
+                    {item.winner_name && (
                         <ListGroup.Item>
-                            <strong>Highest bidder:</strong> {item.winner_name}
-                        </ListGroup.Item>
-                    )}
-                    {item.state === ItemState.Sold && (
-                        <ListGroup.Item>
-                            <strong>Winner:</strong> {item.winner_name}
+                            {item.state === ItemState.Open ? (
+                                <strong>Highest bidder:</strong>
+                            ) : (
+                                <strong>Winner:</strong>
+                            )}{" "}
+                            {item.winner_name}{" "}
+                            {user && item.winner_id === user.id && (
+                                <Badge pill>You</Badge>
+                            )}
                         </ListGroup.Item>
                     )}
                 </ListGroup>

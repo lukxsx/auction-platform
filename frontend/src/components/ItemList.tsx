@@ -2,7 +2,7 @@
 import { useEffect, useState, useMemo } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { AuctionState } from "../types";
+import { AuctionState, RootState } from "../types";
 import { setItems, selectItemsByAuctionId } from "../reducers/items";
 import itemService from "../services/items";
 import ErrorHandlingService from "../services/errors";
@@ -27,14 +27,13 @@ const ItemList = ({
 }) => {
     const dispatch = useDispatch();
     const items = useSelector(selectItemsByAuctionId(auctionId));
+    const user = useSelector((state: RootState) => state.user.user);
     const navigate = useNavigate();
     let query = useQuery();
 
     // Check if ?item query parameter was given
     const itemParamString = query.get("item");
     let itemParam = itemParamString ? parseInt(itemParamString, 10) : 0;
-    console.log("ITEM:");
-    console.log();
 
     const [selectedItemId, setSelectedItemId] = useState(itemParam); // modal is hidden when 0
 
@@ -65,6 +64,9 @@ const ItemList = ({
         navigate(`/auction/${auctionId}`);
     };
 
+    // Make sure user exists
+    if (!user) return <></>;
+
     return (
         <>
             <ItemView
@@ -72,12 +74,14 @@ const ItemList = ({
                 itemId={selectedItemId}
                 close={closeItemView}
                 auctionState={auctionState}
+                user={user}
             />
             {view === "cards" && (
                 <ItemListCards
                     auctionState={auctionState}
                     items={items}
                     handleShowItem={handleShowItem}
+                    user={user}
                 />
             )}
             {view === "table" && (
@@ -85,6 +89,7 @@ const ItemList = ({
                     auctionState={auctionState}
                     items={items}
                     handleShowItem={handleShowItem}
+                    user={user}
                 />
             )}
         </>

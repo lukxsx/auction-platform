@@ -1,16 +1,18 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Container, Row, Col } from "react-bootstrap";
-import { AuctionState, Item } from "../types";
+import { AuctionState, Item, LoginUser } from "../types";
 import ItemCard from "./ItemCard";
 
 const ItemListCards = ({
     items,
     handleShowItem,
     auctionState,
+    user,
 }: {
     items: Item[];
     handleShowItem: (itemId: number) => void;
     auctionState: AuctionState;
+    user: LoginUser;
 }) => {
     return (
         <Container className="mt-4">
@@ -21,6 +23,7 @@ const ItemListCards = ({
                             item={item}
                             handleShowItem={handleShowItem}
                             auctionState={auctionState}
+                            user={user}
                         />
                     </Col>
                 ))}

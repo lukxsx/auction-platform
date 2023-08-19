@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Modal, ListGroup, Button, Badge } from "react-bootstrap";
-import { useDispatch, useSelector } from "react-redux";
-import { AuctionState, Item, ItemState, RootState, WinStatus } from "../types";
+import { useDispatch } from "react-redux";
+import { AuctionState, Item, ItemState, LoginUser, WinStatus } from "../types";
 import { deleteItem } from "../reducers/items";
 import ErrorHandlingService from "../services/errors";
 import { isAdmin, myBidStatus, stateToStatus, winText } from "../utils/helpers";
@@ -16,14 +16,16 @@ const ItemView = ({
     items, // A list of all items in the auction
     itemId, // Selector for which item to show
     auctionState, // For checking if the auction is still running
+    user,
 }: {
     close: () => void;
     items: Item[];
     itemId: number;
     auctionState: AuctionState;
+    user: LoginUser;
 }) => {
     const dispatch = useDispatch();
-    const user = useSelector((state: RootState) => state.user.user);
+
     const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
 
     // Select item to show

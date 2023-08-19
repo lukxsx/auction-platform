@@ -1,16 +1,18 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Container, Table } from "react-bootstrap";
-import { Item, AuctionState } from "../types";
+import { Item, AuctionState, LoginUser } from "../types";
 import ItemTableRow from "./ItemTableRow";
 
 const ItemListTable = ({
     items,
     handleShowItem,
     auctionState,
+    user,
 }: {
     items: Item[];
     handleShowItem: (itemId: number) => void;
     auctionState: AuctionState;
+    user: LoginUser;
 }) => {
     return (
         <Container className="mt-4">
@@ -37,6 +39,7 @@ const ItemListTable = ({
                             item={item}
                             handleShowItem={handleShowItem}
                             auctionState={auctionState}
+                            user={user}
                         />
                     ))}
                 </tbody>
