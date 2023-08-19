@@ -143,6 +143,15 @@ const deleteItem = async (itemId: number) => {
         .executeTakeFirstOrThrow();
 };
 
+// Get items where specific user is currently a winner
+const getWonItemsByUser = async (userId: number) => {
+    return await db
+        .selectFrom("item")
+        .where("item.winner_id", "=", userId)
+        .selectAll()
+        .execute();
+};
+
 export default {
     getAllItems,
     getItemById,
@@ -151,4 +160,5 @@ export default {
     updateItem,
     createItem,
     deleteItem,
+    getWonItemsByUser,
 };

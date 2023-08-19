@@ -36,9 +36,18 @@ const deleteItem = async (item: Item) => {
     );
 };
 
+const getWonItemsByUser = async (userId: number) => {
+    const response = await axios.get<Item[]>(
+        `${BACKEND_URL}/users/${userId}/wins`,
+        headers()
+    );
+    return response.data;
+};
+
 export default {
     getAll,
     getBids,
     addItem,
     deleteItem,
+    getWonItemsByUser,
 };

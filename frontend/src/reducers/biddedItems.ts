@@ -10,8 +10,11 @@ const biddedItemsSlice = createSlice({
         deleteItem: (state, action) => {
             return state.filter((i) => i !== action.payload);
         },
+        setItems: (state, action) => {
+            return action.payload;
+        },
     },
 });
 
-export const { addItem, deleteItem } = biddedItemsSlice.actions;
+export const { addItem, deleteItem, setItems } = biddedItemsSlice.actions;
 export default biddedItemsSlice.reducer;
