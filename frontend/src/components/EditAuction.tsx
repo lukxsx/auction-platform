@@ -83,6 +83,7 @@ const EditAuction = ({
                 setStartTime("");
                 setEndDate("");
                 setEndTime("");
+                close();
             } else {
                 // Edit auction
                 // Generate and send auction update

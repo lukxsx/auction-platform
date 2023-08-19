@@ -98,7 +98,7 @@ const AuctionPage = () => {
                                 size="sm"
                                 onClick={() => setShowItemAddForm(true)}
                             >
-                                Add item
+                                Add a new item
                             </Button>{" "}
                             <Button size="sm">Download report</Button>{" "}
                             <Button
