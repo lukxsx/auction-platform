@@ -7,7 +7,9 @@
         "tsc": "tsc",
         "dev": "ts-node-dev src/index.ts",
         "lint": "eslint --ext .ts .",
-        "start": "node build/index.js"
+        "start": "node build/index.js",
+        "install-frontend": "cd frontend && npm ci",
+        "build-frontend": "cd frontend && npm run build"
     },
     "author": "",
     "license": "ISC",
