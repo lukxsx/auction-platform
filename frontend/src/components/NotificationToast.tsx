@@ -1,7 +1,8 @@
-import { Toast, ToastContainer } from "react-bootstrap";
+import { Button, Toast, ToastContainer } from "react-bootstrap";
 import { useSelector, useDispatch } from "react-redux";
 import { removeNotification } from "../reducers/notifications";
 import { RootState } from "../types";
+import { Link } from "react-router-dom";
 
 const Notification = () => {
     const dispatch = useDispatch();
@@ -31,7 +32,20 @@ const Notification = () => {
                             {notification.title}
                         </strong>
                     </Toast.Header>
-                    <Toast.Body>{notification.message}</Toast.Body>
+                    <Toast.Body>
+                        {notification.message}{" "}
+                        {notification.link && (
+                            <Link to={notification.link}>
+                                <Button
+                                    className="mt-1"
+                                    variant="secondary"
+                                    size="sm"
+                                >
+                                    View
+                                </Button>
+                            </Link>
+                        )}
+                    </Toast.Body>
                 </Toast>
             ))}
         </ToastContainer>

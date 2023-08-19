@@ -13,14 +13,20 @@ import {
 } from "../types";
 import { addNotification } from "../reducers/notifications";
 import { SOCKET_IO_ADDR } from "../utils/config";
-import { addItem, deleteItem } from "../reducers/biddedItems";
+import { addItem, deleteItem } from "../reducers/highestBids";
 
-const sendNotification = (title: string, message: string, variant: string) => {
+const sendNotification = (
+    title: string,
+    message: string,
+    variant: string,
+    link?: string
+) => {
     store.dispatch(
         addNotification({
             title,
             message,
             variant,
+            link,
         })
     );
 };
@@ -57,7 +63,8 @@ class SocketService {
                                 bid.username +
                                 " on item " +
                                 item?.model,
-                            ""
+                            "info",
+                            `/auction/${bid.auction_id}?item=${bid.item_id}`
                         );
                         store.dispatch(deleteItem(bid.item_id));
                     }

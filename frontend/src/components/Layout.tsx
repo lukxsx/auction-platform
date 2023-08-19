@@ -7,9 +7,9 @@ import itemService from "../services/items";
 import socketService from "../services/socket";
 import ErrorHandlingService from "../services/errors";
 import { setAuctions } from "../reducers/auctions";
-import { setItems } from "../reducers/biddedItems";
+import { setItems } from "../reducers/highestBids";
 import { RootState } from "../types";
-import Notification from "./Notification";
+import Notification from "./NotificationToast";
 import NavBar from "./NavBar";
 
 const Layout = ({ children }: { children: ReactNode }) => {

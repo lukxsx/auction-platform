@@ -6,7 +6,7 @@ import axios from "axios";
 import { useAlert } from "../contexts/AlertContext";
 import { setUser } from "../reducers/user";
 import loginService from "../services/login";
-import Notification from "./Notification";
+import Notification from "./NotificationToast";
 import Alert from "./Alert";
 
 const Login = () => {

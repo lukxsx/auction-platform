@@ -1,5 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { AuctionState } from "../types";
 import { setItems, selectItemsByAuctionId } from "../reducers/items";
@@ -8,6 +9,12 @@ import ErrorHandlingService from "../services/errors";
 import ItemView from "./ItemView";
 import ItemListCards from "./ItemListCards";
 import ItemListTable from "./ItemListTable";
+
+// https://v5.reactrouter.com/web/example/query-parameters
+const useQuery = () => {
+    const { search } = useLocation();
+    return useMemo(() => new URLSearchParams(search), [search]);
+};
 
 const ItemList = ({
     auctionId,
@@ -20,8 +27,19 @@ const ItemList = ({
 }) => {
     const dispatch = useDispatch();
     const items = useSelector(selectItemsByAuctionId(auctionId));
+    const navigate = useNavigate();
+    let query = useQuery();
 
-    const [selectedItemId, setSelectedItemId] = useState(0); // modal is hidden when 0
+    // Check if ?item query parameter was given
+    const itemParamString = query.get("item");
+    let itemParam = itemParamString ? parseInt(itemParamString, 10) : 0;
+    console.log("ITEM:");
+    console.log();
+
+    const [selectedItemId, setSelectedItemId] = useState(itemParam); // modal is hidden when 0
+
+    // Change item if ?item param changes
+    useEffect(() => setSelectedItemId(itemParam), [itemParam]);
 
     // Fetch items of this auction
     useEffect(() => {
@@ -42,7 +60,10 @@ const ItemList = ({
     };
 
     // Close item view modal
-    const closeItemView = () => setSelectedItemId(0);
+    const closeItemView = () => {
+        setSelectedItemId(0);
+        navigate(`/auction/${auctionId}`);
+    };
 
     return (
         <>

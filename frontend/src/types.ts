@@ -88,6 +88,7 @@ export interface Notification {
     message: string;
     variant: string;
     show: boolean;
+    link?: string;
 }
 
 export enum UpdateType {

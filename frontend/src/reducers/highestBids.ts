@@ -1,6 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const biddedItemsSlice = createSlice({
+// Store user's highest bids
+// (or basically IDs of items where the user is the top bidder)
+const highestBids = createSlice({
     name: "biddedItems",
     initialState: [] as number[],
     reducers: {
@@ -16,5 +18,5 @@ const biddedItemsSlice = createSlice({
     },
 });
 
-export const { addItem, deleteItem, setItems } = biddedItemsSlice.actions;
-export default biddedItemsSlice.reducer;
+export const { addItem, deleteItem, setItems } = highestBids.actions;
+export default highestBids.reducer;
