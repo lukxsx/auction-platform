@@ -1,25 +1,58 @@
 import { Card, ListGroup, Button, Badge } from "react-bootstrap";
 import { Item, ItemState, AuctionState, LoginUser } from "../types";
 import { stateToStatus, myBidStatus } from "../utils/helpers";
+import { BsStar, BsStarFill } from "react-icons/bs";
+import { addFavorite } from "../reducers/favorites";
 import InfoText from "./InfoText";
+import "./favorite.css";
+import { useDispatch } from "react-redux";
 
 const ItemCard = ({
     item,
     handleShowItem,
     auctionState,
     user,
+    favorite,
 }: {
     item: Item;
     handleShowItem: (itemId: number) => void;
     auctionState: AuctionState;
     user: LoginUser;
+    favorite: boolean;
 }) => {
+    const dispatch = useDispatch();
+    const handleSetFavorite = () => {
+        console.log("adding", item.id, "as favorite");
+        dispatch(addFavorite(item.id));
+    };
+
     return (
         <Card border={myBidStatus(user, item)}>
             <Card.Body>
-                <Card.Title>{item.model}</Card.Title>
+                <div className="d-flex justify-content-between align-items-center">
+                    <div>
+                        <Card.Title>{item.model}</Card.Title>
+                    </div>
+                    <input
+                        type="checkbox"
+                        id="starCheckbox"
+                        checked={favorite}
+                        onChange={(e) => {
+                            console.log(e.target.checked);
+                            console.log(item.id);
+                            handleSetFavorite();
+                        }}
+                    />
+                    <label htmlFor="starCheckbox" className="star-label">
+                        {favorite ? (
+                            <BsStarFill size="1.5em" />
+                        ) : (
+                            <BsStar size="1.5em" />
+                        )}
+                    </label>
+                </div>
+
                 <Card.Subtitle>{item.make}</Card.Subtitle>
-                <hr />
                 <ListGroup className="list-group-flush">
                     <ListGroup.Item>
                         <strong>Starting price:</strong> {item.starting_price} €

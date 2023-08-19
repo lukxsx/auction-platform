@@ -4,7 +4,8 @@ import itemReducer from "./reducers/items";
 import userReducer from "./reducers/user";
 import notificationReducer from "./reducers/notifications";
 import localStorageMiddleware from "./reducers/middleware";
-import biddedItemsReducer from "./reducers/highestBids";
+import highestBidsReducer from "./reducers/highestBids";
+import favoriteReducer from "./reducers/favorites";
 
 export const store = configureStore({
     reducer: {
@@ -12,7 +13,8 @@ export const store = configureStore({
         items: itemReducer,
         user: userReducer,
         notifications: notificationReducer,
-        biddedItems: biddedItemsReducer,
+        highestBids: highestBidsReducer,
+        favorites: favoriteReducer,
     },
     middleware: [localStorageMiddleware],
 });

@@ -28,8 +28,10 @@ const ItemList = ({
     const dispatch = useDispatch();
     const items = useSelector(selectItemsByAuctionId(auctionId));
     const user = useSelector((state: RootState) => state.user.user);
+    const favoriteIds = useSelector((state: RootState) => state.favorites);
     const navigate = useNavigate();
     let query = useQuery();
+    console.log("FIDs:", favoriteIds);
 
     // Check if ?item query parameter was given
     const itemParamString = query.get("item");
@@ -37,7 +39,7 @@ const ItemList = ({
 
     const [selectedItemId, setSelectedItemId] = useState(itemParam); // modal is hidden when 0
 
-    // Change item if ?item param changes
+    // Change item if item param changes
     useEffect(() => setSelectedItemId(itemParam), [itemParam]);
 
     // Fetch items of this auction
@@ -49,8 +51,6 @@ const ItemList = ({
                 ErrorHandlingService.handleError(error);
             });
     }, [dispatch, auctionId]);
-
-    // Listen on a websocket to catch new updates
 
     // Show the item view modal
     const handleShowItem = (itemId: number) => {
@@ -82,6 +82,7 @@ const ItemList = ({
                     items={items}
                     handleShowItem={handleShowItem}
                     user={user}
+                    favoriteIds={favoriteIds}
                 />
             )}
             {view === "table" && (
@@ -90,6 +91,7 @@ const ItemList = ({
                     items={items}
                     handleShowItem={handleShowItem}
                     user={user}
+                    favoriteIds={favoriteIds}
                 />
             )}
         </>

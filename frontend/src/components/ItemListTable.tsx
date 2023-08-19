@@ -8,11 +8,13 @@ const ItemListTable = ({
     handleShowItem,
     auctionState,
     user,
+    favoriteIds,
 }: {
     items: Item[];
     handleShowItem: (itemId: number) => void;
     auctionState: AuctionState;
     user: LoginUser;
+    favoriteIds: number[];
 }) => {
     return (
         <Container className="mt-4">

@@ -51,9 +51,9 @@ class SocketService {
             });
 
             this.socket.on("bid:new", (bid: Bid) => {
-                const { user, biddedItems } = store.getState();
+                const { user, highestBids } = store.getState();
                 if (user.user && bid.username !== user.user.name) {
-                    if (biddedItems.includes(bid.item_id)) {
+                    if (highestBids.includes(bid.item_id)) {
                         const item = store
                             .getState()
                             .items.find((i) => i.id === bid.item_id);

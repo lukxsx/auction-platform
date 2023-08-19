@@ -63,6 +63,7 @@ export interface RootState {
     };
     notifications: Notification[];
     myBids: number[];
+    favorites: number[];
 }
 
 export enum AuctionState {
