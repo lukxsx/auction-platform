@@ -1,10 +1,10 @@
 import { useState } from "react";
-import { Modal, ListGroup, Button } from "react-bootstrap";
-import { useDispatch } from "react-redux";
-import { AuctionState, Item, ItemState } from "../types";
+import { Modal, ListGroup, Button, Badge } from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
+import { AuctionState, Item, ItemState, RootState, WinStatus } from "../types";
 import { deleteItem } from "../reducers/items";
 import ErrorHandlingService from "../services/errors";
-import { isAdmin, stateToStatus } from "../utils/helpers";
+import { isAdmin, myBidStatus, stateToStatus, winText } from "../utils/helpers";
 import BidTable from "./BidTable";
 import BidForm from "./BidForm";
 import InfoText from "./InfoText";
@@ -23,6 +23,7 @@ const ItemView = ({
     auctionState: AuctionState;
 }) => {
     const dispatch = useDispatch();
+    const user = useSelector((state: RootState) => state.user.user);
     const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
 
     // Select item to show
@@ -43,6 +44,8 @@ const ItemView = ({
         }
     };
 
+    const winStatus = myBidStatus(user, item);
+
     return (
         <Modal
             size="lg"
@@ -62,7 +65,12 @@ const ItemView = ({
             />
             <Modal.Header closeButton>
                 <Modal.Title id="example-modal-sizes-title-lg">
-                    {item.make} {item.model}
+                    {item.make} {item.model}{" "}
+                    {winStatus !== WinStatus.NotBidded && (
+                        <Badge bg={winStatus}>
+                            {winText(winStatus, auctionState)}
+                        </Badge>
+                    )}
                 </Modal.Title>
             </Modal.Header>
             <Modal.Body>
@@ -111,15 +119,17 @@ const ItemView = ({
                             : stateToStatus(item.state)}
                     </ListGroup.Item>
                     {/* If auction is still ongoing, show highest bidder */}
-                    {item.state === ItemState.Open && item.winner_name && (
+                    {item.winner_name && (
                         <ListGroup.Item>
-                            <strong>Highest bidder:</strong> {item.winner_name}
-                        </ListGroup.Item>
-                    )}
-                    {/* Otherwise show winner */}
-                    {item.state === ItemState.Sold && (
-                        <ListGroup.Item>
-                            <strong>Winner:</strong> {item.winner_name}
+                            {item.state === ItemState.Open ? (
+                                <strong>Highest bidder:</strong>
+                            ) : (
+                                <strong>Winner:</strong>
+                            )}{" "}
+                            {item.winner_name}{" "}
+                            {user && item.winner_id === user.id && (
+                                <Badge pill>You</Badge>
+                            )}
                         </ListGroup.Item>
                     )}
                 </ListGroup>

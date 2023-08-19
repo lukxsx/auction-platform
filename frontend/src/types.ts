@@ -105,3 +105,11 @@ export interface AlertContent {
     message: string;
     variant: string;
 }
+
+// Using React Bootsrap's color definitions as the enum values
+// to use these easily for changing colors
+export enum WinStatus {
+    Winning = "success",
+    Losing = "danger",
+    NotBidded = "",
+}

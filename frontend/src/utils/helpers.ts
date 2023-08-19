@@ -1,4 +1,4 @@
-import { LoginUser } from "../types";
+import { AuctionState, Item, LoginUser, WinStatus } from "../types";
 
 export const isAdmin = (): boolean => {
     const userFromStore = localStorage.getItem("user");
@@ -54,4 +54,33 @@ export const capitalize = (input: string): string => {
         return input;
     }
     return input[0].toUpperCase() + input.slice(1);
+};
+
+// Check if the user has bidded on the item and are they winning
+export const myBidStatus = (user: LoginUser | null, item: Item): WinStatus => {
+    if (!user) return WinStatus.NotBidded;
+    if (item.winner_name) {
+        if (item.winner_name === user.name) {
+            return WinStatus.Winning;
+        } else if (item.bids.find((i) => i.username === user.name)) {
+            return WinStatus.Losing;
+        }
+    }
+
+    return WinStatus.NotBidded;
+};
+
+export const winText = (
+    winStatus: WinStatus,
+    auctionState: AuctionState
+): string => {
+    if (winStatus === WinStatus.Winning) {
+        return auctionState === AuctionState.Finished
+            ? "You won this item"
+            : "You are about to win this item";
+    } else {
+        return auctionState === AuctionState.Finished
+            ? "You lost this item"
+            : "You are losing this item";
+    }
 };
