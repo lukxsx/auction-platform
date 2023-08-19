@@ -1,13 +1,13 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { AuctionState } from "../types";
 import { setItems, selectItemsByAuctionId } from "../reducers/items";
 import itemService from "../services/items";
+import ErrorHandlingService from "../services/errors";
 import ItemView from "./ItemView";
-import { AuctionState } from "../types";
 import ItemListCards from "./ItemListCards";
 import ItemListTable from "./ItemListTable";
-import ErrorHandlingService from "../services/errors";
 
 const ItemList = ({
     auctionId,

@@ -1,7 +1,7 @@
 import { Button } from "react-bootstrap";
 import { AuctionState, Item } from "../types";
-import InfoText from "./InfoText";
 import { stateToStatus } from "../utils/helpers";
+import InfoText from "./InfoText";
 
 const ItemTableRow = ({
     item,

@@ -1,5 +1,5 @@
+import { Auction, AuctionUpdate, NewAuction } from "../types";
 import { db } from "../database";
-import { Auction, NewAuction, AuctionUpdate } from "../types";
 
 const getAuctions = async (): Promise<Auction[]> => {
     return await db.selectFrom("auction").selectAll().orderBy("id").execute();

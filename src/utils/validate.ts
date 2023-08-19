@@ -1,11 +1,11 @@
 import {
     AuctionState,
     ItemState,
-    NewUser,
-    NewAuction,
-    NewItemFromAPI,
-    NewBid,
     LoginEntry,
+    NewAuction,
+    NewBid,
+    NewItemFromAPI,
+    NewUser,
 } from "../types";
 
 export const isString = (text: unknown): text is string => {

@@ -23,7 +23,14 @@
         "error",
         { "argsIgnorePattern": "^_" }
       ],
-      "no-case-declarations": "off"
+      "no-case-declarations": "off",
+      "sort-imports": ["error", {
+        "ignoreCase": false,
+        "ignoreDeclarationSort": false,
+        "ignoreMemberSort": false,
+        "memberSyntaxSortOrder": ["none", "all", "multiple", "single"],
+        "allowSeparatedGroups": false
+    }],
     },
     "parser": "@typescript-eslint/parser",
     "parserOptions": {

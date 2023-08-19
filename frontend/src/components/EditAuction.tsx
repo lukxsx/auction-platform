@@ -1,12 +1,12 @@
 import { SyntheticEvent, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Form, Button, Modal, InputGroup } from "react-bootstrap";
-import ErrorHandlingService from "../services/errors";
 import { Auction } from "../types";
+import { useAlert } from "../contexts/AlertContext";
 import { createAuction, updateAuction } from "../reducers/auctions";
 import auctionService from "../services/auctions";
+import ErrorHandlingService from "../services/errors";
 import Alert from "./Alert";
-import { useAlert } from "../contexts/AlertContext";
 
 const EditAuction = ({
     show,

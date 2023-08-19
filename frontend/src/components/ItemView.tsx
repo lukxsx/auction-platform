@@ -1,15 +1,15 @@
 import { useState } from "react";
 import { Modal, ListGroup, Button } from "react-bootstrap";
 import { useDispatch } from "react-redux";
-import { deleteItem } from "../reducers/items";
 import { AuctionState, Item, ItemState } from "../types";
+import { deleteItem } from "../reducers/items";
+import ErrorHandlingService from "../services/errors";
 import { isAdmin, stateToStatus } from "../utils/helpers";
 import BidTable from "./BidTable";
 import BidForm from "./BidForm";
 import InfoText from "./InfoText";
 import AlertModal from "./AlertModal";
 import itemService from "../services/items";
-import ErrorHandlingService from "../services/errors";
 
 const ItemView = ({
     close,

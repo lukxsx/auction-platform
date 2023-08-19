@@ -2,15 +2,15 @@
 import { ReactNode, useEffect } from "react";
 import { Container } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import Notification from "./Notification";
 import auctionService from "../services/auctions";
 import itemService from "../services/items";
-import { setAuctions } from "../reducers/auctions";
-import ErrorHandlingService from "../services/errors";
 import socketService from "../services/socket";
-import NavBar from "./NavBar";
-import { RootState } from "../types";
+import ErrorHandlingService from "../services/errors";
+import { setAuctions } from "../reducers/auctions";
 import { setItems } from "../reducers/biddedItems";
+import { RootState } from "../types";
+import Notification from "./Notification";
+import NavBar from "./NavBar";
 
 const Layout = ({ children }: { children: ReactNode }) => {
     const dispatch = useDispatch();

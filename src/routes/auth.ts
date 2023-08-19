@@ -1,9 +1,9 @@
-import express from "express";
-import { sign } from "jsonwebtoken";
-import { parseLoginEntry } from "../utils/validate";
-import userService from "../services/users";
-import { authenticate } from "../utils/authenticator";
 import { TokenData, User } from "../types";
+import { authenticate } from "../utils/authenticator";
+import express from "express";
+import { parseLoginEntry } from "../utils/validate";
+import { sign } from "jsonwebtoken";
+import userService from "../services/users";
 
 const router = express.Router();
 

@@ -1,5 +1,5 @@
-import { db } from "../database";
 import { NewUser, User } from "../types";
+import { db } from "../database";
 
 const getUsers = async (): Promise<User[]> => {
     return await db.selectFrom("user").selectAll().orderBy("id").execute();

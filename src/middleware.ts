@@ -1,7 +1,7 @@
-import { Request, Response, NextFunction } from "express";
 import { JwtPayload, verify } from "jsonwebtoken";
-import userService from "./services/users";
+import { NextFunction, Request, Response } from "express";
 import { isString } from "./utils/validate";
+import userService from "./services/users";
 
 export const tokenExtractor = (
     req: Request,

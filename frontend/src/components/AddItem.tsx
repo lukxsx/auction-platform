@@ -1,13 +1,13 @@
 import { SyntheticEvent, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Form, Button, Modal, InputGroup } from "react-bootstrap";
-import { addItem } from "../reducers/items";
 import { InfoValue, NewItem } from "../types";
-import InfoValues from "./InfoValues";
+import { addItem } from "../reducers/items";
+import { useAlert } from "../contexts/AlertContext";
 import itemService from "../services/items";
 import ErrorHandlingService from "../services/errors";
 import Alert from "./Alert";
-import { useAlert } from "../contexts/AlertContext";
+import InfoValues from "./InfoValues";
 
 const AddItem = ({
     show,

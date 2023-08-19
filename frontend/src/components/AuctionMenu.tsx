@@ -1,8 +1,8 @@
+import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { ListGroup, Badge } from "react-bootstrap";
 import { RootState, AuctionState } from "../types";
 import { formatDate } from "../utils/helpers";
-import { Link } from "react-router-dom";
 
 const AuctionMenu = () => {
     const auctions = useSelector((state: RootState) => state.auctions);

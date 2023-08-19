@@ -1,10 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
-
-import { Pool } from "pg";
+import { AuctionState, Database, ItemState } from "./types";
 import { Kysely, PostgresDialect, sql } from "kysely";
-import { Database, AuctionState, ItemState } from "./types";
 import { DATABASE_CREDENTIALS } from "./utils/config";
+import { Pool } from "pg";
 
 const dialect = new PostgresDialect({
     pool: new Pool(DATABASE_CREDENTIALS),

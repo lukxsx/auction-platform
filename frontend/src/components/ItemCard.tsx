@@ -1,8 +1,8 @@
-import { Card, ListGroup, Button } from "react-bootstrap";
 import { useSelector } from "react-redux";
+import { Card, ListGroup, Button } from "react-bootstrap";
 import { Item, ItemState, RootState, LoginUser, AuctionState } from "../types";
-import InfoText from "./InfoText";
 import { stateToStatus } from "../utils/helpers";
+import InfoText from "./InfoText";
 
 // Using React Bootsrap's color definitions as the enum values
 // to use these easily for changing colors

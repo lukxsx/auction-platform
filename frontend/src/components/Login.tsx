@@ -1,14 +1,13 @@
-import React from "react";
-import axios from "axios";
-import { useState } from "react";
+import { useState, SyntheticEvent } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { Form, Button, InputGroup, Container, Card } from "react-bootstrap";
+import { Button, Card, Container, Form, InputGroup } from "react-bootstrap";
+import axios from "axios";
+import { useAlert } from "../contexts/AlertContext";
 import { setUser } from "../reducers/user";
 import loginService from "../services/login";
 import Notification from "./Notification";
 import Alert from "./Alert";
-import { useAlert } from "../contexts/AlertContext";
 
 const Login = () => {
     const dispatch = useDispatch();
@@ -17,7 +16,7 @@ const Login = () => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
 
-    const handleLogin = async (event: React.SyntheticEvent) => {
+    const handleLogin = async (event: SyntheticEvent) => {
         event.preventDefault();
 
         try {

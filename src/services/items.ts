@@ -1,6 +1,6 @@
-import { jsonArrayFrom } from "kysely/helpers/postgres";
+import { Item, ItemUpdate, ItemWithBids, NewItem } from "../types";
 import { db } from "../database";
-import { Item, NewItem, ItemUpdate, ItemWithBids } from "../types";
+import { jsonArrayFrom } from "kysely/helpers/postgres";
 
 // export const sqlItemsQuery = sql<Item[]>`SELECT
 // i.*,

@@ -1,8 +1,8 @@
+import { isAdmin, tokenExtractor, userExtractor } from "../middleware";
 import express from "express";
-import userService from "../services/users";
 import itemService from "../services/items";
 import { parseUserEntry } from "../utils/validate";
-import { tokenExtractor, isAdmin, userExtractor } from "../middleware";
+import userService from "../services/users";
 
 const router = express.Router();
 router.use(tokenExtractor);

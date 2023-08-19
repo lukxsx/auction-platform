@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Container, Row, Col } from "react-bootstrap";
-import ItemCard from "./ItemCard";
 import { AuctionState, Item } from "../types";
+import ItemCard from "./ItemCard";
 
 const ItemListCards = ({
     items,

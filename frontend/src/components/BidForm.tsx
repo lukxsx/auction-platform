@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
+import { isAxiosError } from "axios";
 import { InputGroup, Form, Button } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import { Item, RootState } from "../types";
-import bidService from "../services/bids";
 import { useAlert } from "../contexts/AlertContext";
+import bidService from "../services/bids";
 import Alert from "./Alert";
-import { isAxiosError } from "axios";
 
 const BidForm = ({ item }: { item: Item }) => {
     const user = useSelector((state: RootState) => state.user.user);

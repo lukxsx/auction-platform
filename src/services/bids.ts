@@ -1,7 +1,7 @@
+import { AuctionState, Bid, ItemState, ItemWithBids, NewBid } from "../types";
+import auctionService from "./auctions";
 import { db } from "../database";
 import { io } from "../index";
-import { AuctionState, ItemState, Bid, NewBid, ItemWithBids } from "../types";
-import auctionService from "./auctions";
 import itemService from "./items";
 
 const getBids = async (): Promise<Bid[]> => {

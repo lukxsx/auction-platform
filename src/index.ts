@@ -1,20 +1,19 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
-
-import { createServer } from "http";
-import express from "express";
 import * as dotenv from "dotenv";
-import cors from "cors";
-import path from "path";
-import morgan from "morgan";
-import { schedule } from "node-cron";
-import { createTables /*createTestData*/ } from "./database";
-import userRouter from "./routes/users";
-import auctionRouter from "./routes/auctions";
-import bidsRouter from "./routes/bids";
-import authRouter from "./routes/auth";
-import { checkAuctions } from "./scheduler";
 import { Server } from "socket.io";
+import auctionRouter from "./routes/auctions";
+import authRouter from "./routes/auth";
+import bidsRouter from "./routes/bids";
+import { checkAuctions } from "./scheduler";
+import cors from "cors";
+import { createServer } from "http";
+import { createTables /*createTestData*/ } from "./database";
+import express from "express";
+import morgan from "morgan";
+import path from "path";
+import { schedule } from "node-cron";
+import userRouter from "./routes/users";
 
 dotenv.config();
 const app = express();
