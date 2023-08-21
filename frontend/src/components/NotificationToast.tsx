@@ -33,7 +33,8 @@ const Notification = () => {
                         </strong>
                     </Toast.Header>
                     <Toast.Body>
-                        {notification.message}{" "}
+                        {notification.message}
+                        <br />
                         {notification.link && (
                             <Link to={notification.link}>
                                 <Button
