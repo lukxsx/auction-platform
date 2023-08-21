@@ -4,6 +4,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { AuctionState, RootState } from "../types";
 import { setItems, selectItemsByAuctionId } from "../reducers/items";
+import { addFavorite, removeFavorite } from "../reducers/favorites";
 import itemService from "../services/items";
 import ErrorHandlingService from "../services/errors";
 import ItemView from "./ItemView";
@@ -26,12 +27,14 @@ const ItemList = ({
     view: string;
 }) => {
     const dispatch = useDispatch();
-    const items = useSelector(selectItemsByAuctionId(auctionId));
+    const allItems = useSelector(selectItemsByAuctionId(auctionId));
     const user = useSelector((state: RootState) => state.user.user);
     const favoriteIds = useSelector((state: RootState) => state.favorites);
     const navigate = useNavigate();
     let query = useQuery();
-    console.log("FIDs:", favoriteIds);
+
+    const items = allItems.filter((item) => !favoriteIds.includes(item.id));
+    const favorites = allItems.filter((item) => favoriteIds.includes(item.id));
 
     // Check if ?item query parameter was given
     const itemParamString = query.get("item");
@@ -64,6 +67,12 @@ const ItemList = ({
         navigate(`/auction/${auctionId}`);
     };
 
+    const handleFavoriteChange = (itemId: number, isFavorite: boolean) => {
+        isFavorite
+            ? dispatch(removeFavorite(itemId))
+            : dispatch(addFavorite(itemId));
+    };
+
     // Make sure user exists
     if (!user) return <></>;
 
@@ -82,7 +91,8 @@ const ItemList = ({
                     items={items}
                     handleShowItem={handleShowItem}
                     user={user}
-                    favoriteIds={favoriteIds}
+                    favorites={favorites}
+                    handleFavoriteChange={handleFavoriteChange}
                 />
             )}
             {view === "table" && (
@@ -91,7 +101,8 @@ const ItemList = ({
                     items={items}
                     handleShowItem={handleShowItem}
                     user={user}
-                    favoriteIds={favoriteIds}
+                    favorites={favorites}
+                    handleFavoriteChange={handleFavoriteChange}
                 />
             )}
         </>

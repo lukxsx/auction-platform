@@ -5,18 +5,19 @@ import ItemCard from "./ItemCard";
 
 const ItemListCards = ({
     items,
+    favorites,
     handleShowItem,
     auctionState,
     user,
-    favoriteIds,
+    handleFavoriteChange,
 }: {
     items: Item[];
+    favorites: Item[];
     handleShowItem: (itemId: number) => void;
     auctionState: AuctionState;
     user: LoginUser;
-    favoriteIds: number[];
+    handleFavoriteChange: (itemId: number, isFavorite: boolean) => void;
 }) => {
-    const favorites = items.filter((item) => favoriteIds.includes(item.id));
     return (
         <Container className="mt-4">
             <Row>
@@ -28,10 +29,12 @@ const ItemListCards = ({
                             auctionState={auctionState}
                             user={user}
                             favorite={true}
+                            handleFavoriteChange={handleFavoriteChange}
                         />
                     </Col>
                 ))}
             </Row>
+            {favorites.length > 0 && <hr className="mt-0" />}
             <Row>
                 {items.map((item) => (
                     <Col key={item.id.toString()} md={4} className="mb-4">
@@ -41,6 +44,7 @@ const ItemListCards = ({
                             auctionState={auctionState}
                             user={user}
                             favorite={false}
+                            handleFavoriteChange={handleFavoriteChange}
                         />
                     </Col>
                 ))}

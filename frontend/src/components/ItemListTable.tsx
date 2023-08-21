@@ -5,16 +5,18 @@ import ItemTableRow from "./ItemTableRow";
 
 const ItemListTable = ({
     items,
+    favorites,
     handleShowItem,
     auctionState,
     user,
-    favoriteIds,
+    handleFavoriteChange,
 }: {
     items: Item[];
+    favorites: Item[];
     handleShowItem: (itemId: number) => void;
     auctionState: AuctionState;
     user: LoginUser;
-    favoriteIds: number[];
+    handleFavoriteChange: (itemId: number, isFavorite: boolean) => void;
 }) => {
     return (
         <Container className="mt-4">
@@ -32,9 +34,21 @@ const ItemListTable = ({
                             <th>Winner</th>
                         )) || <th>Highest bidder</th>}
                         <th>View and bid</th>
+                        <th>Favorite</th>
                     </tr>
                 </thead>
                 <tbody>
+                    {favorites.map((item) => (
+                        <ItemTableRow
+                            key={item.id.toString()}
+                            item={item}
+                            handleShowItem={handleShowItem}
+                            auctionState={auctionState}
+                            user={user}
+                            favorite={true}
+                            handleFavoriteChange={handleFavoriteChange}
+                        />
+                    ))}
                     {items.map((item) => (
                         <ItemTableRow
                             key={item.id.toString()}
@@ -42,6 +56,8 @@ const ItemListTable = ({
                             handleShowItem={handleShowItem}
                             auctionState={auctionState}
                             user={user}
+                            favorite={false}
+                            handleFavoriteChange={handleFavoriteChange}
                         />
                     ))}
                 </tbody>

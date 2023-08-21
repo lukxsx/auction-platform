@@ -2,10 +2,8 @@ import { Card, ListGroup, Button, Badge } from "react-bootstrap";
 import { Item, ItemState, AuctionState, LoginUser } from "../types";
 import { stateToStatus, myBidStatus } from "../utils/helpers";
 import { BsStar, BsStarFill } from "react-icons/bs";
-import { addFavorite } from "../reducers/favorites";
 import InfoText from "./InfoText";
 import "./favorite.css";
-import { useDispatch } from "react-redux";
 
 const ItemCard = ({
     item,
@@ -13,19 +11,15 @@ const ItemCard = ({
     auctionState,
     user,
     favorite,
+    handleFavoriteChange,
 }: {
     item: Item;
     handleShowItem: (itemId: number) => void;
     auctionState: AuctionState;
     user: LoginUser;
     favorite: boolean;
+    handleFavoriteChange: (itemId: number, isFavorite: boolean) => void;
 }) => {
-    const dispatch = useDispatch();
-    const handleSetFavorite = () => {
-        console.log("adding", item.id, "as favorite");
-        dispatch(addFavorite(item.id));
-    };
-
     return (
         <Card border={myBidStatus(user, item)}>
             <Card.Body>
@@ -33,24 +27,19 @@ const ItemCard = ({
                     <div>
                         <Card.Title>{item.model}</Card.Title>
                     </div>
-                    <input
-                        type="checkbox"
-                        id="starCheckbox"
-                        checked={favorite}
-                        onChange={(e) => {
-                            console.log(e.target.checked);
-                            console.log(item.id);
-                            handleSetFavorite();
-                        }}
-                    />
-                    <label htmlFor="starCheckbox" className="star-label">
+
+                    <Button
+                        variant="link"
+                        onClick={() => handleFavoriteChange(item.id, favorite)}
+                    >
                         {favorite ? (
                             <BsStarFill size="1.5em" />
                         ) : (
                             <BsStar size="1.5em" />
                         )}
-                    </label>
+                    </Button>
                 </div>
+                {item.id}
 
                 <Card.Subtitle>{item.make}</Card.Subtitle>
                 <ListGroup className="list-group-flush">

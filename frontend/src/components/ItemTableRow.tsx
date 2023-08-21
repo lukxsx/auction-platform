@@ -1,4 +1,5 @@
 import { Badge, Button } from "react-bootstrap";
+import { BsStar, BsStarFill } from "react-icons/bs";
 import { AuctionState, Item, LoginUser } from "../types";
 import { stateToStatus } from "../utils/helpers";
 import InfoText from "./InfoText";
@@ -8,11 +9,15 @@ const ItemTableRow = ({
     handleShowItem,
     auctionState,
     user,
+    favorite,
+    handleFavoriteChange,
 }: {
     item: Item;
     handleShowItem: (itemId: number) => void;
     auctionState: AuctionState;
     user: LoginUser;
+    favorite: boolean;
+    handleFavoriteChange: (itemId: number, isFavorite: boolean) => void;
 }) => {
     return (
         <tr>
@@ -37,12 +42,24 @@ const ItemTableRow = ({
                 {item.winner_name}{" "}
                 {user && item.winner_id === user.id && <Badge pill>You</Badge>}
             </td>
-            <td>
+            <td style={{ textAlign: "center" }}>
                 <Button
                     variant="primary"
                     onClick={() => handleShowItem(item.id)}
                 >
                     Open
+                </Button>
+            </td>
+            <td style={{ textAlign: "center" }}>
+                <Button
+                    variant="link"
+                    onClick={() => handleFavoriteChange(item.id, favorite)}
+                >
+                    {favorite ? (
+                        <BsStarFill size="1.5em" />
+                    ) : (
+                        <BsStar size="1.5em" />
+                    )}
                 </Button>
             </td>
         </tr>

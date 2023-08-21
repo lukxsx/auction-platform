@@ -5,7 +5,7 @@ import {
     AnyAction,
 } from "@reduxjs/toolkit";
 import { setUser, clearUser } from "./user";
-import { clearFavorites, addFavorite } from "./favorites";
+import { clearFavorites, addFavorite, removeFavorite } from "./favorites";
 
 const localStorageMiddleware: Middleware =
     (store: MiddlewareAPI) =>
@@ -24,6 +24,15 @@ const localStorageMiddleware: Middleware =
             localStorage.setItem(
                 "favorites",
                 JSON.stringify(favorites.concat(newFavorite))
+            );
+        } else if (action.type === removeFavorite.type) {
+            const favoriteToDelete = action.payload;
+            const favorites = store.getState().favorites as number[];
+            localStorage.setItem(
+                "favorites",
+                JSON.stringify(
+                    favorites.filter((fav) => fav !== favoriteToDelete)
+                )
             );
         } else if (action.type === clearFavorites.type) {
             localStorage.removeItem("favorites");

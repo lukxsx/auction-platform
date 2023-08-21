@@ -4,7 +4,7 @@ import { RootState } from "../types";
 const favoriteSlicer = createSlice({
     name: "favorites",
     initialState:
-        JSON.parse(localStorage.getItem("favorites") || "null") ||
+        (JSON.parse(localStorage.getItem("favorites") || "null") as number[]) ||
         ([] as RootState["favorites"]),
     reducers: {
         setFavorites: (state, action) => {
@@ -14,15 +14,14 @@ const favoriteSlicer = createSlice({
             return [];
         },
         addFavorite: (state, action) => {
-            console.log("yes I'm adding");
-            state = state.concat(action.payload);
+            return state.concat(action.payload);
         },
-        deleteFavorite: (state: RootState, action) => {
-            return state.favorites.filter((id) => id !== action.payload);
+        removeFavorite: (state, action) => {
+            return state.filter((id) => id !== action.payload);
         },
     },
 });
 
-export const { setFavorites, clearFavorites, addFavorite } =
+export const { setFavorites, clearFavorites, addFavorite, removeFavorite } =
     favoriteSlicer.actions;
 export default favoriteSlicer.reducer;
