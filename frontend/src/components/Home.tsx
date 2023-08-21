@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Card, Button } from "react-bootstrap";
 import { isAdmin } from "../utils/helpers";
 import AuctionMenu from "./AuctionMenu";
@@ -6,6 +6,9 @@ import EditAuction from "./EditAuction";
 
 const Home = () => {
     const [showCreateAuctionForm, setShowCreateAuctionForm] = useState(false);
+    useEffect(() => {
+        document.title = "Auctions";
+    }, []);
 
     return (
         <Card>
