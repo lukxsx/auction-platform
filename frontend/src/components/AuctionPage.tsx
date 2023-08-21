@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { Container, Button, Badge, Card, Tabs, Tab } from "react-bootstrap";
@@ -20,6 +20,10 @@ const AuctionPage = () => {
     const auction = useSelector((state: RootState) =>
         selectAuctionById(state, auctionId)
     );
+
+    useEffect(() => {
+        document.title = `${auction?.name} - Auctions`;
+    }, [auction]);
 
     const [showItemAddForm, setShowItemAddForm] = useState(false);
     const [showEditAuctionForm, setShowEditAuctionForm] = useState(false);
