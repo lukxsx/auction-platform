@@ -3,7 +3,6 @@ import { Item, ItemState, AuctionState, LoginUser } from "../types";
 import { stateToStatus, myBidStatus } from "../utils/helpers";
 import { BsStar, BsStarFill } from "react-icons/bs";
 import InfoText from "./InfoText";
-import "./favorite.css";
 
 const ItemCard = ({
     item,
@@ -39,7 +38,6 @@ const ItemCard = ({
                         )}
                     </Button>
                 </div>
-                {item.id}
 
                 <Card.Subtitle>{item.make}</Card.Subtitle>
                 <ListGroup className="list-group-flush">

@@ -57,7 +57,7 @@ const ItemList = ({
 
     // Show the item view modal
     const handleShowItem = (itemId: number) => {
-        const selectedItem = items.find((i) => i.id === itemId);
+        const selectedItem = allItems.find((i) => i.id === itemId);
         setSelectedItemId(selectedItem ? selectedItem.id : 0);
     };
 
@@ -79,7 +79,7 @@ const ItemList = ({
     return (
         <>
             <ItemView
-                items={items}
+                items={allItems}
                 itemId={selectedItemId}
                 close={closeItemView}
                 auctionState={auctionState}
