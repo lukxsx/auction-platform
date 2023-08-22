@@ -21,9 +21,12 @@ const userExists = async (username: string) => {
 };
 
 // Try to authenticate with all available authenticator plugins
-const tryAuthenticators = (username: string, password: string): AuthResult => {
+const tryAuthenticators = async (
+    username: string,
+    password: string
+): Promise<AuthResult> => {
     for (const authenticator of authenticators) {
-        const authResult = authenticator.authenticate(username, password);
+        const authResult = await authenticator.authenticate(username, password);
         console.log(
             `Trying to authenticate user ${username} with ${authenticator.name}, result: ${authResult.success}`
         );
@@ -42,7 +45,7 @@ router.post("/login", async (req, res) => {
         const { username, password } = parseLoginEntry(req.body);
 
         // Try all different authenticators
-        const authResult = tryAuthenticators(username, password);
+        const authResult = await tryAuthenticators(username, password);
 
         if (authResult.success) {
             console.log("User", username, "logged in");

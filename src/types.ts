@@ -117,5 +117,5 @@ export interface SocketUpdate {
 
 export interface Authenticator {
     name: string;
-    authenticate: (username: string, password: string) => AuthResult;
+    authenticate: (username: string, password: string) => Promise<AuthResult>;
 }
