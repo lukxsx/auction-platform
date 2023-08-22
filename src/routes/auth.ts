@@ -1,12 +1,16 @@
-import { TokenData, User } from "../types";
-import { authenticate } from "../utils/authenticator";
+import { AuthResult, Authenticator, TokenData, User } from "../types";
 import express from "express";
+import { loadAuthPlugins } from "../utils/authPluginLoader";
 import { parseLoginEntry } from "../utils/validate";
 import { sign } from "jsonwebtoken";
 import userService from "../services/users";
 
 const router = express.Router();
 
+// Load authenticator plugins
+const authenticators: Authenticator[] = loadAuthPlugins();
+
+// Check if the user exists. Maybe move this to the userService??
 const userExists = async (username: string) => {
     try {
         await userService.getUserByName(username);
@@ -16,6 +20,19 @@ const userExists = async (username: string) => {
     return true;
 };
 
+// Try to authenticate with all available authenticator plugins
+const tryAuthenticators = (username: string, password: string): AuthResult => {
+    for (const authenticator of authenticators) {
+        const authResult = authenticator.authenticate(username, password);
+        console.log(
+            `Trying to authenticate user ${username} with ${authenticator.name}, result: ${authResult.success}`
+        );
+        if (authResult.success) return authResult;
+    }
+    return { success: false, admin: false };
+};
+
+// Handle login request, generate JWT, add user to the users table if needed
 router.post("/login", async (req, res) => {
     try {
         if (!process.env.JWT_SECRET) {
@@ -24,17 +41,19 @@ router.post("/login", async (req, res) => {
         }
         const { username, password } = parseLoginEntry(req.body);
 
-        // Authenticate user
-        const authResult = authenticate(username, password);
+        // Try all different authenticators
+        const authResult = tryAuthenticators(username, password);
+
         if (authResult.success) {
             console.log("User", username, "logged in");
-            let user: User = { name: "", id: 0 };
+            let user: User | null = null;
             // Does the user exist?
             if (!(await userExists(username))) {
                 console.log("User", username, "doesn't exist, creating user");
                 user = await userService.createUser({ name: username });
             }
             user = await userService.getUserByName(username);
+            if (!user) throw new Error("User doesn't exist");
 
             const tokenData: TokenData = {
                 username,
@@ -43,7 +62,7 @@ router.post("/login", async (req, res) => {
             };
 
             const token = sign(tokenData, process.env.JWT_SECRET, {
-                expiresIn: 7200,
+                expiresIn: 7200, // 2 hours
             });
 
             res.json({ ...user, token, is_admin: authResult.admin });

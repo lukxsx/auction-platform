@@ -114,3 +114,8 @@ export interface SocketUpdate {
     updateType: UpdateType;
     value: Auction | Item;
 }
+
+export interface Authenticator {
+    name: string;
+    authenticate: (username: string, password: string) => AuthResult;
+}
