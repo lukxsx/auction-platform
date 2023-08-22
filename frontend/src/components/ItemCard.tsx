@@ -1,8 +1,8 @@
 import { Card, ListGroup, Button, Badge } from "react-bootstrap";
 import { Item, ItemState, AuctionState, LoginUser } from "../types";
 import { stateToStatus, myBidStatus } from "../utils/helpers";
-import { BsStar, BsStarFill } from "react-icons/bs";
 import InfoText from "./InfoText";
+import FavoriteButton from "./FavoriteButton";
 
 const ItemCard = ({
     item,
@@ -19,6 +19,8 @@ const ItemCard = ({
     favorite: boolean;
     handleFavoriteChange: (itemId: number, isFavorite: boolean) => void;
 }) => {
+    const changeFavorite = () => handleFavoriteChange(item.id, favorite);
+
     return (
         <Card
             border={myBidStatus(user, item)}
@@ -32,18 +34,10 @@ const ItemCard = ({
                             <Card.Title>{item.model}</Card.Title>
                         </div>
 
-                        <Button
-                            variant="link"
-                            onClick={() =>
-                                handleFavoriteChange(item.id, favorite)
-                            }
-                        >
-                            {favorite ? (
-                                <BsStarFill size="1.5em" />
-                            ) : (
-                                <BsStar size="1.5em" />
-                            )}
-                        </Button>
+                        <FavoriteButton
+                            favorite={favorite}
+                            changeFavorite={changeFavorite}
+                        />
                     </div>
 
                     <Card.Subtitle>{item.make}</Card.Subtitle>

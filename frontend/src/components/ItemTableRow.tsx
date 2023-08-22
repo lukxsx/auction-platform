@@ -1,8 +1,8 @@
 import { Badge, Button } from "react-bootstrap";
-import { BsStar, BsStarFill } from "react-icons/bs";
 import { AuctionState, Item, LoginUser } from "../types";
 import { stateToStatus } from "../utils/helpers";
 import InfoText from "./InfoText";
+import FavoriteButton from "./FavoriteButton";
 
 const ItemTableRow = ({
     item,
@@ -19,6 +19,7 @@ const ItemTableRow = ({
     favorite: boolean;
     handleFavoriteChange: (itemId: number, isFavorite: boolean) => void;
 }) => {
+    const changeFavorite = () => handleFavoriteChange(item.id, favorite);
     return (
         <tr>
             {/*<td>{item.code}</td>*/}
@@ -51,16 +52,10 @@ const ItemTableRow = ({
                 </Button>
             </td>
             <td style={{ textAlign: "center" }}>
-                <Button
-                    variant="link"
-                    onClick={() => handleFavoriteChange(item.id, favorite)}
-                >
-                    {favorite ? (
-                        <BsStarFill size="1.5em" />
-                    ) : (
-                        <BsStar size="1.5em" />
-                    )}
-                </Button>
+                <FavoriteButton
+                    favorite={favorite}
+                    changeFavorite={changeFavorite}
+                />
             </td>
         </tr>
     );
