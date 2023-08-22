@@ -22,7 +22,14 @@ const ItemListCards = ({
         <Container className="mt-4">
             <Row>
                 {favorites.map((item) => (
-                    <Col key={item.id.toString()} md={4} className="mb-4">
+                    <Col
+                        key={item.id.toString()}
+                        md={4}
+                        className="mb-4 justify-content-between"
+                        style={{
+                            display: "flex",
+                        }}
+                    >
                         <ItemCard
                             item={item}
                             handleShowItem={handleShowItem}
@@ -37,7 +44,14 @@ const ItemListCards = ({
             {favorites.length > 0 && <hr className="mt-0" />}
             <Row>
                 {items.map((item) => (
-                    <Col key={item.id.toString()} md={4} className="mb-4">
+                    <Col
+                        key={item.id.toString()}
+                        md={4}
+                        className="mb-4 justify-content-between"
+                        style={{
+                            display: "flex",
+                        }}
+                    >
                         <ItemCard
                             item={item}
                             handleShowItem={handleShowItem}

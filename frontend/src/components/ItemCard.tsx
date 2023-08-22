@@ -20,26 +20,34 @@ const ItemCard = ({
     handleFavoriteChange: (itemId: number, isFavorite: boolean) => void;
 }) => {
     return (
-        <Card border={myBidStatus(user, item)}>
-            <Card.Body>
-                <div className="d-flex justify-content-between align-items-center">
-                    <div>
-                        <Card.Title>{item.model}</Card.Title>
+        <Card
+            border={myBidStatus(user, item)}
+            style={{ flex: 1 }}
+            className="d-flex justify-content-between"
+        >
+            <div>
+                <Card.Body>
+                    <div className="d-flex justify-content-between align-items-center">
+                        <div>
+                            <Card.Title>{item.model}</Card.Title>
+                        </div>
+
+                        <Button
+                            variant="link"
+                            onClick={() =>
+                                handleFavoriteChange(item.id, favorite)
+                            }
+                        >
+                            {favorite ? (
+                                <BsStarFill size="1.5em" />
+                            ) : (
+                                <BsStar size="1.5em" />
+                            )}
+                        </Button>
                     </div>
 
-                    <Button
-                        variant="link"
-                        onClick={() => handleFavoriteChange(item.id, favorite)}
-                    >
-                        {favorite ? (
-                            <BsStarFill size="1.5em" />
-                        ) : (
-                            <BsStar size="1.5em" />
-                        )}
-                    </Button>
-                </div>
-
-                <Card.Subtitle>{item.make}</Card.Subtitle>
+                    <Card.Subtitle>{item.make}</Card.Subtitle>
+                </Card.Body>
                 <ListGroup className="list-group-flush">
                     <ListGroup.Item>
                         <strong>Starting price:</strong> {item.starting_price} €
@@ -70,18 +78,18 @@ const ItemCard = ({
                         </ListGroup.Item>
                     )}
                 </ListGroup>
-                <Card.Footer>
-                    <Button
-                        variant="primary"
-                        onClick={() => handleShowItem(item.id)}
-                    >
-                        {item.state === ItemState.Open &&
-                        auctionState === AuctionState.Running
-                            ? "View and bid"
-                            : "View"}
-                    </Button>
-                </Card.Footer>
-            </Card.Body>
+            </div>
+            <Card.Footer>
+                <Button
+                    variant="primary"
+                    onClick={() => handleShowItem(item.id)}
+                >
+                    {item.state === ItemState.Open &&
+                    auctionState === AuctionState.Running
+                        ? "View and bid"
+                        : "View"}
+                </Button>
+            </Card.Footer>
         </Card>
     );
 };

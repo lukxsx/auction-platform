@@ -14,7 +14,7 @@ const Notification = () => {
         <ToastContainer
             position="top-end"
             className="p-3"
-            style={{ zIndex: 10000 }}
+            style={{ zIndex: 10000, position: "fixed" }}
         >
             {notifications.map((notification) => (
                 <Toast
