@@ -10,6 +10,7 @@ import BidForm from "./BidForm";
 import InfoText from "./InfoText";
 import AlertModal from "./AlertModal";
 import itemService from "../services/items";
+import { useAlert } from "../contexts/AlertContext";
 
 const ItemView = ({
     close,
@@ -25,6 +26,7 @@ const ItemView = ({
     user: LoginUser;
 }) => {
     const dispatch = useDispatch();
+    const { hideAlert } = useAlert();
 
     const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
 
@@ -52,7 +54,10 @@ const ItemView = ({
         <Modal
             size="lg"
             show={show}
-            onHide={() => close()}
+            onHide={() => {
+                hideAlert();
+                close();
+            }}
             aria-labelledby="example-modal-sizes-title-lg"
         >
             {/* Delete confirmation */}

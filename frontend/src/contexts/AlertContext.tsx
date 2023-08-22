@@ -4,6 +4,7 @@ import { AlertContent } from "../types";
 interface AlertContextType {
     alert: AlertContent;
     setAlert: (message: string, variant: string) => void;
+    hideAlert: () => void;
 }
 
 const AlertContext = createContext<AlertContextType | undefined>(undefined);
@@ -25,8 +26,12 @@ export const AlertProvider = ({ children }: { children: React.ReactNode }) => {
         setAlertValues({ message, variant });
     };
 
+    const hideAlert = () => {
+        setAlertValues({ message: "", variant: "" });
+    };
+
     return (
-        <AlertContext.Provider value={{ alert, setAlert }}>
+        <AlertContext.Provider value={{ alert, setAlert, hideAlert }}>
             {children}
         </AlertContext.Provider>
     );
