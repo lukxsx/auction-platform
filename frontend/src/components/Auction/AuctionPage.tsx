@@ -7,9 +7,9 @@ import { selectAuctionById, deleteAuction } from "../../reducers/auctions";
 import auctionService from "../../services/auctions";
 import ErrorHandlingService from "../../services/errors";
 import { capitalize, formatDate, isAdmin } from "../../utils/helpers";
-import AddItem from "../Item/AddItem";
+import AddItem from "../Item/ItemForm";
 import AlertModal from "../AlertModal";
-import EditAuction from "./EditAuction";
+import AuctionForm from "./AuctionForm";
 import ItemList from "../ItemList/ItemList";
 
 const AuctionPage = () => {
@@ -52,7 +52,7 @@ const AuctionPage = () => {
                 close={() => setShowItemAddForm(false)}
                 auctionId={auctionId}
             />
-            <EditAuction
+            <AuctionForm
                 show={showEditAuctionForm}
                 close={() => setShowEditAuctionForm(false)}
                 auction={auction}

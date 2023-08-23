@@ -8,7 +8,7 @@ import auctionService from "../../services/auctions";
 import ErrorHandlingService from "../../services/errors";
 import Alert from "../Alert";
 
-const EditAuction = ({
+const AuctionForm = ({
     show,
     close,
     auction,
@@ -183,4 +183,4 @@ const EditAuction = ({
     );
 };
 
-export default EditAuction;
+export default AuctionForm;

@@ -10,7 +10,7 @@ import Alert from "../Alert";
 import InfoValues from "./InfoValues";
 import { isJson, parseInfoValues } from "../../utils/helpers";
 
-const AddItem = ({
+const ItemForm = ({
     show,
     close,
     auctionId,
@@ -170,7 +170,7 @@ const AddItem = ({
                             type="switch"
                             id="text-switch"
                             label="Info as text"
-                            onChange={() => {
+                            onChange={(e) => {
                                 setInfoAsText(!infoAsText);
                                 setInfo("");
                             }}
@@ -201,4 +201,4 @@ const AddItem = ({
     );
 };
 
-export default AddItem;
+export default ItemForm;

@@ -20,7 +20,7 @@ import BidTable from "./BidTable";
 import BidForm from "./BidForm";
 import InfoText from "../ItemList/InfoText";
 import AlertModal from "../AlertModal";
-import AddItem from "./AddItem";
+import ItemForm from "./ItemForm";
 import itemService from "../../services/items";
 import { useAlert } from "../../contexts/AlertContext";
 
@@ -84,7 +84,7 @@ const ItemView = ({
                 }
             />
             {/* Edit item form */}
-            <AddItem
+            <ItemForm
                 show={showEditItemForm}
                 close={() => setShowEditItemForm(false)}
                 auctionId={item.auction_id}
