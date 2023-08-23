@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Container, Row, Col } from "react-bootstrap";
-import { AuctionState, Item, LoginUser } from "../types";
+import { AuctionState, Item, LoginUser } from "../../types";
 import ItemCard from "./ItemCard";
 
 const ItemListCards = ({

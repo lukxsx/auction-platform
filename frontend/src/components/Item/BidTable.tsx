@@ -1,6 +1,6 @@
 import { Table } from "react-bootstrap";
-import { Bid } from "../types";
-import { formatDate } from "../utils/helpers";
+import { Bid } from "../../types";
+import { formatDate } from "../../utils/helpers";
 
 const BidTable = ({ bids }: { bids: Bid[] }) => {
     if (bids.length === 0) return <>No bids.</>;

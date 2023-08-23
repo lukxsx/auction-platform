@@ -1,6 +1,6 @@
 import { Card, ListGroup, Button, Badge } from "react-bootstrap";
-import { Item, ItemState, AuctionState, LoginUser } from "../types";
-import { stateToStatus, myBidStatus } from "../utils/helpers";
+import { Item, ItemState, AuctionState, LoginUser } from "../../types";
+import { stateToStatus, myBidStatus } from "../../utils/helpers";
 import InfoText from "./InfoText";
 import FavoriteButton from "./FavoriteButton";
 

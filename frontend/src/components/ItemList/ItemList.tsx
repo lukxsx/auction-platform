@@ -2,12 +2,12 @@
 import { useEffect, useState, useMemo } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { AuctionState, RootState } from "../types";
-import { setItems, selectItemsByAuctionId } from "../reducers/items";
-import { addFavorite, removeFavorite } from "../reducers/favorites";
-import itemService from "../services/items";
-import ErrorHandlingService from "../services/errors";
-import ItemView from "./ItemView";
+import { AuctionState, RootState } from "../../types";
+import { setItems, selectItemsByAuctionId } from "../../reducers/items";
+import { addFavorite, removeFavorite } from "../../reducers/favorites";
+import itemService from "../../services/items";
+import ErrorHandlingService from "../../services/errors";
+import ItemView from "../Item/ItemView";
 import ItemListCards from "./ItemListCards";
 import ItemListTable from "./ItemListTable";
 

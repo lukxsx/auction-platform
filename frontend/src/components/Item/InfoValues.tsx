@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Form, Button, InputGroup, Table } from "react-bootstrap";
-import { InfoValue } from "../types";
+import { InfoValue } from "../../types";
 
 const InfoValues = ({
     infoValues,

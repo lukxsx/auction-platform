@@ -2,15 +2,15 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { Container, Button, Badge, Card, Tabs, Tab } from "react-bootstrap";
-import { AuctionState, RootState } from "../types";
-import { selectAuctionById, deleteAuction } from "../reducers/auctions";
-import auctionService from "../services/auctions";
-import ErrorHandlingService from "../services/errors";
-import { capitalize, formatDate, isAdmin } from "../utils/helpers";
-import AddItem from "./AddItem";
-import AlertModal from "./AlertModal";
+import { AuctionState, RootState } from "../../types";
+import { selectAuctionById, deleteAuction } from "../../reducers/auctions";
+import auctionService from "../../services/auctions";
+import ErrorHandlingService from "../../services/errors";
+import { capitalize, formatDate, isAdmin } from "../../utils/helpers";
+import AddItem from "../Item/AddItem";
+import AlertModal from "../AlertModal";
 import EditAuction from "./EditAuction";
-import ItemList from "./ItemList";
+import ItemList from "../ItemList/ItemList";
 
 const AuctionPage = () => {
     let { id } = useParams();

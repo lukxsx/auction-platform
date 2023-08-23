@@ -1,6 +1,6 @@
 import { Badge, Button } from "react-bootstrap";
-import { AuctionState, Item, LoginUser } from "../types";
-import { stateToStatus } from "../utils/helpers";
+import { AuctionState, Item, LoginUser } from "../../types";
+import { stateToStatus } from "../../utils/helpers";
 import InfoText from "./InfoText";
 import FavoriteButton from "./FavoriteButton";
 

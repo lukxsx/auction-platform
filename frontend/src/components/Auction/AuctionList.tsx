@@ -1,10 +1,10 @@
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { ListGroup, Badge } from "react-bootstrap";
-import { RootState, AuctionState } from "../types";
-import { formatDate } from "../utils/helpers";
+import { RootState, AuctionState } from "../../types";
+import { formatDate } from "../../utils/helpers";
 
-const AuctionMenu = () => {
+const AuctionList = () => {
     const auctions = useSelector((state: RootState) => state.auctions);
     const currentAuctions = auctions.filter(
         (a) => a.state === AuctionState.Running
@@ -135,4 +135,4 @@ const AuctionMenu = () => {
     );
 };
 
-export default AuctionMenu;
+export default AuctionList;

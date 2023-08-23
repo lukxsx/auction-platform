@@ -1,17 +1,28 @@
 import { useState } from "react";
 import { Modal, ListGroup, Button, Badge } from "react-bootstrap";
 import { useDispatch } from "react-redux";
-import { AuctionState, Item, ItemState, LoginUser, WinStatus } from "../types";
-import { deleteItem } from "../reducers/items";
-import ErrorHandlingService from "../services/errors";
-import { isAdmin, myBidStatus, stateToStatus, winText } from "../utils/helpers";
+import {
+    AuctionState,
+    Item,
+    ItemState,
+    LoginUser,
+    WinStatus,
+} from "../../types";
+import { deleteItem } from "../../reducers/items";
+import ErrorHandlingService from "../../services/errors";
+import {
+    isAdmin,
+    myBidStatus,
+    stateToStatus,
+    winText,
+} from "../../utils/helpers";
 import BidTable from "./BidTable";
 import BidForm from "./BidForm";
-import InfoText from "./InfoText";
-import AlertModal from "./AlertModal";
+import InfoText from "../ItemList/InfoText";
+import AlertModal from "../AlertModal";
 import AddItem from "./AddItem";
-import itemService from "../services/items";
-import { useAlert } from "../contexts/AlertContext";
+import itemService from "../../services/items";
+import { useAlert } from "../../contexts/AlertContext";
 
 const ItemView = ({
     close,

@@ -1,7 +1,7 @@
 import { useSelector } from "react-redux";
 import { Routes, Route, Navigate } from "react-router-dom";
 import Layout from "./components/Layout";
-import AuctionPage from "./components/AuctionPage";
+import AuctionPage from "./components/Auction/AuctionPage";
 import Home from "./components/Home";
 import Login from "./components/Login";
 import { RootState } from "./types";

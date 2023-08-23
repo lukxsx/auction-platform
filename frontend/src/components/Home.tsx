@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { Card, Button } from "react-bootstrap";
 import { isAdmin } from "../utils/helpers";
-import AuctionMenu from "./AuctionMenu";
-import EditAuction from "./EditAuction";
+import AuctionList from "./Auction/AuctionList";
+import EditAuction from "./Auction/EditAuction";
 
 const Home = () => {
     const [showCreateAuctionForm, setShowCreateAuctionForm] = useState(false);
@@ -27,7 +27,7 @@ const Home = () => {
                         Add a new auction
                     </Button>
                 )}
-                <AuctionMenu />
+                <AuctionList />
             </Card.Body>
         </Card>
     );
