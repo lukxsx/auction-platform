@@ -19,18 +19,23 @@ const EditAuction = ({
 }) => {
     const dispatch = useDispatch();
     const { setAlert } = useAlert();
+    const today = new Date();
     const [name, setName] = useState(auction ? auction.name : "");
     const [startTime, setStartTime] = useState(
         auction ? auction.start_date.toTimeString().slice(0, 5) : ""
     );
     const [startDate, setStartDate] = useState(
-        auction ? auction.start_date.toISOString().slice(0, 10) : ""
+        auction
+            ? auction.start_date.toISOString().slice(0, 10)
+            : today.toISOString().slice(0, 10)
     );
     const [endTime, setEndTime] = useState(
         auction ? auction.end_date.toTimeString().slice(0, 5) : ""
     );
     const [endDate, setEndDate] = useState(
-        auction ? auction.end_date.toISOString().slice(0, 10) : ""
+        auction
+            ? auction.end_date.toISOString().slice(0, 10)
+            : today.toISOString().slice(0, 10)
     );
 
     const handleEditAuction = async (event: SyntheticEvent) => {

@@ -21,9 +21,9 @@ const Notification = () => {
                     bg={notification.variant}
                     key={notification.id}
                     show={notification.show}
-                    onClose={() => {
-                        dispatch(removeNotification(notification.id));
-                    }}
+                    onClose={() =>
+                        dispatch(removeNotification(notification.id))
+                    }
                     delay={5000}
                     autohide
                 >
