@@ -1,8 +1,8 @@
 import { isAdmin, tokenExtractor, userExtractor } from "../middleware";
+import { parseItemEntry, parseItemUpdateEntry } from "../utils/validate";
 import bidService from "../services/bids";
 import express from "express";
 import itemService from "../services/items";
-import { parseItemEntry } from "../utils/validate";
 
 type parentParam = { auctionId: number };
 const router = express.Router({ mergeParams: true });
@@ -63,6 +63,27 @@ router.post("/", isAdmin, async (req, res) => {
             errorMessage += ": " + error.message;
         }
         res.status(400).send({ error: errorMessage });
+    }
+});
+
+// Update item, requires admin
+router.put("/:itemId", isAdmin, async (req, res) => {
+    try {
+        const itemId = parseInt(req.params.itemId, 10);
+        const itemUpdate = parseItemUpdateEntry(req.body);
+
+        // Update auction
+        await itemService.updateItem(itemId, itemUpdate);
+
+        // Get updated auction
+        const updated = await itemService.getItemById(itemId);
+        res.json(updated);
+    } catch (error: unknown) {
+        if (error instanceof Error) {
+            res.status(400).json({ error: error.message });
+            return;
+        }
+        res.status(400).json({ error: "not found" });
     }
 });
 

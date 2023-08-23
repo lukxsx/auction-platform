@@ -36,6 +36,15 @@ const deleteItem = async (item: Item) => {
     );
 };
 
+const updateItem = async (itemUpdate: Item) => {
+    const response = await axios.put<Item>(
+        `${BACKEND_URL}/auctions/${itemUpdate.auction_id}/items/${itemUpdate.id}`,
+        itemUpdate,
+        headers()
+    );
+    return response.data;
+};
+
 const getWonItemsByUser = async (userId: number) => {
     const response = await axios.get<Item[]>(
         `${BACKEND_URL}/users/${userId}/wins`,
@@ -48,6 +57,7 @@ export default {
     getAll,
     getBids,
     addItem,
+    updateItem,
     deleteItem,
     getWonItemsByUser,
 };

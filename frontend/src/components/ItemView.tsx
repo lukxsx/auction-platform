@@ -9,6 +9,7 @@ import BidTable from "./BidTable";
 import BidForm from "./BidForm";
 import InfoText from "./InfoText";
 import AlertModal from "./AlertModal";
+import AddItem from "./AddItem";
 import itemService from "../services/items";
 import { useAlert } from "../contexts/AlertContext";
 
@@ -29,6 +30,7 @@ const ItemView = ({
     const { hideAlert } = useAlert();
 
     const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+    const [showEditItemForm, setShowEditItemForm] = useState(false);
 
     // Select item to show
     const show = itemId !== 0;
@@ -70,6 +72,14 @@ const ItemView = ({
                     "Do you really want to delete item " + item.model + "?"
                 }
             />
+            {/* Edit item form */}
+            <AddItem
+                show={showEditItemForm}
+                close={() => setShowEditItemForm(false)}
+                auctionId={item.auction_id}
+                item={item}
+            />
+
             <Modal.Header closeButton>
                 <Modal.Title id="example-modal-sizes-title-lg">
                     {item.make} {item.model}{" "}
@@ -81,15 +91,25 @@ const ItemView = ({
                 </Modal.Title>
             </Modal.Header>
             <Modal.Body>
+                {/* Admin buttons */}
                 {isAdmin() && (
-                    <Button
-                        variant="danger"
-                        size="sm"
-                        className="mb-3"
-                        onClick={() => setShowDeleteConfirm(true)}
-                    >
-                        Delete
-                    </Button>
+                    <div>
+                        <Button
+                            size="sm"
+                            className="mb-3"
+                            onClick={() => setShowEditItemForm(true)}
+                        >
+                            Edit
+                        </Button>{" "}
+                        <Button
+                            variant="danger"
+                            size="sm"
+                            className="mb-3"
+                            onClick={() => setShowDeleteConfirm(true)}
+                        >
+                            Delete
+                        </Button>
+                    </div>
                 )}
                 <ListGroup className="mb-3">
                     <ListGroup.Item>

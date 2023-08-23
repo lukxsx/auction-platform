@@ -1,6 +1,7 @@
 import {
     AuctionState,
     ItemState,
+    ItemUpdate,
     LoginEntry,
     NewAuction,
     NewBid,
@@ -66,6 +67,69 @@ export const parseUserEntry = (object: unknown): NewUser => {
         };
 
         return newUserEntry;
+    }
+
+    throw new Error("Incorrect data: missing property");
+};
+
+export const parseItemUpdateEntry = (object: unknown): ItemUpdate => {
+    if (!object || typeof object !== "object") {
+        throw new Error("Incorrect or missing data");
+    }
+
+    if ("model" in object && "make" in object && "starting_price" in object) {
+        const newItemEntry: ItemUpdate = {
+            model: parseString(object.model),
+            make: parseString(object.make),
+            info: "info" in object ? parseString(object.info) : "",
+            code: "code" in object ? parseString(object.code) : "",
+            starting_price: parseNumber(object.starting_price),
+        };
+
+        // Check field lengths
+        if (
+            newItemEntry.model &&
+            (newItemEntry.model.trim().length > 256 ||
+                newItemEntry.model.trim().length < 1)
+        ) {
+            throw new Error(
+                "Incorrect data: item model must be under 256 characters"
+            );
+        }
+        if (
+            newItemEntry.make &&
+            (newItemEntry.make.trim().length > 256 ||
+                newItemEntry.make.trim().length < 1)
+        ) {
+            throw new Error(
+                "Incorrect data: item make must be under 256 characters"
+            );
+        }
+        if (
+            newItemEntry.info &&
+            (newItemEntry.info.trim().length > 2048 ||
+                newItemEntry.info.trim().length < 1)
+        ) {
+            throw new Error(
+                "Incorrect data: item info must be under 2048 characters"
+            );
+        }
+        if (
+            newItemEntry.code &&
+            (newItemEntry.code.trim().length > 64 ||
+                newItemEntry.code.trim().length < 1)
+        ) {
+            throw new Error(
+                "Incorrect data: item code must be under 64 characters"
+            );
+        }
+        if (newItemEntry.starting_price && newItemEntry.starting_price < 0) {
+            throw new Error(
+                "Incorrect data: item starting price must be a positive integer"
+            );
+        }
+
+        return newItemEntry;
     }
 
     throw new Error("Incorrect data: missing property");

@@ -1,32 +1,41 @@
 import { SyntheticEvent, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Form, Button, Modal, InputGroup } from "react-bootstrap";
-import { InfoValue, NewItem } from "../types";
-import { addItem } from "../reducers/items";
+import { InfoValue, Item, NewItem } from "../types";
+import { addItem, updateItem } from "../reducers/items";
 import { useAlert } from "../contexts/AlertContext";
 import itemService from "../services/items";
 import ErrorHandlingService from "../services/errors";
 import Alert from "./Alert";
 import InfoValues from "./InfoValues";
+import { isJson, parseInfoValues } from "../utils/helpers";
 
 const AddItem = ({
     show,
     close,
     auctionId,
+    item,
 }: {
     show: boolean;
     close: () => void;
     auctionId: number;
+    item?: Item;
 }) => {
     const dispatch = useDispatch();
     const { setAlert } = useAlert();
-    const [code, setCode] = useState("");
-    const [make, setMake] = useState("");
-    const [model, setModel] = useState("");
-    const [startingPrice, setStartingPrice] = useState(0);
-    const [info, setInfo] = useState("");
-    const [infoAsText, setInfoAsText] = useState(false);
-    const [infoValues, setInfoValues] = useState<InfoValue[]>([]);
+    const [code, setCode] = useState(item ? item.code : "");
+    const [make, setMake] = useState(item ? item.make : "");
+    const [model, setModel] = useState(item ? item.model : "");
+    const [startingPrice, setStartingPrice] = useState(
+        item ? item.starting_price : 0
+    );
+    const [info, setInfo] = useState(item ? item.info : "");
+    const [infoAsText, setInfoAsText] = useState(
+        item && item.info ? !isJson(item.info) : false
+    );
+    const [infoValues, setInfoValues] = useState<InfoValue[]>(
+        item && item.info && !infoAsText ? parseInfoValues(item.info) : []
+    );
 
     const handleAddItem = async (event: SyntheticEvent) => {
         event.preventDefault();
@@ -51,17 +60,41 @@ const AddItem = ({
                 });
                 newItem.info = JSON.stringify(infoObject);
             }
-            const fetchedItem = await itemService.addItem(newItem);
-            fetchedItem.bids = [];
-            dispatch(addItem(fetchedItem));
 
-            setCode("");
-            setMake("");
-            setModel("");
-            setStartingPrice(0);
-            setInfo("");
-            setInfoValues([]);
-            setAlert("Successfully added new item", "success");
+            // Update or add?
+            if (item) {
+                // Update
+                const itemUpdate: Item = {
+                    ...newItem,
+                    current_price: item.current_price,
+                    state: item.state,
+                    bids: item.bids,
+                    id: item.id,
+                };
+                const updatedItemFromAPI = await itemService.updateItem(
+                    itemUpdate
+                );
+                dispatch(
+                    updateItem({
+                        itemId: item.id,
+                        updatedItem: updatedItemFromAPI,
+                    })
+                );
+                setAlert("Successfully updated item", "success");
+            } else {
+                // Add
+                const fetchedItem = await itemService.addItem(newItem);
+                fetchedItem.bids = [];
+                dispatch(addItem(fetchedItem));
+
+                setAlert("Successfully added new item", "success");
+                setCode("");
+                setMake("");
+                setModel("");
+                setStartingPrice(0);
+                setInfo("");
+                setInfoValues([]);
+            }
         } catch (error) {
             ErrorHandlingService.handleError(error);
         }
@@ -70,7 +103,7 @@ const AddItem = ({
     return (
         <Modal size="lg" show={show} onHide={() => close()}>
             <Modal.Header closeButton>
-                <Modal.Title>Add item</Modal.Title>
+                <Modal.Title>{item ? "Edit item" : "Add item"}</Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 <Alert />

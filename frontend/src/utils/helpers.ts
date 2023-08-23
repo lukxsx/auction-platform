@@ -1,4 +1,4 @@
-import { AuctionState, Item, LoginUser, WinStatus } from "../types";
+import { AuctionState, InfoValue, Item, LoginUser, WinStatus } from "../types";
 
 export const isAdmin = (): boolean => {
     const userFromStore = localStorage.getItem("user");
@@ -82,5 +82,28 @@ export const winText = (
         return auctionState === AuctionState.Finished
             ? "You lost this item"
             : "You are losing this item";
+    }
+};
+
+export const isJson = (str: string): boolean => {
+    try {
+        JSON.parse(str);
+    } catch (error) {
+        return false;
+    }
+    return true;
+};
+
+export const parseInfoValues = (str: string): InfoValue[] => {
+    try {
+        const parsedJson: { [key: string]: string } = JSON.parse(str);
+
+        // Convert it into the desired format (array of objects)
+        return Object.keys(parsedJson).map((key) => ({
+            key,
+            value: parsedJson[key],
+        }));
+    } catch (error) {
+        return [];
     }
 };
