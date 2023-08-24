@@ -105,17 +105,19 @@ const ItemView = ({
                 </Modal.Title>
             </Modal.Header>
             <Modal.Body>
-                <img
-                    className="img-fluid mb-2"
-                    style={{ cursor: "pointer" }}
-                    onClick={() => {
-                        showLightbox(
-                            `${BACKEND_URL}/images/${item.image_filename}`
-                        );
-                    }}
-                    alt=""
-                    src={`${BACKEND_URL}/images/small-${item.image_filename}`}
-                />
+                {item.image_filename && (
+                    <img
+                        className="img-fluid mb-2"
+                        style={{ cursor: "pointer" }}
+                        onClick={() => {
+                            showLightbox(
+                                `${BACKEND_URL}/images/${item.image_filename}`
+                            );
+                        }}
+                        alt=""
+                        src={`${BACKEND_URL}/images/small-${item.image_filename}`}
+                    />
+                )}
                 {/* Admin buttons */}
                 {isAdmin() && (
                     <div>
