@@ -10,8 +10,7 @@ import ErrorHandlingService from "../../services/errors";
 import ItemView from "../Item/ItemView";
 import ItemListCards from "./ItemListCards";
 import ItemListTable from "./ItemListTable";
-import Lightbox, { SlideImage } from "yet-another-react-lightbox";
-import "yet-another-react-lightbox/styles.css";
+import Lightbox from "../Lightbox";
 
 // https://v5.reactrouter.com/web/example/query-parameters
 const useQuery = () => {
@@ -75,31 +74,12 @@ const ItemList = ({
             : dispatch(addFavorite(itemId));
     };
 
-    const [lightboxImage, setLightboxImage] = useState({
-        src: "",
-    } as SlideImage);
-    const [showLightbox, setShowLightbox] = useState(false);
-
-    const handleOpenLightbox = (src: string) => {
-        setLightboxImage({ src });
-        setShowLightbox(true);
-    };
-
-    const hideLightbox = () => {
-        setLightboxImage({ src: "" });
-        setShowLightbox(false);
-    };
-
     // Make sure user exists
     if (!user) return <></>;
 
     return (
         <>
-            <Lightbox
-                open={showLightbox}
-                close={() => hideLightbox()}
-                slides={[lightboxImage]}
-            />
+            <Lightbox />
             <ItemView
                 items={allItems}
                 itemId={selectedItemId}
@@ -115,7 +95,6 @@ const ItemList = ({
                     user={user}
                     favorites={favorites}
                     handleFavoriteChange={handleFavoriteChange}
-                    handleOpenLightbox={handleOpenLightbox}
                 />
             )}
             {view === "table" && (

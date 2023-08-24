@@ -8,6 +8,7 @@ import { AlertProvider } from "./contexts/AlertContext";
 import App from "./App";
 
 import "bootstrap/dist/css/bootstrap.min.css";
+import { LightboxProvider } from "./contexts/LightboxContext";
 //import "normalize.css";
 
 const root = ReactDOM.createRoot(
@@ -16,9 +17,11 @@ const root = ReactDOM.createRoot(
 root.render(
     <Provider store={store}>
         <AlertProvider>
-            <Router>
-                <App />
-            </Router>
+            <LightboxProvider>
+                <Router>
+                    <App />
+                </Router>
+            </LightboxProvider>
         </AlertProvider>
     </Provider>
 );

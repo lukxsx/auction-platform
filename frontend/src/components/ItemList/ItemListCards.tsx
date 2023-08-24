@@ -10,7 +10,6 @@ const ItemListCards = ({
     auctionState,
     user,
     handleFavoriteChange,
-    handleOpenLightbox,
 }: {
     items: Item[];
     favorites: Item[];
@@ -18,7 +17,6 @@ const ItemListCards = ({
     auctionState: AuctionState;
     user: LoginUser;
     handleFavoriteChange: (itemId: number, isFavorite: boolean) => void;
-    handleOpenLightbox: (src: string) => void;
 }) => {
     return (
         <Container className="mt-4">
@@ -39,7 +37,6 @@ const ItemListCards = ({
                             user={user}
                             favorite={true}
                             handleFavoriteChange={handleFavoriteChange}
-                            handleOpenLightbox={handleOpenLightbox}
                         />
                     </Col>
                 ))}
@@ -62,7 +59,6 @@ const ItemListCards = ({
                             user={user}
                             favorite={false}
                             handleFavoriteChange={handleFavoriteChange}
-                            handleOpenLightbox={handleOpenLightbox}
                         />
                     </Col>
                 ))}

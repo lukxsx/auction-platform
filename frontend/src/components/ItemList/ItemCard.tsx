@@ -4,6 +4,7 @@ import { stateToStatus, myBidStatus } from "../../utils/helpers";
 import InfoText from "./InfoText";
 import FavoriteButton from "./FavoriteButton";
 import { BACKEND_URL } from "../../utils/config";
+import { useLightbox } from "../../contexts/LightboxContext";
 
 const ItemCard = ({
     item,
@@ -12,7 +13,6 @@ const ItemCard = ({
     user,
     favorite,
     handleFavoriteChange,
-    handleOpenLightbox,
 }: {
     item: Item;
     handleShowItem: (itemId: number) => void;
@@ -20,9 +20,9 @@ const ItemCard = ({
     user: LoginUser;
     favorite: boolean;
     handleFavoriteChange: (itemId: number, isFavorite: boolean) => void;
-    handleOpenLightbox: (src: string) => void;
 }) => {
     const changeFavorite = () => handleFavoriteChange(item.id, favorite);
+    const { showLightbox } = useLightbox();
 
     return (
         <Card
@@ -35,7 +35,7 @@ const ItemCard = ({
                     <Card.Img
                         variant="top"
                         onClick={() => {
-                            handleOpenLightbox(
+                            showLightbox(
                                 `${BACKEND_URL}/images/${item.image_filename}`
                             );
                         }}
