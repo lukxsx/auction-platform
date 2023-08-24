@@ -33,6 +33,7 @@ const ItemCard = ({
             <div>
                 {item.image_filename && (
                     <Card.Img
+                        style={{ cursor: "pointer" }}
                         variant="top"
                         onClick={() => {
                             showLightbox(

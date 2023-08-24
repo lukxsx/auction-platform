@@ -1,3 +1,4 @@
+import { isAdmin, tokenExtractor /* userExtractor*/ } from "../middleware";
 import multer, { FileFilterCallback } from "multer";
 import express from "express";
 import itemService from "../services/items";
@@ -5,6 +6,8 @@ import path from "path";
 import sharp from "sharp";
 
 const router = express.Router();
+router.use(tokenExtractor);
+//router.use(userExtractor);
 
 router.use("/", express.static(path.join(__dirname, "../../uploads")));
 
@@ -14,10 +17,10 @@ const storage = multer.diskStorage({
     },
     filename: (req, file, callback) => {
         // Naming scheme: itemId-randomized-name
-        const randomName = Date.now() + "-" + Math.round(Math.random() * 1e9);
+        const unixtime = Date.now();
         const itemId = req.params.itemId;
         const uploadedFilename =
-            itemId + "-" + randomName + path.extname(file.originalname);
+            itemId + "-" + unixtime + path.extname(file.originalname);
         callback(null, uploadedFilename);
     },
 });
@@ -41,7 +44,7 @@ const fileFilter = (
 const upload = multer({ storage: storage, fileFilter: fileFilter });
 
 // Image upload route
-router.post("/:itemId", upload.single("file"), async (req, res) => {
+router.post("/:itemId", isAdmin, upload.single("file"), async (req, res) => {
     const itemId = req.params.itemId;
     try {
         // Check if item exists

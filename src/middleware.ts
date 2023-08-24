@@ -10,8 +10,15 @@ export const tokenExtractor = (
 ) => {
     const auth = req.get("authorization");
 
+    // If passed through headers
     if (auth && auth.toLowerCase().startsWith("bearer ")) {
         req.token = auth.substring(7);
+    }
+
+    // If passed through parameter (used for images etc.)
+    const tokenParam = req.query.token;
+    if (tokenParam && typeof tokenParam == "string" && !auth) {
+        req.token = tokenParam;
     }
 
     next();
