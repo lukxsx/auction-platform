@@ -10,6 +10,7 @@ import cors from "cors";
 import { createServer } from "http";
 import { createTables /*createTestData*/ } from "./database";
 import express from "express";
+import imageRouter from "./routes/images";
 import morgan from "morgan";
 import path from "path";
 import { schedule } from "node-cron";
@@ -57,6 +58,7 @@ app.use("/api/users", userRouter);
 app.use("/api/auth", authRouter);
 app.use("/api/bids", bidsRouter);
 app.use("/api/auctions", auctionRouter);
+app.use("/api/images", imageRouter);
 
 if (process.env.NODE_ENV === "production") {
     app.use(express.static(path.join(__dirname, "frontend")));
