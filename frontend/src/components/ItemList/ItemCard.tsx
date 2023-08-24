@@ -12,6 +12,7 @@ const ItemCard = ({
     user,
     favorite,
     handleFavoriteChange,
+    handleOpenLightbox,
 }: {
     item: Item;
     handleShowItem: (itemId: number) => void;
@@ -19,6 +20,7 @@ const ItemCard = ({
     user: LoginUser;
     favorite: boolean;
     handleFavoriteChange: (itemId: number, isFavorite: boolean) => void;
+    handleOpenLightbox: (src: string) => void;
 }) => {
     const changeFavorite = () => handleFavoriteChange(item.id, favorite);
 
@@ -32,6 +34,11 @@ const ItemCard = ({
                 {item.image_filename && (
                     <Card.Img
                         variant="top"
+                        onClick={() => {
+                            handleOpenLightbox(
+                                `${BACKEND_URL}/images/${item.image_filename}`
+                            );
+                        }}
                         src={`${BACKEND_URL}/images/small-${item.image_filename}`}
                     />
                 )}
