@@ -23,6 +23,8 @@ import AlertModal from "../AlertModal";
 import ItemForm from "./ItemForm";
 import itemService from "../../services/items";
 import { useAlert } from "../../contexts/AlertContext";
+import { BACKEND_URL } from "../../utils/config";
+import { useLightbox } from "../../contexts/LightboxContext";
 
 const ItemView = ({
     close,
@@ -39,6 +41,7 @@ const ItemView = ({
 }) => {
     const dispatch = useDispatch();
     const { hideAlert } = useAlert();
+    const { showLightbox } = useLightbox();
 
     const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
     const [showEditItemForm, setShowEditItemForm] = useState(false);
@@ -102,6 +105,17 @@ const ItemView = ({
                 </Modal.Title>
             </Modal.Header>
             <Modal.Body>
+                <img
+                    className="img-fluid mb-2"
+                    style={{ cursor: "pointer" }}
+                    onClick={() => {
+                        showLightbox(
+                            `${BACKEND_URL}/images/${item.image_filename}`
+                        );
+                    }}
+                    alt=""
+                    src={`${BACKEND_URL}/images/small-${item.image_filename}`}
+                />
                 {/* Admin buttons */}
                 {isAdmin() && (
                     <div>
