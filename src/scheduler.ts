@@ -36,6 +36,7 @@ const toItemWithoutBids = (i: ItemWithBids): Item => {
         current_price: i.current_price,
         winner_id: i.winner_id,
         winner_name: i.winner_name,
+        image_filename: i.image_filename,
     };
 };
 

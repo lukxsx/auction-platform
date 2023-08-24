@@ -53,6 +53,7 @@ const getItemsByAuction = async (
                 "winner_id",
                 "winner_name",
                 "state",
+                "image_filename",
                 jsonArrayFrom(
                     eb
                         .selectFrom("bid")
@@ -101,6 +102,7 @@ const getItemById = async (itemId: number): Promise<ItemWithBids> => {
                 "winner_id",
                 "winner_name",
                 "state",
+                "image_filename",
                 jsonArrayFrom(
                     eb
                         .selectFrom("bid")

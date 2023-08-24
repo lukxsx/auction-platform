@@ -59,7 +59,6 @@ app.use("/api/auth", authRouter);
 app.use("/api/bids", bidsRouter);
 app.use("/api/auctions", auctionRouter);
 app.use("/api/images", imageRouter);
-
 if (process.env.NODE_ENV === "production") {
     app.use(express.static(path.join(__dirname, "frontend")));
     app.get("*", (_req, res) => {

@@ -34,6 +34,7 @@ interface ItemTable {
     winner_id?: number;
     winner_name?: string;
     state: ItemState;
+    image_filename?: string;
 }
 
 export type Item = Selectable<ItemTable>;
