@@ -1,5 +1,5 @@
+import multer, { FileFilterCallback } from "multer";
 import express from "express";
-import multer from "multer";
 import path from "path";
 import sharp from "sharp";
 
@@ -18,7 +18,23 @@ const storage = multer.diskStorage({
     },
 });
 
-const upload = multer({ storage: storage });
+// Check if file is image by the extension
+const fileFilter = (
+    _req: express.Request,
+    file: Express.Multer.File,
+    callback: FileFilterCallback
+) => {
+    const allowedExtensions = [".jpg", ".jpeg", ".png"];
+    const fileExt = path.extname(file.originalname).toLowerCase();
+
+    if (allowedExtensions.includes(fileExt)) {
+        callback(null, true);
+    } else {
+        callback(new Error("Only JPG, JPEG, and PNG files are allowed"));
+    }
+};
+
+const upload = multer({ storage: storage, fileFilter: fileFilter });
 
 router.post("/:itemId", upload.single("file"), async (req, res) => {
     const uploadedFile = req.file;
