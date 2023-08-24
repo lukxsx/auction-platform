@@ -6,7 +6,7 @@ import sharp from "sharp";
 
 const router = express.Router();
 
-router.use("/uploads", express.static(path.join(__dirname, "../../uploads")));
+router.use("/", express.static(path.join(__dirname, "../../uploads")));
 
 const storage = multer.diskStorage({
     destination: (_req, _file, callback) => {
@@ -62,9 +62,7 @@ router.post("/:itemId", upload.single("file"), async (req, res) => {
         }
 
         // Create thumbnail
-        const originalFilename = path.parse(uploadedFile.filename).name;
-        const extension = path.extname(uploadedFile.originalname);
-        const thumbnailFilename = `${originalFilename}-small${extension}`;
+        const thumbnailFilename = "small-" + uploadedFile.filename;
         const thumbnailPath = path.join("./uploads/", thumbnailFilename);
         // Resize and compress
         await sharp(uploadedFile.path)

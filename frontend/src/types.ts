@@ -28,6 +28,7 @@ export interface Item {
     winner_id?: number;
     winner_name?: string;
     state: ItemState;
+    image_filename?: string;
     bids: Bid[];
 }
 

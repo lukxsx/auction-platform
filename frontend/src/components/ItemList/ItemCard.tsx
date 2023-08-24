@@ -3,6 +3,7 @@ import { Item, ItemState, AuctionState, LoginUser } from "../../types";
 import { stateToStatus, myBidStatus } from "../../utils/helpers";
 import InfoText from "./InfoText";
 import FavoriteButton from "./FavoriteButton";
+import { BACKEND_URL } from "../../utils/config";
 
 const ItemCard = ({
     item,
@@ -28,6 +29,12 @@ const ItemCard = ({
             className="d-flex justify-content-between"
         >
             <div>
+                {item.image_filename && (
+                    <Card.Img
+                        variant="top"
+                        src={`${BACKEND_URL}/images/small-${item.image_filename}`}
+                    />
+                )}
                 <Card.Body>
                     <div className="d-flex justify-content-between align-items-center">
                         <div>
