@@ -81,7 +81,7 @@ export const winText = (
     } else {
         return auctionState === AuctionState.Finished
             ? "You lost this item"
-            : "You are losing this item";
+            : "You are about to lose this item";
     }
 };
 

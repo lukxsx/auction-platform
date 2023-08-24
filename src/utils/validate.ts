@@ -77,13 +77,19 @@ export const parseItemUpdateEntry = (object: unknown): ItemUpdate => {
         throw new Error("Incorrect or missing data");
     }
 
-    if ("model" in object && "make" in object && "starting_price" in object) {
+    if (
+        "model" in object &&
+        "make" in object &&
+        "starting_price" in object &&
+        "current_price" in object
+    ) {
         const newItemEntry: ItemUpdate = {
             model: parseString(object.model),
             make: parseString(object.make),
             info: "info" in object ? parseString(object.info) : "",
             code: "code" in object ? parseString(object.code) : "",
             starting_price: parseNumber(object.starting_price),
+            current_price: parseNumber(object.current_price),
         };
 
         // Check field lengths

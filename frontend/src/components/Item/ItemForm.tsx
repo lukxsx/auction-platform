@@ -66,7 +66,10 @@ const ItemForm = ({
                 // Update
                 const itemUpdate: Item = {
                     ...newItem,
-                    current_price: item.current_price,
+                    current_price:
+                        item.current_price < startingPrice
+                            ? startingPrice
+                            : item.current_price,
                     state: item.state,
                     bids: item.bids,
                     id: item.id,
