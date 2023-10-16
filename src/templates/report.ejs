@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Auction report</title>
+    <link rel="stylesheet" href="https://necolas.github.io/normalize.css/8.0.1/normalize.css">
+    <style>
+table {
+  border:1px solid black;
+}
+th, td {
+  padding: 5px;
+  border: 1px solid black;
+}
+
+    </style>
+    </head>
+    <body>
+      <h1>Auction report for auction <%= auction.name %></h1>
+      <h2>Sold items</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Item ID</th>
+            <th>Item</th>
+            <th>Price</th>
+            <th>Winner</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% items.forEach(item => { %>
+            <tr>
+              <td><%= item.code %></td>
+              <td><%= item.model %></td>
+              <td><%= item.current_price %></td>
+              <td><%= item.winner_name %></td>
+            </tr>
+          <% }); %>
+        </tbody>
+      </table>
+      <h2>Auction participants</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>User</th>
+            <th>Money spent</th>
+            </tr>
+          </tr>
+        </thead>
+        <tbody>
+          <% costsByUsers.forEach(usercost => { %>
+            <tr>
+              <td><%= usercost.winner_name %></td>
+              <td><%= usercost.total_price %> €</td>
+            </tr>
+          <% }); %>
+        </tbody>
+      </table>
+    </body>
+</html>

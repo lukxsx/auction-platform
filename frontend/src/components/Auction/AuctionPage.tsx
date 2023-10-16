@@ -11,6 +11,8 @@ import AddItem from "../Item/ItemForm";
 import AlertModal from "../AlertModal";
 import AuctionForm from "./AuctionForm";
 import ItemList from "../ItemList/ItemList";
+import { BACKEND_URL } from "../../utils/config";
+import { headers } from "../../utils/helpers";
 
 const AuctionPage = () => {
     let { id } = useParams();
@@ -104,7 +106,16 @@ const AuctionPage = () => {
                             >
                                 Add a new item
                             </Button>{" "}
-                            <Button size="sm">Download report</Button>{" "}
+                            <Button
+                                size="sm"
+                                href={`${BACKEND_URL}/reports/${
+                                    auction.id
+                                }?token=${headers().headers?.Authorization.substring(
+                                    7
+                                )}`}
+                            >
+                                Download report
+                            </Button>{" "}
                             <Button
                                 size="sm"
                                 variant="danger"

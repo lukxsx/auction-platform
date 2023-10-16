@@ -120,3 +120,8 @@ export interface Authenticator {
     name: string;
     authenticate: (username: string, password: string) => Promise<AuthResult>;
 }
+
+export interface UserCost {
+    username: string;
+    total_cost: number;
+}

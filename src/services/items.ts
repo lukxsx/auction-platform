@@ -1,6 +1,14 @@
-import { Item, ItemUpdate, ItemWithBids, NewItem } from "../types";
+import {
+    Item,
+    ItemState,
+    ItemUpdate,
+    ItemWithBids,
+    NewItem,
+    UserCost,
+} from "../types";
 import { db } from "../database";
 import { jsonArrayFrom } from "kysely/helpers/postgres";
+import { sql } from "kysely";
 
 // export const sqlItemsQuery = sql<Item[]>`SELECT
 // i.*,
@@ -85,6 +93,20 @@ const getItemByIdWithoutBids = async (itemId: number): Promise<Item> => {
     }
 };
 
+const getSoldItems = async (auctionId: number): Promise<Item[]> => {
+    try {
+        const items = await db
+            .selectFrom("item")
+            .where("auction_id", "=", auctionId)
+            .where("state", "=", ItemState.Sold)
+            .selectAll()
+            .execute();
+        return items;
+    } catch (error: unknown) {
+        throw new Error("item not found");
+    }
+};
+
 // Get item by id
 const getItemById = async (itemId: number): Promise<ItemWithBids> => {
     try {
@@ -154,13 +176,29 @@ const getWonItemsByUser = async (userId: number) => {
         .execute();
 };
 
+// Get total cost by user
+const getUserTotalCost = async (auctionId: number) => {
+    const result = await sql<
+        UserCost[]
+    >`SELECT winner_name, SUM(current_price) as total_price
+    FROM item
+    WHERE item.state = ${ItemState.Sold}
+    AND item.auction_id = ${auctionId}
+    GROUP BY winner_name;
+    `.execute(db);
+
+    return result;
+};
+
 export default {
     getAllItems,
     getItemById,
     getItemByIdWithoutBids,
     getItemsByAuction,
+    getSoldItems,
+    getWonItemsByUser,
     updateItem,
     createItem,
     deleteItem,
-    getWonItemsByUser,
+    getUserTotalCost,
 };

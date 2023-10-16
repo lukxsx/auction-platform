@@ -11,6 +11,7 @@ import { createServer } from "http";
 import { createTables /*createTestData*/ } from "./database";
 import express from "express";
 import imageRouter from "./routes/images";
+import reportRouter from "./routes/reports";
 import morgan from "morgan";
 import path from "path";
 import { schedule } from "node-cron";
@@ -54,11 +55,17 @@ schedule("*/5 * * * * *", () => {
         .catch((e) => console.error(e));
 });
 
+app.set("view engine", "ejs");
+app.set("views", __dirname + "/templates");
+
 app.use("/api/users", userRouter);
 app.use("/api/auth", authRouter);
 app.use("/api/bids", bidsRouter);
 app.use("/api/auctions", auctionRouter);
 app.use("/api/images", imageRouter);
+app.use("/api/reports", reportRouter);
+
+// Serve frontend from backend if production
 if (process.env.NODE_ENV === "production") {
     app.use(express.static(path.join(__dirname, "frontend")));
     app.get("*", (_req, res) => {
