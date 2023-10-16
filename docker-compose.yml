@@ -13,6 +13,8 @@ services:
       - DB_USER=auctions
       - DB_PASS=P3TvcBc3gN6CFUgUyqja8uOoslIXPWsh
       - DB_NAME=auctions
+#    volumes:
+#        - /some/path/uploads:/app/uploads # upload path
     depends_on:
       auctions-db:
         condition: service_healthy
@@ -26,6 +28,8 @@ services:
       - POSTGRES_USER=auctions
       - POSTGRES_PASSWORD=P3TvcBc3gN6CFUgUyqja8uOoslIXPWsh
       - POSTGRES_DB=auctions
+#    volumes:
+#        - /some/path/postgres_data:/var/lib/postgresql/data
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres"]
       interval: 5s

@@ -5,6 +5,7 @@
     "main": "index.js",
     "scripts": {
         "tsc": "tsc",
+        "build": "tsc && cp -r src/templates build/templates",
         "dev": "ts-node-dev src/index.ts",
         "lint": "eslint --ext .ts .",
         "start": "node build/index.js",
