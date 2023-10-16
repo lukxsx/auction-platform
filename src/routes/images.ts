@@ -4,6 +4,7 @@ import express from "express";
 import itemService from "../services/items";
 import path from "path";
 import sharp from "sharp";
+import { randomBytes } from "crypto";
 
 const router = express.Router();
 router.use(tokenExtractor);
@@ -11,16 +12,25 @@ router.use(tokenExtractor);
 
 router.use("/", express.static(path.join(__dirname, "../../uploads")));
 
+// Generate random filenames
+const generateRandomString = (length: number) => {
+    return randomBytes(Math.ceil(length / 2))
+        .toString("hex")
+        .slice(0, length);
+};
+
 const storage = multer.diskStorage({
     destination: (_req, _file, callback) => {
         callback(null, "./uploads/");
     },
     filename: (req, file, callback) => {
         // Naming scheme: itemId-randomized-name
-        const unixtime = Date.now();
         const itemId = req.params.itemId;
         const uploadedFilename =
-            itemId + "-" + unixtime + path.extname(file.originalname);
+            itemId +
+            "-" +
+            generateRandomString(32) +
+            path.extname(file.originalname);
         callback(null, uploadedFilename);
     },
 });
@@ -69,7 +79,7 @@ router.post("/:itemId", isAdmin, upload.single("file"), async (req, res) => {
         const thumbnailPath = path.join("./uploads/", thumbnailFilename);
         // Resize and compress
         await sharp(uploadedFile.path)
-            .resize({ width: 286, height: 180 })
+            .resize({ width: 386, height: 243 })
             .jpeg({ quality: 80 })
             .toFile(thumbnailPath);
 
