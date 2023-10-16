@@ -4,13 +4,20 @@ import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../types";
 import { clearUser } from "../reducers/user";
 import { Button } from "react-bootstrap";
+import InstructionsModal from "./InstructionsModal";
+import { useState } from "react";
 
 const NavBar = () => {
     const dispatch = useDispatch();
     const user = useSelector((state: RootState) => state.user.user);
+    const [showInstructions, setShowInstructions] = useState(false);
 
     return (
         <Navbar className="bg-body-tertiary mb-3">
+            <InstructionsModal
+                show={showInstructions}
+                close={() => setShowInstructions(false)}
+            />
             <Container>
                 <Navbar.Brand as={Link} to="/">
                     Auctions
@@ -19,11 +26,8 @@ const NavBar = () => {
                     <Nav.Link as={Link} to="/">
                         Auction list
                     </Nav.Link>
-                    <Nav.Link as={Link} to="/">
+                    <Nav.Link onClick={() => setShowInstructions(true)}>
                         Instructions
-                    </Nav.Link>
-                    <Nav.Link as={Link} to="/">
-                        About
                     </Nav.Link>
                 </Nav>
                 <Navbar.Toggle />
