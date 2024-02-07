@@ -8,7 +8,7 @@ const auctionSlice = createSlice({
         createAuction(state, action) {
             return state.concat(action.payload);
         },
-        setAuctions(state, action) {
+        setAuctions(_state, action) {
             return action.payload;
         },
         deleteAuction(state, action) {

@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState } from "react";
-import { SlideImage } from "yet-another-react-lightbox/*";
+import { SlideImage } from "yet-another-react-lightbox";
 
 interface LightboxContextType {
     lightboxImage: SlideImage;

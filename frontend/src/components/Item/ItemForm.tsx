@@ -209,7 +209,7 @@ const ItemForm = ({
                             type="switch"
                             id="text-switch"
                             label="Info as text"
-                            onChange={(e) => {
+                            onChange={() => {
                                 setInfoAsText(!infoAsText);
                                 setInfo("");
                             }}

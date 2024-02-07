@@ -12,7 +12,7 @@ const highestBids = createSlice({
         deleteItem: (state, action) => {
             return state.filter((i) => i !== action.payload);
         },
-        setItems: (state, action) => {
+        setItems: (_state, action) => {
             return action.payload;
         },
     },

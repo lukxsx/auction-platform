@@ -6,7 +6,7 @@ const itemsSlice = createSlice({
     name: "items",
     initialState: [] as Item[],
     reducers: {
-        setItems(state, action) {
+        setItems(_state, action) {
             return action.payload;
         },
         addItem(state, action) {

@@ -7,10 +7,10 @@ const favoriteSlicer = createSlice({
         (JSON.parse(localStorage.getItem("favorites") || "null") as number[]) ||
         ([] as RootState["favorites"]),
     reducers: {
-        setFavorites: (state, action) => {
+        setFavorites: (_state, action) => {
             return action.payload;
         },
-        clearFavorites: (state) => {
+        clearFavorites: (_state) => {
             return [];
         },
         addFavorite: (state, action) => {
