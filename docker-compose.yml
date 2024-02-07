@@ -1,7 +1,7 @@
 version: "3"
 services:
   auctions-app:
-    image: lukxsx/auctions
+    image: auctions
     container_name: auctions-app
     ports:
       - 3000:3000

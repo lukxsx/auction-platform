@@ -1,21 +1,33 @@
 FROM node:lts-alpine AS base
 
-# Install build dependencies
-FROM base AS build-deps
+# Frontend build dependencies
+FROM base AS frontend-deps
 WORKDIR /deps
-COPY package*.json ./
-COPY frontend/package*.json ./frontend/
-RUN npm ci && npm run install-frontend
+COPY ./frontend/package*.json ./
+#COPY frontend/package*.json ./frontend/
+RUN npm ci
 
-# Build frontend and backend
-FROM base AS builder
+# Backend build dependencies
+FROM base AS backend-deps
+WORKDIR /deps
+COPY ./backend/package*.json ./
+RUN npm ci
+
+# Build frontend
+FROM base AS frontend-builder
 ENV REACT_APP_BACKEND_URL="/api"
 ENV REACT_APP_SOCKET_IO_ADDR="/"
 WORKDIR /build
-COPY --from=build-deps /deps/node_modules ./node_modules
-COPY --from=build-deps /deps/frontend/node_modules ./frontend/node_modules
-COPY . .
-RUN npm run build-frontend && npm run build
+COPY --from=frontend-deps /deps/node_modules ./node_modules
+COPY ./frontend/ .
+RUN npm run build
+
+# Build backend
+FROM base AS backend-builder
+WORKDIR /build
+COPY --from=backend-deps /deps/node_modules ./node_modules
+COPY ./backend/ .
+RUN npm run build
 
 # Install runtime dependencies and copy builds from the previous stage
 FROM base AS prod
@@ -23,8 +35,8 @@ ENV NODE_ENV=production
 ENV PORT=3000
 EXPOSE 3000
 WORKDIR /app
-COPY package*.json ./
-RUN npm install npm install --omit=dev && mkdir uploads
-COPY --from=builder /build/build ./build/
-COPY --from=builder /build/frontend/build/ ./build/frontend
+COPY backend/package*.json ./
+RUN npm install --omit=dev && mkdir uploads
+COPY --from=backend-builder /build/build ./build/
+COPY --from=frontend-builder /build/build ./build/frontend
 CMD ["npm", "start"]
