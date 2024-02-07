@@ -20,6 +20,7 @@ const Home = () => {
             <Card.Body>
                 {isAdmin() && (
                     <Button
+                        id="new-auction-button"
                         size="sm"
                         className="mb-2"
                         onClick={() => setShowCreateAuctionForm(true)}

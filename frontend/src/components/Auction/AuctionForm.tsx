@@ -130,6 +130,7 @@ const AuctionForm = ({
                         <Form.Label>Auction name</Form.Label>
                         <Form.Control
                             type="text"
+                            id="auction-name"
                             required
                             value={name}
                             onChange={(e) => setName(e.target.value)}
@@ -141,12 +142,14 @@ const AuctionForm = ({
                         <InputGroup>
                             <Form.Control
                                 type="date"
+                                id="start-date"
                                 required
                                 value={startDate}
                                 onChange={(e) => setStartDate(e.target.value)}
                             />
                             <Form.Control
                                 type="time"
+                                id="start-time"
                                 required
                                 value={startTime}
                                 onChange={(e) => setStartTime(e.target.value)}
@@ -159,12 +162,14 @@ const AuctionForm = ({
                         <InputGroup>
                             <Form.Control
                                 type="date"
+                                id="end-date"
                                 required
                                 value={endDate}
                                 onChange={(e) => setEndDate(e.target.value)}
                             />
                             <Form.Control
                                 type="time"
+                                id="end-time"
                                 required
                                 value={endTime}
                                 onChange={(e) => setEndTime(e.target.value)}
@@ -173,7 +178,11 @@ const AuctionForm = ({
                     </Form.Group>
 
                     <Form.Group className="mb-2">
-                        <Button variant="primary" type="submit">
+                        <Button
+                            variant="primary"
+                            type="submit"
+                            id="submit-auction-button"
+                        >
                             Submit
                         </Button>
                     </Form.Group>
