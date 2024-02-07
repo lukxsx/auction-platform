@@ -8,9 +8,7 @@
         "build": "tsc && cp -r src/templates build/templates",
         "dev": "ts-node-dev src/index.ts",
         "lint": "eslint --ext .ts .",
-        "start": "node build/index.js",
-        "install-frontend": "cd frontend && npm ci",
-        "build-frontend": "cd frontend && npm run build"
+        "start": "node build/index.js"
     },
     "author": "",
     "license": "ISC",
@@ -21,7 +19,7 @@
         "@types/morgan": "^1.9.4",
         "@types/multer": "^1.4.7",
         "@types/pg": "^8.10.2",
-        "@typescript-eslint/eslint-plugin": "^5.59.8",
+        "@typescript-eslint/eslint-plugin": "^5.62.0",
         "@typescript-eslint/parser": "^5.59.8",
         "eslint": "^8.42.0",
         "ts-node-dev": "^2.0.0",
