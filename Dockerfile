@@ -4,7 +4,6 @@ FROM node:lts-alpine AS base
 FROM base AS frontend-deps
 WORKDIR /deps
 COPY ./frontend/package*.json ./
-#COPY frontend/package*.json ./frontend/
 RUN npm ci
 
 # Backend build dependencies
@@ -15,8 +14,8 @@ RUN npm ci
 
 # Build frontend
 FROM base AS frontend-builder
-ENV REACT_APP_BACKEND_URL="/api"
-ENV REACT_APP_SOCKET_IO_ADDR="/"
+ENV VITE_APP_BACKEND_URL="/api"
+ENV VITE_APP_SOCKET_IO_ADDR="/"
 WORKDIR /build
 COPY --from=frontend-deps /deps/node_modules ./node_modules
 COPY ./frontend/ .
@@ -37,6 +36,6 @@ EXPOSE 3000
 WORKDIR /app
 COPY backend/package*.json ./
 RUN npm install --omit=dev && mkdir uploads
-COPY --from=backend-builder /build/build ./build/
-COPY --from=frontend-builder /build/build ./build/frontend
+COPY --from=backend-builder ./build/build ./build/
+COPY --from=frontend-builder ./build/dist ./build/frontend
 CMD ["npm", "start"]
