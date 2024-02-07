@@ -51,6 +51,7 @@ const Login = () => {
                                 <InputGroup>
                                     <Form.Control
                                         type="text"
+                                        id="username"
                                         value={username}
                                         onChange={(e) =>
                                             setUsername(e.target.value)
@@ -64,6 +65,7 @@ const Login = () => {
                                 <Form.Label>Password</Form.Label>
                                 <Form.Control
                                     type="password"
+                                    id="password"
                                     value={password}
                                     onChange={(e) =>
                                         setPassword(e.target.value)
@@ -74,6 +76,7 @@ const Login = () => {
 
                             <Button
                                 variant="primary"
+                                id="login-button"
                                 type="submit"
                                 disabled={
                                     username.trim() === "" ||

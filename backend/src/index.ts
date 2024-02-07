@@ -1,6 +1,8 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import * as dotenv from "dotenv";
+dotenv.config();
+
 import { Server } from "socket.io";
 import auctionRouter from "./routes/auctions";
 import authRouter from "./routes/auth";
@@ -17,7 +19,6 @@ import path from "path";
 import { schedule } from "node-cron";
 import userRouter from "./routes/users";
 
-dotenv.config();
 const app = express();
 const httpServer = createServer(app);
 app.use(cors());
