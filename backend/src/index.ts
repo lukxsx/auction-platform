@@ -18,6 +18,7 @@ import morgan from "morgan";
 import path from "path";
 import { schedule } from "node-cron";
 import userRouter from "./routes/users";
+import testingRouter from "./routes/tests";
 
 const app = express();
 const httpServer = createServer(app);
@@ -65,6 +66,11 @@ app.use("/api/bids", bidsRouter);
 app.use("/api/auctions", auctionRouter);
 app.use("/api/images", imageRouter);
 app.use("/api/reports", reportRouter);
+
+// If in testing mode, enable testing route
+if (process.env.NODE_ENV === "test") {
+    app.use("/api/testing", testingRouter);
+}
 
 // Serve frontend from backend if production
 if (process.env.NODE_ENV === "production") {

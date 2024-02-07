@@ -43,10 +43,16 @@ const deleteAuction = async (auctionId: number) => {
         .executeTakeFirstOrThrow();
 };
 
+// Delete all auctions
+const deleteAll = async () => {
+    return await db.deleteFrom("auction").executeTakeFirstOrThrow();
+};
+
 export default {
     getAuctions,
     getAuctionById,
     createAuction,
     updateAuction,
     deleteAuction,
+    deleteAll,
 };

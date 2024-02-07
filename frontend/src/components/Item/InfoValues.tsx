@@ -27,17 +27,20 @@ const InfoValues = ({
                 <InputGroup.Text>Key</InputGroup.Text>
                 <Form.Control
                     value={key}
+                    id="info-key"
                     minLength={1}
                     onChange={(e) => setKey(e.target.value)}
                 />
                 <InputGroup.Text>Value</InputGroup.Text>
                 <Form.Control
                     value={value}
+                    id="info-value"
                     minLength={1}
                     onChange={(e) => setValue(e.target.value)}
                 />
                 <Button
                     onClick={() => addValue()}
+                    id="submit-value-button"
                     disabled={key.trim() === "" || value.trim() === ""}
                 >
                     Add

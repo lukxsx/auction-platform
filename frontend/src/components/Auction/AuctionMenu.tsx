@@ -15,7 +15,7 @@ const AuctionMenu = () => {
     );
 
     return (
-        <div>
+        <div id="auction-list">
             <AuctionList
                 auctions={currentAuctions}
                 title="Running auctions"

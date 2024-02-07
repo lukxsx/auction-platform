@@ -110,9 +110,6 @@ export const createTestData = async () => {
     const future = new Date(today);
     future.setDate(today.getDate() + 5);
 
-    await db.insertInto("user").values({ name: "user1" }).execute();
-    await db.insertInto("user").values({ name: "user2" }).execute();
-
     await db
         .insertInto("auction")
         .values({

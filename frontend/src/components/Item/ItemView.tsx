@@ -123,6 +123,7 @@ const ItemView = ({
                     <div>
                         <Button
                             size="sm"
+                            id="edit-item-button"
                             className="mb-3"
                             onClick={() => setShowEditItemForm(true)}
                         >
@@ -130,6 +131,7 @@ const ItemView = ({
                         </Button>{" "}
                         <Button
                             variant="danger"
+                            id="delete-item-button"
                             size="sm"
                             className="mb-3"
                             onClick={() => setShowDeleteConfirm(true)}

@@ -143,6 +143,7 @@ const ItemForm = ({
                         <Form.Label>Item code</Form.Label>
                         <Form.Control
                             type="text"
+                            id="item-code"
                             value={code}
                             onChange={(e) => setCode(e.target.value)}
                         />
@@ -154,6 +155,7 @@ const ItemForm = ({
                         <Form.Control
                             type="text"
                             value={make}
+                            id="item-make"
                             required
                             minLength={1}
                             maxLength={255}
@@ -167,6 +169,7 @@ const ItemForm = ({
                         <Form.Control
                             type="text"
                             value={model}
+                            id="item-model"
                             minLength={1}
                             maxLength={255}
                             required
@@ -181,6 +184,7 @@ const ItemForm = ({
                             <Form.Control
                                 type="number"
                                 value={startingPrice}
+                                id="item-startingprice"
                                 min={0}
                                 required
                                 onChange={(e) => {
@@ -214,6 +218,7 @@ const ItemForm = ({
                             <Form.Control
                                 type="text"
                                 value={info}
+                                id="info-field"
                                 onChange={(e) => setInfo(e.target.value)}
                             ></Form.Control>
                         )}
@@ -232,7 +237,11 @@ const ItemForm = ({
                     </Form.Group>
 
                     <Form.Group className="mb-2">
-                        <Button variant="primary" type="submit">
+                        <Button
+                            variant="primary"
+                            type="submit"
+                            id="submit-item-edit"
+                        >
                             Submit
                         </Button>
                     </Form.Group>

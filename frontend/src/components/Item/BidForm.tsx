@@ -46,6 +46,7 @@ const BidForm = ({ item }: { item: Item }) => {
             <InputGroup className="mb-4">
                 <InputGroup.Text>Bid amount</InputGroup.Text>
                 <Form.Control
+                    id="bid-value"
                     size="lg"
                     style={{ maxWidth: "20%" }}
                     type="number"
@@ -65,6 +66,7 @@ const BidForm = ({ item }: { item: Item }) => {
                 <InputGroup.Text>€</InputGroup.Text>
                 <Button
                     variant="primary"
+                    id="submit-bid-button"
                     type="submit"
                     onClick={() => handleBid()}
                 >
