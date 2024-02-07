@@ -16,5 +16,7 @@ export const store = configureStore({
         highestBids: highestBidsReducer,
         favorites: favoriteReducer,
     },
-    middleware: [localStorageMiddleware],
+    middleware: (getDefaultMiddleware) => {
+        return getDefaultMiddleware().concat(localStorageMiddleware);
+    },
 });
