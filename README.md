@@ -14,9 +14,10 @@ Built with TypeScript, Express, React, Socket.io and PostgreSQL.
 * Create HTML reports of auctions
 
 ## Project structure
-The project consist of two separate npm projects.
-Backend is located in the root of the repository and frontend is located in the `frontend` directory.
-In production, the frontend is served from the backend running in a Docker container.
+The project consist of two separate npm projects and Cypress tests.
+Backend is located in the `backend` directory and frontend is located in the `frontend` directory. Cypress tests are in the `cypress` directory.
+
+In production, the frontend is served by the backend running in a Docker container.
 For local development, they are run and developed separately.
 
 ## User authentication
@@ -26,7 +27,7 @@ The authentication plugins can be any JavaScript/TypeScript code that should be 
 The only rule is that the code must implement the interface [Authenticator](src/types.ts#L119).
 
 The authentication plugins are loaded from the `authenticators` directory on startup.
-Each plugin has a number prefix (for example `50-AdminAuthenticator.ts`) which indicates the order of plugins.
+Each plugin has a number prefix (for example `50-DefaultAuthenticator.ts`) which indicates the order of plugins.
 
 ### Login flow
 1. Go through all the authentication plugins and try to authenticate the user with each one
@@ -34,12 +35,12 @@ Each plugin has a number prefix (for example `50-AdminAuthenticator.ts`) which i
 3. If all plugins fail the authentication, set the login attempt as failed
 
 ### Admin authenticator
-An example (and default) authenticator plugin is provided with the project.
-This [plugin](src/authenticators/50-AdminAuthenticator.ts) checks if the username and password match the admin user account set in the environment variables.
+An example authenticator plugin is provided with the project.
+This [plugin](src/authenticators/50-DefaultAuthenticator.ts) checks if the username and password match the admin user account set in the environment variables.
 
 ## Configuration
 Configuration is done using environmental variables.
-For local development, you can create .env files in both root directory.
+For local development, you can create .env files in both frontend and backend directories.
 
 | Variable       | Setting                        |
 |----------------|--------------------------------|
@@ -51,11 +52,13 @@ For local development, you can create .env files in both root directory.
 | DB_USER        | Postgres database username     |
 | DB_PASS        | Postgres database password     |
 | DB_NAME        | Postgres database name         |
+| NODE_ENV       | Serve frontend from backend if set to `production`. Testing mode if set to `test`|
 
 ## Local development setup
-Install npm dependencies in both root and frontend directory
+Install npm dependencies in both frontend and backend directories
 
-    npm ci && npm run install-frontend
+    cd frontend && npm ci
+    cd ../backend && npm ci
 
 Start a PostgreSQL database
 
@@ -63,15 +66,16 @@ Start a PostgreSQL database
 
 Create an .env file with the required environment variables to connect to the database (see the table above).
 
-Start the backend in development mode
+Go to the backend directory and start the backend in development mode
 
     npm run dev
 
 In another terminal, go to the frontend directory and run
 
-    npm start
+    npm run dev
 
 If everything is configured correctly, the application should open in your browser.
+The frontend will run in port `3000` and backend in port `3001`.
 
 ## Docker
 ### Dockerfile
@@ -96,3 +100,42 @@ It is also a good idea to make a volume for the PostgreSQL data.
 
 * `/app/uploads` image uploads
 * `/app/build/authenticators` authentication plugins, if you have any custom ones. Make sure to compile all TypeScript files to JavaScript.
+
+## Tests
+End-to-end tests using Cypress have been created for the application. The tests require
+that the both backend and frontend are running and connected to a database. There are
+couple of options to do so.
+
+### Testing mode
+When `NODE_ENV` is set to `test`, the application will run in testing mode. In the testing mode /testing route becomes available and user accounts for testing are created.
+Never enable this mode in the production!
+
+### Running on Docker
+A Docker Compose file `docker-compose.test.yml` is provided in the project. It launches
+a database and the applicatoin with `NODE_ENV=test`. Cypress can be then launched using Docker.
+
+Start the application in testing mode
+
+    docker compose -f docker-compose.test.yml up -d
+
+Run Cypress in a Docker container
+
+    docker run -v $(pwd)/cypress:/cypress -v $(pwd)/cypress.docker.js:/cypress.config.js --network=host cypress/included:13.6.4
+
+### Running Cypress locally
+Start backend in testing mode
+
+    cd backend
+    NODE_ENV=test npm run dev
+
+Start frontend
+
+    cd frontend
+    npm run dev
+
+In the root of the project, run
+
+    npx cypress open
+
+## CI/CD
+End-to-end tests are run automatically using GitHub Actions.
