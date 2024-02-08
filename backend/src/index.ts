@@ -19,6 +19,7 @@ import path from "path";
 import { schedule } from "node-cron";
 import userRouter from "./routes/users";
 import testingRouter from "./routes/tests";
+import { createUsers } from "./utils/testdata";
 
 const app = express();
 const httpServer = createServer(app);
@@ -42,7 +43,7 @@ io.on("connection", (socket) => {
 });
 
 createTables()
-    .then(() => console.log("tables created"))
+    .then(() => console.log("Tables created"))
     .catch((e) => {
         console.error(e);
     });
@@ -70,6 +71,9 @@ app.use("/api/reports", reportRouter);
 // If in testing mode, enable testing route
 if (process.env.NODE_ENV === "test") {
     app.use("/api/testing", testingRouter);
+    createUsers()
+        .then(() => console.log("Test users created"))
+        .catch(() => {});
 }
 
 // Serve frontend from backend if production

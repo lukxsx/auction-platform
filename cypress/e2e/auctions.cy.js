@@ -44,7 +44,7 @@ describe("Logged in as a regular user", () => {
 
     describe("With test data", () => {
         beforeEach(() => {
-            cy.resetAuctions();
+            cy.resetTestData();
             cy.createTestData();
             cy.visit(Cypress.env("app_url"));
         });
@@ -112,7 +112,7 @@ describe("Logged in as an admin user", () => {
 
     describe("Adding a new auction", () => {
         beforeEach(() => {
-            cy.resetAuctions();
+            cy.resetTestData();
             cy.visit(Cypress.env("app_url"));
             cy.get("#new-auction-button").click();
         });
@@ -129,7 +129,7 @@ describe("Logged in as an admin user", () => {
 
     describe("With test data", () => {
         beforeEach(() => {
-            cy.resetAuctions();
+            cy.resetTestData();
             cy.createTestData();
             cy.visit(Cypress.env("app_url"));
         });
@@ -185,6 +185,9 @@ describe("Logged in as an admin user", () => {
                     cy.get("#submit-value-button").click();
                     cy.get("#submit-item-edit").click();
                     cy.contains("Successfully updated item");
+                    cy.contains("Something");
+                    cy.contains("asd");
+                    cy.contains("dsa");
                 });
 
                 it("Delete item", () => {

@@ -101,10 +101,16 @@ const underMinuteSinceLastBid = async (itemId: number): Promise<boolean> => {
     return timeDifferenceInMinutes <= 1;
 };
 
+// Delete all bids
+const deleteAll = async () => {
+    return await db.deleteFrom("bid").executeTakeFirstOrThrow();
+};
+
 export default {
     getBids,
     getBidsByItem,
     bidOnItem,
     createBid,
     underMinuteSinceLastBid,
+    deleteAll,
 };

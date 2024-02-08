@@ -190,6 +190,11 @@ const getUserTotalCost = async (auctionId: number) => {
     return result;
 };
 
+// Delete all items
+const deleteAll = async () => {
+    return await db.deleteFrom("item").executeTakeFirstOrThrow();
+};
+
 export default {
     getAllItems,
     getItemById,
@@ -201,4 +206,5 @@ export default {
     createItem,
     deleteItem,
     getUserTotalCost,
+    deleteAll,
 };

@@ -8,10 +8,10 @@ Cypress.Commands.add("login", ({ username, password }) => {
     });
 });
 
-Cypress.Commands.add("resetAuctions", () => {
+Cypress.Commands.add("resetTestData", () => {
     cy.request(
         "POST",
-        `${Cypress.env("backend_url")}/api/testing/resetauctions`
+        `${Cypress.env("backend_url")}/api/testing/resettestdata`
     );
 });
 
