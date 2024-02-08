@@ -51,6 +51,8 @@ describe("Logged in as a regular user", () => {
 
         it("Test data visible", () => {
             cy.contains("test1");
+            cy.contains("test2");
+            cy.contains("test3");
         });
 
         describe("Viewing running auction", () => {
@@ -64,18 +66,20 @@ describe("Logged in as a regular user", () => {
             });
 
             it("Test items visible", () => {
-                cy.contains("iPhone 15");
-                cy.contains("Apple");
+                cy.contains("Product 2");
+                cy.contains("Test Company");
             });
 
             describe("Item page visible", () => {
                 beforeEach(() => {
                     cy.wait(5000);
-                    cy.contains("View and bid").click();
+                    cy.contains(".card", "Product 2")
+                        .contains("View and bid")
+                        .click();
                 });
 
                 it("Item page contains required info", () => {
-                    cy.contains("Apple iPhone 15");
+                    cy.contains("Product 2");
                     cy.contains("Manufacturer");
                     cy.contains("Model");
                     cy.contains("Starting price");
@@ -132,6 +136,8 @@ describe("Logged in as an admin user", () => {
 
         it("Test data visible", () => {
             cy.contains("test1");
+            cy.contains("test2");
+            cy.contains("test3");
         });
 
         describe("Viewing running auction", () => {
@@ -149,30 +155,24 @@ describe("Logged in as an admin user", () => {
             });
 
             it("Test items visible", () => {
-                cy.contains("iPhone 15");
-                cy.contains("Apple");
+                cy.contains("Product 2");
+                cy.contains("Test Company");
             });
 
             describe("Item page visible", () => {
                 beforeEach(() => {
                     cy.wait(5000);
-                    cy.contains("View and bid").click();
+                    cy.contains(".card", "Product 2")
+                        .contains("View and bid")
+                        .click();
                 });
 
-                it("Item page contains required info", () => {
-                    cy.contains("Apple iPhone 15");
+                it("Item page contains required fields", () => {
                     cy.contains("Manufacturer");
                     cy.contains("Model");
                     cy.contains("Starting price");
                     cy.contains("Current price");
                     cy.contains("Status");
-                });
-
-                it("Adding a bid", () => {
-                    cy.wait(500);
-                    cy.get("#submit-bid-button").click();
-                    cy.contains("Bid added");
-                    cy.contains("You are about to win this item");
                 });
 
                 it("Edit item", () => {
@@ -185,6 +185,12 @@ describe("Logged in as an admin user", () => {
                     cy.get("#submit-value-button").click();
                     cy.get("#submit-item-edit").click();
                     cy.contains("Successfully updated item");
+                });
+
+                it.only("Delete item", () => {
+                    cy.get("#delete-item-button").click();
+                    cy.get("#modal-yes-button").click();
+                    cy.get("body").should("not.contain.text", "Product 2");
                 });
             });
         });

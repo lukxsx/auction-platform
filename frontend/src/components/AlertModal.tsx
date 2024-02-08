@@ -20,10 +20,18 @@ const AlertModal = ({
             </Modal.Header>
             <Modal.Body>{message}</Modal.Body>
             <Modal.Footer>
-                <Button variant="primary" onClick={action}>
+                <Button
+                    id="modal-yes-button"
+                    variant="primary"
+                    onClick={action}
+                >
                     Yes
                 </Button>
-                <Button variant="secondary" onClick={close}>
+                <Button
+                    id="modal-no-button"
+                    variant="secondary"
+                    onClick={close}
+                >
                     No
                 </Button>
             </Modal.Footer>

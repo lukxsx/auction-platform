@@ -73,7 +73,7 @@ if (process.env.NODE_ENV === "test") {
 }
 
 // Serve frontend from backend if production
-if (process.env.NODE_ENV === "production") {
+if (process.env.NODE_ENV === "production" || process.env.NODE_ENV === "test") {
     app.use(express.static(path.join(__dirname, "frontend")));
     app.get("*", (_req, res) => {
         res.sendFile(path.join(__dirname, "frontend", "index.html"));
