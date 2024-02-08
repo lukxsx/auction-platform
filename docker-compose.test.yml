@@ -28,8 +28,6 @@ services:
       - POSTGRES_USER=auctions
       - POSTGRES_PASSWORD=P3TvcBc3gN6CFUgUyqja8uOoslIXPWsh
       - POSTGRES_DB=auctions
-#    volumes:
-#        - /some/path/postgres_data:/var/lib/postgresql/data
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres"]
       interval: 5s
@@ -38,16 +36,16 @@ services:
     restart: unless-stopped
     networks:
       - auctions-network
-  cypress:
-    image: cypress/included:13.6.4
-    volumes:
-      - ./cypress:/cypress
-      - ./cypress.docker.js:/cypress.config.js
-    depends_on:
-      - auctions-app
-      - auctions-db
-    networks:
-      - auctions-network
+  # cypress:
+  #   image: cypress/included:13.6.4
+  #   volumes:
+  #     - ./cypress:/cypress
+  #     - ./cypress.docker.js:/cypress.config.js
+  #   depends_on:
+  #     - auctions-app
+  #     - auctions-db
+  #   networks:
+  #     - auctions-network
 networks:
   auctions-network:
 

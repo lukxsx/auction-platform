@@ -187,7 +187,7 @@ describe("Logged in as an admin user", () => {
                     cy.contains("Successfully updated item");
                 });
 
-                it.only("Delete item", () => {
+                it("Delete item", () => {
                     cy.get("#delete-item-button").click();
                     cy.get("#modal-yes-button").click();
                     cy.get("body").should("not.contain.text", "Product 2");
