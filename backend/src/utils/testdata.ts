@@ -1,20 +1,30 @@
-import { AuctionState, ItemState } from "../types";
+import {
+    AuctionState,
+    ItemState,
+    Item,
+    User,
+    Auction,
+    Bid,
+    NewBid,
+} from "../types";
 import auctionService from "../services/auctions";
 import itemService from "../services/items";
 import userService from "../services/users";
 import bidService from "../services/bids";
 
-let createdItems: number[] = [];
-let createdUsers: number[] = [];
+let createdItems: Item[] = [];
+let createdUsers: User[] = [];
+let createdAuctions: Auction[] = [];
+let createdBids: Bid[] = [];
 
-const createItems = async (auction_id: number) => {
+const createItems = async (auction_id: number, state: ItemState) => {
     const i1 = await itemService.createItem({
         auction_id,
         starting_price: 1,
         code: "a1",
         make: "Test Company",
         model: "Product 1",
-        state: ItemState.Open,
+        state,
         current_price: 1,
     });
     const i2 = await itemService.createItem({
@@ -23,7 +33,7 @@ const createItems = async (auction_id: number) => {
         code: "a2",
         make: "Test Company",
         model: "Product 2",
-        state: ItemState.Open,
+        state,
         current_price: 3,
     });
     const i3 = await itemService.createItem({
@@ -31,10 +41,10 @@ const createItems = async (auction_id: number) => {
         starting_price: 3,
         make: "Example Company",
         model: "A500",
-        state: ItemState.Open,
+        state,
         current_price: 3,
     });
-    createdItems = createdItems.concat([i1.id, i2.id, i3.id]);
+    createdItems = createdItems.concat([i1, i2, i3]);
 };
 
 const createUsers = async () => {
@@ -44,12 +54,7 @@ const createUsers = async () => {
             const u1 = await userService.getUserByName("test_user");
             const u2 = await userService.getUserByName("test_admin");
             const u4 = await userService.getUserByName("user2");
-            createdUsers = createdUsers.concat([
-                u1.id,
-                u2.id,
-                alreadyCreated.id,
-                u4.id,
-            ]);
+            createdUsers = createdUsers.concat([u1, u2, alreadyCreated, u4]);
         }
         return;
     }
@@ -57,7 +62,7 @@ const createUsers = async () => {
     const u2 = await userService.createUser({ name: "test_admin" });
     const u3 = await userService.createUser({ name: "user1" });
     const u4 = await userService.createUser({ name: "user2" });
-    createdUsers = createdUsers.concat([u1.id, u2.id, u3.id, u4.id]);
+    createdUsers = createdUsers.concat([u1, u2, u3, u4]);
 };
 
 const createTestData = async () => {
@@ -81,18 +86,68 @@ const createTestData = async () => {
         name: "test2",
         start_date: old,
         end_date: yesterday,
-        state: AuctionState.Finished,
+        state: AuctionState.Pending,
     });
     const upcoming = await auctionService.createAuction({
         name: "test3",
         start_date: tomorrow,
         end_date: future,
-        state: AuctionState.Finished,
+        state: AuctionState.Pending,
     });
 
-    await createItems(current.id);
-    await createItems(past.id);
-    await createItems(upcoming.id);
+    createdAuctions = createdAuctions.concat([current, past, upcoming]);
+
+    await createItems(current.id, ItemState.Open);
+    await createItems(past.id, ItemState.Unsold);
+    await createItems(upcoming.id, ItemState.Open);
+};
+
+const createBid = async (
+    user_name: string,
+    item_model: string,
+    auction_name: string,
+    price: number
+) => {
+    const user = createdUsers.find((u) => u.name === user_name);
+    const item = createdItems.find((i) => i.model === item_model);
+    const auction = createdAuctions.find((a) => a.name === auction_name);
+    if (!user || !item || !auction) return;
+
+    const bid = await bidService.createBid({
+        auction_id: auction.id,
+        item_id: item.id,
+        price,
+        user_id: user.id,
+    });
+
+    item.current_price = bid.price;
+    item.winner_id = bid.user_id;
+    item.winner_name = bid.username;
+    await itemService.updateItem(item.id, item);
+
+    createdBids = createdBids.concat(bid);
+};
+
+const sendBid = async (
+    user_name: string,
+    item_model: string,
+    auction_name: string,
+    price: number
+) => {
+    const user = createdUsers.find((u) => u.name === user_name);
+    const item = createdItems.find((i) => i.model === item_model);
+    const auction = createdAuctions.find((a) => a.name === auction_name);
+    if (!user || !item || !auction) return;
+    const bid: NewBid = {
+        auction_id: auction.id,
+        item_id: item.id,
+        user_id: user.id,
+        price,
+        username: user.name,
+    };
+
+    const newbid = await bidService.bidOnItem(bid);
+    createdBids = createdBids.concat(newbid);
 };
 
 const clearTestData = async () => {
@@ -100,6 +155,8 @@ const clearTestData = async () => {
     await itemService.deleteAll();
     await bidService.deleteAll();
     createdItems = [];
+    createdAuctions = [];
+    createdBids = [];
 };
 
-export { createTestData, createUsers, clearTestData };
+export { createTestData, createUsers, clearTestData, createBid, sendBid };

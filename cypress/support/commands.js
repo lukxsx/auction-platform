@@ -21,3 +21,25 @@ Cypress.Commands.add("createTestData", () => {
         `${Cypress.env("backend_url")}/api/testing/createtestdata`
     );
 });
+
+Cypress.Commands.add(
+    "createBid",
+    ({ user_name, item_model, auction_name, price }) => {
+        cy.request({
+            url: `${Cypress.env("backend_url")}/api/testing/createbid`,
+            method: "POST",
+            body: { user_name, item_model, auction_name, price },
+        });
+    }
+);
+
+Cypress.Commands.add(
+    "sendBid",
+    ({ user_name, item_model, auction_name, price }) => {
+        cy.request({
+            url: `${Cypress.env("backend_url")}/api/testing/sendbid`,
+            method: "POST",
+            body: { user_name, item_model, auction_name, price },
+        });
+    }
+);

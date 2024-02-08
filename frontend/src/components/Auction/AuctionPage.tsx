@@ -95,18 +95,21 @@ const AuctionPage = () => {
                     {isAdmin() && (
                         <div className="mb-2">
                             <Button
+                                id="ap-edit-auction-button"
                                 size="sm"
                                 onClick={() => setShowEditAuctionForm(true)}
                             >
                                 Edit auction
                             </Button>{" "}
                             <Button
+                                id="ap-add-item-button"
                                 size="sm"
                                 onClick={() => setShowItemAddForm(true)}
                             >
                                 Add a new item
                             </Button>{" "}
                             <Button
+                                id="ap-download-report-button"
                                 size="sm"
                                 href={`${BACKEND_URL}/reports/${
                                     auction.id
@@ -117,6 +120,7 @@ const AuctionPage = () => {
                                 Download report
                             </Button>{" "}
                             <Button
+                                id="ap-delete-auction-button"
                                 size="sm"
                                 variant="danger"
                                 onClick={() => setShowDeleteConfirm(true)}

@@ -93,6 +93,39 @@ describe("Logged in as a regular user", () => {
                     cy.contains("Bid added");
                     cy.contains("You are about to win this item");
                 });
+
+                it("Someone else bids", () => {
+                    cy.wait(500);
+                    cy.get("#submit-bid-button").click();
+                    cy.contains("Bid added");
+                    cy.contains("You are about to win this item");
+                    cy.wait(500);
+                    cy.sendBid({
+                        user_name: "user1",
+                        item_model: "Product 2",
+                        auction_name: "test1",
+                        price: 100,
+                    });
+                    cy.contains(
+                        "You have been outbid by user1 on item Product 2"
+                    );
+                    cy.contains("You are about to lose this item");
+                });
+            });
+        });
+
+        describe("Viewing past auction", () => {
+            beforeEach(() => {
+                cy.get("#auction-list").contains("test2").click();
+            });
+
+            it("Past auction shows properly", () => {
+                cy.contains("Finished");
+            });
+
+            it("Cannot bid on past item", () => {
+                cy.contains(".card", "Product 1").contains("View").click();
+                cy.get("body").should("not.contain.text", "Submit");
             });
         });
     });
@@ -157,6 +190,36 @@ describe("Logged in as an admin user", () => {
             it("Test items visible", () => {
                 cy.contains("Product 2");
                 cy.contains("Test Company");
+            });
+
+            it("Deleting auction", () => {
+                cy.get("#ap-delete-auction-button").click();
+                cy.wait(200);
+                cy.get("#modal-yes-button").click();
+                cy.wait(200);
+                cy.get("body").should("not.contain.text", "test1");
+            });
+
+            it("Edit auction", () => {
+                cy.get("#ap-edit-auction-button").click();
+                cy.get("#auction-name").clear().type("testASDASD");
+                cy.get("#submit-auction-button").click();
+                cy.reload();
+                cy.contains("testASDASD");
+            });
+
+            it("Add new item", () => {
+                cy.get("#ap-add-item-button").click();
+                cy.get("#item-code").type("c03");
+                cy.get("#item-make").clear().type("Manufacturer");
+                cy.get("#item-model").clear().type("Product 9000");
+                cy.get("#item-startingprice").clear().type("50");
+                cy.get("#text-switch").click();
+                cy.get("#info-field").type("Information about this product");
+                cy.get("#submit-item-edit").click();
+                cy.contains("Successfully added new item");
+                cy.wait(500);
+                cy.contains("Add item").type("{esc}");
             });
 
             describe("Item page visible", () => {
