@@ -102,6 +102,20 @@ const createTestData = async () => {
     await createItems(upcoming.id, ItemState.Open);
 };
 
+const endingSoonAuction = async () => {
+    const now = new Date();
+    const oneMinute = new Date(now.getTime() + 60000);
+    const auction = await auctionService.createAuction({
+        name: "Ending Soon",
+        start_date: now,
+        end_date: oneMinute,
+        state: AuctionState.Pending,
+    });
+
+    await createItems(auction.id, ItemState.Open);
+    createdAuctions = createdAuctions.concat(auction);
+};
+
 const createBid = async (
     user_name: string,
     item_model: string,
@@ -159,4 +173,11 @@ const clearTestData = async () => {
     createdBids = [];
 };
 
-export { createTestData, createUsers, clearTestData, createBid, sendBid };
+export {
+    createTestData,
+    createUsers,
+    clearTestData,
+    createBid,
+    sendBid,
+    endingSoonAuction,
+};

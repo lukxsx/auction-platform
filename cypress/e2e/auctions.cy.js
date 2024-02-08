@@ -261,4 +261,57 @@ describe("Logged in as an admin user", () => {
             });
         });
     });
+
+    describe("Auction ending soon", () => {
+        beforeEach(() => {
+            cy.resetTestData();
+            cy.createEndingSoonAuction();
+            cy.wait(5000);
+            cy.visit(Cypress.env("app_url"));
+        });
+
+        describe("With added bids", () => {
+            beforeEach(() => {
+                cy.sendBid({
+                    user_name: "user1",
+                    item_model: "Product 1",
+                    auction_name: "Ending Soon",
+                    price: 10,
+                });
+                cy.sendBid({
+                    user_name: "user2",
+                    item_model: "Product 1",
+                    auction_name: "Ending Soon",
+                    price: 12,
+                });
+                cy.sendBid({
+                    user_name: "user1",
+                    item_model: "Product 2",
+                    auction_name: "Ending Soon",
+                    price: 5,
+                });
+                cy.visit(Cypress.env("app_url"));
+                cy.get("#auction-list").contains("Ending Soon").click();
+            });
+
+            it("Bids added", () => {
+                cy.contains("Highest bidder: user2");
+                cy.contains("Highest bidder: user1");
+            });
+
+            it("Auction will finish successfully", () => {
+                cy.contains("Running");
+                cy.wait(65000);
+                cy.contains("Finished");
+                cy.contains("Winner: user2");
+                cy.contains("Winner: user1");
+                cy.contains("Status: Didn't sell");
+                cy.get("#ap-download-report-button").click();
+                cy.contains("Auction report for auction Ending Soon");
+                cy.contains("Product 1");
+                cy.contains("Product 2");
+                cy.contains("12 €");
+            });
+        });
+    });
 });

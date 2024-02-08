@@ -4,6 +4,7 @@ import {
     clearTestData,
     createBid,
     sendBid,
+    endingSoonAuction,
 } from "../utils/testdata";
 
 //import userService from "../services/users";
@@ -36,6 +37,15 @@ router.post("/createtestdata", async (_req, res) => {
     }
 });
 
+router.post("/createendingsoon", async (_req, res) => {
+    try {
+        await endingSoonAuction();
+        res.status(200).send();
+    } catch (error: unknown) {
+        res.status(400).send({ error: "Error adding test data" });
+    }
+});
+
 router.post("/createbid", async (req, res) => {
     try {
         const { user_name, item_model, auction_name, price }: BidRequest =
@@ -56,6 +66,7 @@ router.post("/sendbid", async (req, res) => {
         await sendBid(user_name, item_model, auction_name, price);
         res.status(200).send();
     } catch (error: unknown) {
+        console.error(error);
         res.status(400).send({ error: "Error adding test data" });
     }
 });

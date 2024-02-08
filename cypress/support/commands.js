@@ -22,6 +22,13 @@ Cypress.Commands.add("createTestData", () => {
     );
 });
 
+Cypress.Commands.add("createEndingSoonAuction", () => {
+    cy.request(
+        "POST",
+        `${Cypress.env("backend_url")}/api/testing/createendingsoon`
+    );
+});
+
 Cypress.Commands.add(
     "createBid",
     ({ user_name, item_model, auction_name, price }) => {
