@@ -48,7 +48,13 @@ const createItems = async (auction_id: number, state: ItemState) => {
 };
 
 const createUsers = async () => {
-    const alreadyCreated = await userService.getUserByName("user1");
+    let alreadyCreated;
+
+    try {
+        alreadyCreated = await userService.getUserByName("user1");
+    } catch (error: unknown) {
+        /**/
+    }
     if (alreadyCreated) {
         if (createdUsers.length === 0) {
             const u1 = await userService.getUserByName("test_user");
@@ -103,6 +109,7 @@ const createTestData = async () => {
 };
 
 const endingSoonAuction = async () => {
+    await createUsers();
     const now = new Date();
     const oneMinute = new Date(now.getTime() + 60000);
     const auction = await auctionService.createAuction({

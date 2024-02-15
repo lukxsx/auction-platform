@@ -1,8 +1,10 @@
 const getTime = (offset) => {
     const addition = offset ? offset : 0;
     const now = new Date();
-    const currentMinutes = now.getMinutes() + addition;
-    const currentTime = `${now.getHours()}:${
+    const currentMinutes = (now.getMinutes() + addition) % 60;
+    const currentHours = now.getHours() % 24;
+
+    const currentTime = `${currentHours}:${
         currentMinutes < 10 ? "0" : ""
     }${currentMinutes}`;
     return currentTime;

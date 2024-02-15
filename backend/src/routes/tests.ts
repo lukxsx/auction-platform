@@ -50,8 +50,6 @@ router.post("/createbid", async (req, res) => {
     try {
         const { user_name, item_model, auction_name, price }: BidRequest =
             req.body as BidRequest;
-        console.log("Creating fake bid for");
-        console.log(user_name, item_model, auction_name, price);
         await createBid(user_name, item_model, auction_name, price);
         res.status(200).send();
     } catch (error: unknown) {

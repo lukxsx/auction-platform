@@ -106,6 +106,8 @@ End-to-end tests using Cypress have been created for the application. The tests 
 that the both backend and frontend are running and connected to a database. There are
 couple of options to do so.
 
+**Note!** The end-to-end tests might take up to 2 minutes to finish.
+
 ### Testing mode
 When `NODE_ENV` is set to `test`, the application will run in testing mode. In the testing mode /testing route becomes available and user accounts for testing are created.
 Never enable this mode in the production!
