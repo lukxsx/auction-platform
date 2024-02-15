@@ -12,4 +12,5 @@ module.exports = {
         test_admin_name: "test_admin",
         test_admin_pass: "pass2",
     },
+    retries: 3,
 };
