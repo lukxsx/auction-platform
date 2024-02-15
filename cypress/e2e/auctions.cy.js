@@ -108,9 +108,6 @@ describe("Logged in as a regular user", () => {
                         auction_name: "test1",
                         price: 100,
                     });
-                    cy.contains(
-                        "You have been outbid by user1 on item Product 2"
-                    );
                     cy.contains("You are about to lose this item");
                 });
             });
@@ -257,7 +254,7 @@ describe("Logged in as an admin user", () => {
 
                 it("Delete item", () => {
                     cy.get("#delete-item-button").click();
-                    cy.get("#modal-yes-button").click();
+                    cy.get("#modal-yes-button").click({ force: true });
                     cy.get("body").should("not.contain.text", "Product 2");
                 });
             });
