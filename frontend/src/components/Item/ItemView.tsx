@@ -98,7 +98,7 @@ const ItemView = ({
                 <Modal.Title id="example-modal-sizes-title-lg">
                     {item.make} {item.model}{" "}
                     {winStatus !== WinStatus.NotBidded && (
-                        <Badge bg={winStatus}>
+                        <Badge bg={winStatus} id="win-status-badge">
                             {winText(winStatus, auctionState)}
                         </Badge>
                     )}

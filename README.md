@@ -118,7 +118,7 @@ a database and the applicatoin with `NODE_ENV=test`. Cypress can be then launche
 
 Start the application in testing mode
 
-    docker compose -f docker-compose.test.yml up -d
+    docker compose -f docker-compose.test.yml up -d --build
 
 Run Cypress in a Docker container
 
@@ -137,7 +137,7 @@ Start frontend
 
 In the root of the project, run
 
-    npx cypress open
+    npx cypress run
 
 ## CI/CD
 End-to-end tests are run automatically using GitHub Actions.
