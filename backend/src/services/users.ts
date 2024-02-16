@@ -18,6 +18,19 @@ const getUserByName = async (username: string): Promise<User> => {
     }
 };
 
+const getUserById = async (userId: number): Promise<User> => {
+    try {
+        const user = await db
+            .selectFrom("user")
+            .where("id", "=", userId)
+            .selectAll()
+            .executeTakeFirstOrThrow();
+        return user;
+    } catch (error: unknown) {
+        throw new Error("user not found");
+    }
+};
+
 const createUser = async (user: NewUser): Promise<User> => {
     return await db
         .insertInto("user")
@@ -29,5 +42,6 @@ const createUser = async (user: NewUser): Promise<User> => {
 export default {
     getUsers,
     getUserByName,
+    getUserById,
     createUser,
 };

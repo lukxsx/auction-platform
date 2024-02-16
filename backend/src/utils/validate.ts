@@ -7,6 +7,7 @@ import {
     NewBid,
     NewItemFromAPI,
     NewUser,
+    SetWinnerEntry,
 } from "../types";
 
 export const isString = (text: unknown): text is string => {
@@ -264,6 +265,22 @@ export const parseLoginEntry = (object: unknown): LoginEntry => {
         };
 
         return newLoginEntry;
+    }
+
+    throw new Error("Incorrect data: missing property");
+};
+
+export const parseSetWinnerEntry = (object: unknown): SetWinnerEntry => {
+    if (!object || typeof object !== "object") {
+        throw new Error("Incorrect or missing data");
+    }
+    if ("user_id" in object && "price" in object) {
+        const newWinnerEntry: SetWinnerEntry = {
+            user_id: parseNumber(object.user_id),
+            price: parseNumber(object.price),
+        };
+
+        return newWinnerEntry;
     }
 
     throw new Error("Incorrect data: missing property");

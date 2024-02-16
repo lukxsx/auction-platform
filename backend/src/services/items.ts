@@ -4,11 +4,15 @@ import {
     ItemUpdate,
     ItemWithBids,
     NewItem,
+    User,
     UserCost,
 } from "../types";
 import { db } from "../database";
 import { jsonArrayFrom } from "kysely/helpers/postgres";
 import { sql } from "kysely";
+import userService from "./users";
+import bidService from "./bids";
+import { io } from "../index";
 
 // export const sqlItemsQuery = sql<Item[]>`SELECT
 // i.*,
@@ -195,6 +199,42 @@ const deleteAll = async () => {
     return await db.deleteFrom("item").executeTakeFirstOrThrow();
 };
 
+// Force specific user as winner
+const setWinner = async (item_id: number, user_id: number, price: number) => {
+    // Fetch the item and user we want to modify
+    let item: Item;
+    let user: User;
+    try {
+        item = await getItemByIdWithoutBids(item_id);
+        user = await userService.getUserById(user_id);
+    } catch (error: unknown) {
+        console.error("Error forcing winner", error);
+        return;
+    }
+
+    // Create a new bid
+    const newBid = await bidService.createBid({
+        auction_id: item.auction_id,
+        item_id: item.id,
+        price: price,
+        user_id: user.id,
+        username: user.name,
+    });
+
+    // Edit winner of the item
+    item.winner_id = user.id;
+    item.winner_name = user.name;
+    item.current_price = price;
+    item.state = ItemState.Sold;
+
+    // Update item and get the updated item
+    await updateItem(item.id, item);
+    const updatedItem = await getItemById(item.id);
+    io.emit("item:update", updatedItem);
+    io.emit("bid:new", newBid);
+    return updatedItem;
+};
+
 export default {
     getAllItems,
     getItemById,
@@ -206,5 +246,6 @@ export default {
     createItem,
     deleteItem,
     getUserTotalCost,
+    setWinner,
     deleteAll,
 };

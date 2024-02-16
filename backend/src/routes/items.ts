@@ -1,5 +1,9 @@
 import { isAdmin, tokenExtractor, userExtractor } from "../middleware";
-import { parseItemEntry, parseItemUpdateEntry } from "../utils/validate";
+import {
+    parseItemEntry,
+    parseItemUpdateEntry,
+    parseSetWinnerEntry,
+} from "../utils/validate";
 import bidService from "../services/bids";
 import express from "express";
 import itemService from "../services/items";
@@ -95,6 +99,28 @@ router.delete("/:itemId", isAdmin, async (req, res) => {
         res.status(200).send();
     } catch (error: unknown) {
         let errorMessage = "Error deleting item";
+        if (error instanceof Error) {
+            errorMessage += ": " + error.message;
+        }
+        res.status(400).send({ error: errorMessage });
+    }
+});
+
+// Force winner on specific item
+router.post("/:itemId/setwinner", isAdmin, async (req, res) => {
+    try {
+        const itemId = parseInt(req.params.itemId, 10);
+        const winnerEntry = parseSetWinnerEntry(req.body);
+
+        const updatedItem = await itemService.setWinner(
+            itemId,
+            winnerEntry.user_id,
+            winnerEntry.price
+        );
+
+        res.json(updatedItem);
+    } catch (error: unknown) {
+        let errorMessage = "Error setting the winner item";
         if (error instanceof Error) {
             errorMessage += ": " + error.message;
         }

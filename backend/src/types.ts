@@ -77,6 +77,11 @@ export interface LoginEntry {
     password: string;
 }
 
+export interface SetWinnerEntry {
+    user_id: number;
+    price: number;
+}
+
 export interface AuthResult {
     success: boolean;
     admin: boolean;

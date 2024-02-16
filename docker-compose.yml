@@ -2,6 +2,7 @@ version: "3"
 services:
   auctions-app:
     image: auctions
+    build: .
     container_name: auctions-app
     ports:
       - 3000:3000
