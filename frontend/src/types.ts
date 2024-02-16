@@ -9,6 +9,11 @@ export interface TokenData {
     is_admin: boolean;
 }
 
+export interface User {
+    id: number;
+    name: string;
+}
+
 export interface LoginUser {
     id: number;
     name: string;

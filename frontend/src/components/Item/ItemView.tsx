@@ -21,6 +21,7 @@ import BidForm from "./BidForm";
 import InfoText from "../ItemList/InfoText";
 import AlertModal from "../AlertModal";
 import ItemForm from "./ItemForm";
+import OverrideForm from "./OverrideForm";
 import itemService from "../../services/items";
 import { useAlert } from "../../contexts/AlertContext";
 import { BACKEND_URL } from "../../utils/config";
@@ -45,6 +46,7 @@ const ItemView = ({
 
     const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
     const [showEditItemForm, setShowEditItemForm] = useState(false);
+    const [showOverrideForm, setShowOverrideForm] = useState(false);
 
     // Select item to show
     const show = itemId !== 0;
@@ -93,6 +95,13 @@ const ItemView = ({
                 auctionId={item.auction_id}
                 item={item}
             />
+            {/* Override form */}
+            <OverrideForm
+                show={showOverrideForm}
+                close={() => setShowOverrideForm(false)}
+                item={item}
+                auctionId={item.auction_id}
+            />
 
             <Modal.Header closeButton>
                 <Modal.Title id="example-modal-sizes-title-lg">
@@ -137,6 +146,15 @@ const ItemView = ({
                             onClick={() => setShowDeleteConfirm(true)}
                         >
                             Delete
+                        </Button>{" "}
+                        <Button
+                            variant="danger"
+                            size="sm"
+                            id="override-winner-button"
+                            className="mb-3"
+                            onClick={() => setShowOverrideForm(true)}
+                        >
+                            Override winner
                         </Button>
                     </div>
                 )}

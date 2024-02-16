@@ -53,6 +53,20 @@ const getWonItemsByUser = async (userId: number) => {
     return response.data;
 };
 
+const setWinner = async (
+    auctionId: number,
+    itemId: number,
+    userId: number,
+    price: number
+) => {
+    const response = await axios.post(
+        `${BACKEND_URL}/auctions/${auctionId}/items/${itemId}/setwinner`,
+        { user_id: userId, price },
+        headers()
+    );
+    return response.data;
+};
+
 export default {
     getAll,
     getBids,
@@ -60,4 +74,5 @@ export default {
     updateItem,
     deleteItem,
     getWonItemsByUser,
+    setWinner,
 };
