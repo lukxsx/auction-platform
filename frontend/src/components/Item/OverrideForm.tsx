@@ -28,10 +28,11 @@ const OverrideForm = ({
     const [price, setPrice] = useState(item.current_price);
 
     useEffect(() => {
-        userService
-            .getUsers()
-            .then((userList) => setUsers(userList))
-            .catch((error) => console.error(error));
+        if (show)
+            userService
+                .getUsers()
+                .then((userList) => setUsers(userList))
+                .catch((error) => console.error(error));
     }, []);
 
     const handleUserChange = (event: ChangeEvent<HTMLSelectElement>) => {
