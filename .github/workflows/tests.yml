@@ -31,11 +31,11 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-      - name: Change directory to the backend
-        run: cd backend
       - name: Install dependencies
+        working-directory: backend
         run: npm ci
       - name: Run npm test
+        working-directory: backend
         run: npm test
         env:
           PORT: 3001
