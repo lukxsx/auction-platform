@@ -6,17 +6,40 @@ export default class DefaultAuthenticator implements Authenticator {
         username: string,
         password: string
     ): Promise<AuthResult> => {
-        // Used by tests
-        if (process.env.NODE_ENV === "test") {
-            if (username === "test_user" && password === "pass1") {
-                return Promise.resolve({ success: true, admin: false });
-            } else if (username === "test_admin" && password === "pass2") {
-                return Promise.resolve({ success: true, admin: true });
-            } else return Promise.resolve({ success: false, admin: false });
+        const defaultUsers = [];
+
+        // Admin user
+        if (process.env.ADMIN_USERNAME && process.env.ADMIN_PASSWORD) {
+            defaultUsers.push({
+                username: process.env.ADMIN_USERNAME,
+                password: process.env.ADMIN_PASSWORD,
+                admin: true,
+            });
         }
-        return username === process.env.ADMIN_USERNAME &&
-            password === process.env.ADMIN_PASSWORD
-            ? Promise.resolve({ success: true, admin: true })
-            : Promise.resolve({ success: false, admin: false });
+
+        // Demo user
+        if (process.env.DEMO_MODE === "true") {
+            defaultUsers.push({
+                username: "demo",
+                password: "demo",
+                admin: false,
+            });
+        }
+
+        // For tests
+        if (process.env.NODE_ENV === "test") {
+            defaultUsers.push(
+                { username: "test_user", password: "pass1", admin: false },
+                { username: "test_admin", password: "pass2", admin: true }
+            );
+        }
+
+        for (let i = 0; i < defaultUsers.length; i++) {
+            const user = defaultUsers[i];
+            if (user.username === username && user.password === password)
+                return Promise.resolve({ success: true, admin: user.admin });
+        }
+
+        return Promise.resolve({ success: false, admin: false });
     };
 }

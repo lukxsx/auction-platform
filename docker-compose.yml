@@ -7,15 +7,16 @@ services:
     ports:
       - 3000:3000
     environment:
-      - JWT_SECRET=EVu2zTfUuqZ5c4kUg6dP2NZWbjNtow32
-      - ADMIN_USERNAME=admin
-      - ADMIN_PASSWORD=adminpass
-      - DB_HOST=auctions-db
-      - DB_USER=auctions
-      - DB_PASS=P3TvcBc3gN6CFUgUyqja8uOoslIXPWsh
-      - DB_NAME=auctions
+      - JWT_SECRET=EVu2zTfUuqZ5c4kUg6dP2NZWbjNtow32 # Replace with a strong secret value
+      - ADMIN_USERNAME=admin # Username for the DefaultAuthenticator admin user
+      - ADMIN_PASSWORD=adminpass # Password for the DefaultAuthenticator admin user
+      - DB_HOST=auctions-db # Database host
+      - DB_USER=auctions # Database user
+      - DB_PASS=P3TvcBc3gN6CFUgUyqja8uOoslIXPWsh # Postgres password, replace with a strong password
+      - DB_NAME=auctions # Postgres database name
+      - DEMO_MODE=true # enable "demo" user in DefaultAuthenticator
 #    volumes:
-#        - /some/path/uploads:/app/uploads # upload path
+#        - /some/path/uploads:/app/uploads # Path for image uploads
     depends_on:
       auctions-db:
         condition: service_healthy
@@ -26,11 +27,11 @@ services:
     image: postgres:15
     container_name: auctions-db
     environment:
+      - POSTGRES_PASSWORD=P3TvcBc3gN6CFUgUyqja8uOoslIXPWsh # Replace with a strong password
       - POSTGRES_USER=auctions
-      - POSTGRES_PASSWORD=P3TvcBc3gN6CFUgUyqja8uOoslIXPWsh
-      - POSTGRES_DB=auctions
+      - POSTGRES_DB=auctions # Database name
 #    volumes:
-#        - /some/path/postgres_data:/var/lib/postgresql/data
+#        - /some/path/postgres_data:/var/lib/postgresql/data # Set a volume for persistent storage
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres"]
       interval: 5s

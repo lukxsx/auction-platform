@@ -36,16 +36,6 @@ services:
     restart: unless-stopped
     networks:
       - auctions-network
-  # cypress:
-  #   image: cypress/included:13.6.4
-  #   volumes:
-  #     - ./cypress:/cypress
-  #     - ./cypress.docker.js:/cypress.config.js
-  #   depends_on:
-  #     - auctions-app
-  #     - auctions-db
-  #   networks:
-  #     - auctions-network
 networks:
   auctions-network:
 
