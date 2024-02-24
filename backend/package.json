@@ -9,7 +9,7 @@
         "dev": "ts-node-dev src/index.ts",
         "lint": "eslint --ext .ts .",
         "start": "node build/index.js",
-        "test": "NODE_ENV=test jest --verbose --detectOpenHandles --runInBand"
+        "test": "NODE_ENV=test jest --detectOpenHandles --verbose --runInBand"
     },
     "author": "",
     "license": "ISC",
