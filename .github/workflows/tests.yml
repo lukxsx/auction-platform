@@ -44,6 +44,7 @@ jobs:
           DB_USER: auctions
           DB_PASS: testpw
           DB_NAME: auctions
+          CI: true
 
   e2e-tests:
     runs-on: ubuntu-latest

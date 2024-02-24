@@ -30,7 +30,9 @@ const doLogin = async (username: string, password: string) => {
 };
 
 beforeAll(async () => {
-    await new Promise((r) => setTimeout(r, 3000));
+    if (process.env.CI === "true")
+        // GitHub Actions fix
+        await new Promise((r) => setTimeout(r, 3000));
 });
 
 describe("Logged in as admin user", () => {
@@ -135,6 +137,34 @@ describe("Logged in as admin user", () => {
             (item: Auction) => item.name === "auction to delete"
         );
         expect(containsDeleted).toBe(true);
+    });
+});
+
+describe("Logged in as normal user", () => {
+    beforeEach(async () => {
+        await doLogin("test_user", "pass1");
+        await api.post("/api/testing/resettestdata");
+        await api.post("/api/testing/createtestdata");
+    });
+
+    test("API returns test auctions", async () => {
+        const response = await api
+            .get("/api/auctions")
+            .set("Authorization", `Bearer ${authToken}`)
+            .expect(200)
+            .expect("Content-Type", /application\/json/);
+
+        expect(Array.isArray(response.body)).toBe(true);
+        expect(response.body).toHaveLength(3);
+        expect(
+            response.body.some((item: Auction) => item.name === "test1")
+        ).toBe(true);
+        expect(
+            response.body.some((item: Auction) => item.name === "test2")
+        ).toBe(true);
+        expect(
+            response.body.some((item: Auction) => item.name === "test3")
+        ).toBe(true);
     });
 });
 
