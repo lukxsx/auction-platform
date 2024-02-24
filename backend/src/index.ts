@@ -22,7 +22,7 @@ import testingRouter from "./routes/tests";
 import { createUsers } from "./utils/testdata";
 
 const app = express();
-const httpServer = createServer(app);
+export const httpServer = createServer(app);
 app.use(cors());
 app.use(express.json());
 app.use(morgan(":method :url :status :response-time ms"));
@@ -52,11 +52,16 @@ createTables()
 //     .then(() => console.log("test data created"))
 //     .catch((e) => console.error(e));
 
-schedule("*/5 * * * * *", () => {
+const scheduledTask = schedule("*/5 * * * * *", () => {
     checkAuctions()
         .then()
         .catch((e) => console.error(e));
 });
+
+export const stopServer = () => {
+    httpServer.close();
+    scheduledTask.stop();
+};
 
 app.set("view engine", "ejs");
 app.set("views", __dirname + "/templates");

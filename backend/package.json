@@ -8,20 +8,26 @@
         "build": "tsc && cp -r src/templates build/templates",
         "dev": "ts-node-dev src/index.ts",
         "lint": "eslint --ext .ts .",
-        "start": "node build/index.js"
+        "start": "node build/index.js",
+        "test": "NODE_ENV=test jest --verbose --detectOpenHandles --runInBand"
     },
     "author": "",
     "license": "ISC",
     "devDependencies": {
         "@types/ejs": "^3.1.5",
         "@types/express": "^4.17.21",
+        "@types/jest": "^29.5.12",
         "@types/jsonwebtoken": "^9.0.5",
         "@types/morgan": "^1.9.9",
         "@types/multer": "^1.4.11",
+        "@types/node": "^20.11.20",
         "@types/pg": "^8.11.0",
+        "@types/supertest": "^6.0.2",
         "@typescript-eslint/eslint-plugin": "^6.21.0",
         "@typescript-eslint/parser": "^6.21.0",
         "eslint": "^8.56.0",
+        "supertest": "^6.3.4",
+        "ts-jest": "^29.1.2",
         "ts-node-dev": "^2.0.0",
         "typescript": "^5.3.3"
     },
