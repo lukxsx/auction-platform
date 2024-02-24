@@ -40,7 +40,7 @@ jobs:
         env:
           PORT: 3001
           JWT_SECRET: asdasd
-          DB_HOST: postgres
+          DB_HOST: localhost
           DB_USER: auctions
           DB_PASS: testpw
           DB_NAME: auctions
