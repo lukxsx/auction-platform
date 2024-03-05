@@ -6,9 +6,38 @@ on:
   workflow_dispatch:
 
 jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Install backend dependencies
+        working-directory: backend
+        run: npm install
+      - name: Install frontend dependencies
+        working-directory: frontend
+        run: npm install
+      - name: Run ESLint on backend
+        working-directory: backend
+        run: npm run lint
+      - name: Run ESLint on frontend
+        working-directory: frontend
+        run: npm run lint
+      - name: Run Prettier check on backend
+        working-directory: backend
+        run: npm run prettier:check
+      - name: Run Prettier check on frontend
+        working-directory: frontend
+        run: npm run prettier:check
+
   unit-tests:
     runs-on: ubuntu-latest
     timeout-minutes: 5
+    needs: lint
 
     services:
       postgres:
@@ -49,6 +78,8 @@ jobs:
   e2e-tests:
     runs-on: ubuntu-latest
     timeout-minutes: 15
+    needs: lint
+
     steps:
       - name: Checkout
         uses: actions/checkout@v3

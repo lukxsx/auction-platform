@@ -10,7 +10,8 @@
         "dev": "NODE_ENV=development tsx watch src/index.ts",
         "lint": "eslint --ext .ts .",
         "start": "node build/index.js",
-        "test": "NODE_OPTIONS='--experimental-vm-modules' NODE_ENV=test jest --detectOpenHandles --verbose --runInBand"
+        "test": "NODE_OPTIONS='--experimental-vm-modules' NODE_ENV=test jest --detectOpenHandles --verbose --runInBand",
+        "prettier:check": "prettier . --check"
     },
     "author": "",
     "license": "ISC",
@@ -28,6 +29,7 @@
         "@typescript-eslint/parser": "^6.21.0",
         "eslint": "^8.56.0",
         "eslint-config-prettier": "^9.1.0",
+        "prettier": "^3.2.5",
         "supertest": "^6.3.4",
         "ts-jest": "^29.1.2",
         "ts-jest-mock-import-meta": "^1.2.0",
