@@ -8,7 +8,7 @@ const addBid = async (bid: NewBid) => {
     const response = await axios.post<NewBid>(
         `${BACKEND_URL}/bids`,
         bid,
-        headers()
+        headers(),
     );
     return response.data;
 };

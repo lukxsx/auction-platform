@@ -6,21 +6,20 @@ import { AuctionState, RootState } from "../../types";
 import { selectAuctionById, deleteAuction } from "../../reducers/auctions";
 import auctionService from "../../services/auctions";
 import ErrorHandlingService from "../../services/errors";
-import { capitalize, formatDate, isAdmin } from "../../utils/helpers";
+import { capitalize, formatDate, isAdmin, headers } from "../../utils/helpers";
 import AddItem from "../Item/ItemForm";
 import AlertModal from "../AlertModal";
 import AuctionForm from "./AuctionForm";
 import ItemList from "../ItemList/ItemList";
 import { BACKEND_URL } from "../../utils/config";
-import { headers } from "../../utils/helpers";
 
 const AuctionPage = () => {
-    let { id } = useParams();
+    const { id } = useParams();
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const auctionId = parseInt(id as string, 10);
     const auction = useSelector((state: RootState) =>
-        selectAuctionById(state, auctionId)
+        selectAuctionById(state, auctionId),
     );
 
     useEffect(() => {
@@ -114,7 +113,7 @@ const AuctionPage = () => {
                                 href={`${BACKEND_URL}/reports/${
                                     auction.id
                                 }?token=${headers().headers?.Authorization.substring(
-                                    7
+                                    7,
                                 )}`}
                             >
                                 Download report

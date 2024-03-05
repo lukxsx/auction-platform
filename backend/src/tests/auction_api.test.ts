@@ -46,11 +46,11 @@ describe("Logged in as admin user", () => {
         expect(response.body).toHaveProperty("name", "test auction");
         expect(response.body).toHaveProperty(
             "start_date",
-            testDate.toISOString()
+            testDate.toISOString(),
         );
         expect(response.body).toHaveProperty(
             "end_date",
-            testDate.toISOString()
+            testDate.toISOString(),
         );
         expect(response.body).toHaveProperty("state", "pending");
     });
@@ -121,7 +121,7 @@ describe("Logged in as admin user", () => {
         expect(Array.isArray(auctions.body)).toBe(true);
         if (!Array.isArray(response.body)) return;
         const containsDeleted = response.body.some(
-            (item: Auction) => item.name === "auction to delete"
+            (item: Auction) => item.name === "auction to delete",
         );
         expect(containsDeleted).toBe(true);
     });
@@ -144,13 +144,13 @@ describe("Logged in as normal user", () => {
         expect(Array.isArray(response.body)).toBe(true);
         expect(response.body).toHaveLength(3);
         expect(
-            response.body.some((item: Auction) => item.name === "test1")
+            response.body.some((item: Auction) => item.name === "test1"),
         ).toBe(true);
         expect(
-            response.body.some((item: Auction) => item.name === "test2")
+            response.body.some((item: Auction) => item.name === "test2"),
         ).toBe(true);
         expect(
-            response.body.some((item: Auction) => item.name === "test3")
+            response.body.some((item: Auction) => item.name === "test3"),
         ).toBe(true);
     });
 });

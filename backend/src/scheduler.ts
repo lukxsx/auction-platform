@@ -16,7 +16,7 @@ import itemService from "./services/items.js";
 const underMinuteSinceLastBid = (lastBid: Bid) => {
     const currentDate = new Date();
     const timeDifference = Math.abs(
-        currentDate.getTime() - lastBid.created_at.getTime()
+        currentDate.getTime() - lastBid.created_at.getTime(),
     );
     const timeDifferenceInMinutes = timeDifference / (1000 * 60);
 
@@ -74,7 +74,7 @@ export const checkAuctions = async () => {
                     console.log(
                         "Auction",
                         a.name,
-                        "end time has passed, checking items"
+                        "end time has passed, checking items",
                     );
                     // Get auction items
                     const items = await itemService.getItemsByAuction(a.id);
@@ -86,7 +86,7 @@ export const checkAuctions = async () => {
                                 "Item",
                                 i.id,
                                 i.model,
-                                "is still open, checking it's bids"
+                                "is still open, checking it's bids",
                             );
                             // Get bids of an item
                             const bids = await bidService.getBidsByItem(i.id);
@@ -94,12 +94,12 @@ export const checkAuctions = async () => {
                             // Are there any bids? If not, close the item
                             if (bids.length == 0) {
                                 console.log(
-                                    "  The item has no bids, let's mark it as unsold"
+                                    "  The item has no bids, let's mark it as unsold",
                                 );
                                 i.state = ItemState.Unsold;
                                 await itemService.updateItem(
                                     i.id,
-                                    toItemWithoutBids(i)
+                                    toItemWithoutBids(i),
                                 );
                                 io.emit("item:update", i);
                                 nclosed++;
@@ -111,20 +111,20 @@ export const checkAuctions = async () => {
                                 !underMinuteSinceLastBid(bids[bids.length - 1])
                             ) {
                                 console.log(
-                                    "  There hasn't been any bids in the last minute, let's mark this as sold"
+                                    "  There hasn't been any bids in the last minute, let's mark this as sold",
                                 );
                                 i.state = ItemState.Sold;
 
                                 await itemService.updateItem(
                                     i.id,
-                                    toItemWithoutBids(i)
+                                    toItemWithoutBids(i),
                                 );
                                 io.emit("item:update", i);
                                 nclosed++;
                                 return;
                             } else {
                                 console.log(
-                                    "  There has been a bid in one minute, let's wait if there will be any more bids"
+                                    "  There has been a bid in one minute, let's wait if there will be any more bids",
                                 );
                             }
                         } else {

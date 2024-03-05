@@ -7,7 +7,7 @@ class ErrorHandlingService {
     static addErrorNotification(
         title: string,
         message: string,
-        variant: string
+        variant: string,
     ) {
         store.dispatch(addNotification({ title, message, variant }));
     }
@@ -26,7 +26,7 @@ class ErrorHandlingService {
                 this.addErrorNotification(
                     "Error",
                     error.response.data.error,
-                    "danger"
+                    "danger",
                 );
             } else {
                 // Print default message
@@ -38,7 +38,7 @@ class ErrorHandlingService {
                 error instanceof Error
                     ? error.message
                     : "Something bad happened",
-                "danger"
+                "danger",
             );
 
             console.error(error);

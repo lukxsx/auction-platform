@@ -100,7 +100,7 @@ export const parseItemUpdateEntry = (object: unknown): ItemUpdate => {
                 newItemEntry.model.trim().length < 1)
         ) {
             throw new Error(
-                "Incorrect data: item model must be under 256 characters"
+                "Incorrect data: item model must be under 256 characters",
             );
         }
         if (
@@ -109,7 +109,7 @@ export const parseItemUpdateEntry = (object: unknown): ItemUpdate => {
                 newItemEntry.make.trim().length < 1)
         ) {
             throw new Error(
-                "Incorrect data: item make must be under 256 characters"
+                "Incorrect data: item make must be under 256 characters",
             );
         }
         if (
@@ -118,7 +118,7 @@ export const parseItemUpdateEntry = (object: unknown): ItemUpdate => {
                 newItemEntry.info.trim().length < 1)
         ) {
             throw new Error(
-                "Incorrect data: item info must be under 2048 characters"
+                "Incorrect data: item info must be under 2048 characters",
             );
         }
         if (
@@ -127,12 +127,12 @@ export const parseItemUpdateEntry = (object: unknown): ItemUpdate => {
                 newItemEntry.code.trim().length < 1)
         ) {
             throw new Error(
-                "Incorrect data: item code must be under 64 characters"
+                "Incorrect data: item code must be under 64 characters",
             );
         }
         if (newItemEntry.starting_price && newItemEntry.starting_price < 0) {
             throw new Error(
-                "Incorrect data: item starting price must be a positive integer"
+                "Incorrect data: item starting price must be a positive integer",
             );
         }
 
@@ -164,7 +164,7 @@ export const parseItemEntry = (object: unknown): NewItemFromAPI => {
             newItemEntry.model.trim().length < 1
         ) {
             throw new Error(
-                "Incorrect data: item model must be under 256 characters"
+                "Incorrect data: item model must be under 256 characters",
             );
         }
         if (
@@ -172,7 +172,7 @@ export const parseItemEntry = (object: unknown): NewItemFromAPI => {
             newItemEntry.make.trim().length < 1
         ) {
             throw new Error(
-                "Incorrect data: item make must be under 256 characters"
+                "Incorrect data: item make must be under 256 characters",
             );
         }
         if (
@@ -181,7 +181,7 @@ export const parseItemEntry = (object: unknown): NewItemFromAPI => {
                 newItemEntry.info.trim().length < 1)
         ) {
             throw new Error(
-                "Incorrect data: item info must be under 2048 characters"
+                "Incorrect data: item info must be under 2048 characters",
             );
         }
         if (
@@ -190,12 +190,12 @@ export const parseItemEntry = (object: unknown): NewItemFromAPI => {
                 newItemEntry.code.trim().length < 1)
         ) {
             throw new Error(
-                "Incorrect data: item code must be under 64 characters"
+                "Incorrect data: item code must be under 64 characters",
             );
         }
         if (newItemEntry.starting_price < 0) {
             throw new Error(
-                "Incorrect data: item starting price must be a positive integer"
+                "Incorrect data: item starting price must be a positive integer",
             );
         }
 

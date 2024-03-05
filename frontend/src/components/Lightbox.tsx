@@ -1,3 +1,4 @@
+/* eslint-disable import/no-unresolved */
 import { Lightbox as LB } from "yet-another-react-lightbox";
 import Zoom from "yet-another-react-lightbox/plugins/zoom";
 import { useLightbox } from "../contexts/LightboxContext";

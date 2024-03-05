@@ -7,7 +7,7 @@ import { Item, Bid, NewItem } from "../types";
 const getAll = async (auctionId: number) => {
     const response = await axios.get<Item[]>(
         `${BACKEND_URL}/auctions/${auctionId}/items`,
-        headers()
+        headers(),
     );
     return response.data;
 };
@@ -15,7 +15,7 @@ const getAll = async (auctionId: number) => {
 const getBids = async (auctionId: number, itemId: number) => {
     const response = await axios.get<Bid[]>(
         `${BACKEND_URL}/auctions/${auctionId}/items/${itemId}/bids`,
-        headers()
+        headers(),
     );
     return response.data;
 };
@@ -24,7 +24,7 @@ const addItem = async (item: NewItem) => {
     const response = await axios.post<Item>(
         `${BACKEND_URL}/auctions/${item.auction_id}/items/`,
         item,
-        headers()
+        headers(),
     );
     return response.data;
 };
@@ -32,7 +32,7 @@ const addItem = async (item: NewItem) => {
 const deleteItem = async (item: Item) => {
     await axios.delete(
         `${BACKEND_URL}/auctions/${item.auction_id}/items/${item.id}`,
-        headers()
+        headers(),
     );
 };
 
@@ -40,7 +40,7 @@ const updateItem = async (itemUpdate: Item) => {
     const response = await axios.put<Item>(
         `${BACKEND_URL}/auctions/${itemUpdate.auction_id}/items/${itemUpdate.id}`,
         itemUpdate,
-        headers()
+        headers(),
     );
     return response.data;
 };
@@ -48,7 +48,7 @@ const updateItem = async (itemUpdate: Item) => {
 const getWonItemsByUser = async (userId: number) => {
     const response = await axios.get<Item[]>(
         `${BACKEND_URL}/users/${userId}/wins`,
-        headers()
+        headers(),
     );
     return response.data;
 };
@@ -57,12 +57,12 @@ const setWinner = async (
     auctionId: number,
     itemId: number,
     userId: number,
-    price: number
+    price: number,
 ) => {
     const response = await axios.post(
         `${BACKEND_URL}/auctions/${auctionId}/items/${itemId}/setwinner`,
         { user_id: userId, price },
-        headers()
+        headers(),
     );
     return response.data;
 };

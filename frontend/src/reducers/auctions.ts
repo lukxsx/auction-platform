@@ -1,4 +1,5 @@
-import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
+import type { PayloadAction } from "@reduxjs/toolkit";
 import { Auction, RootState } from "../types";
 
 const auctionSlice = createSlice({
@@ -18,12 +19,12 @@ const auctionSlice = createSlice({
             state,
             action: PayloadAction<{
                 updatedAuction: Auction;
-            }>
+            }>,
         ) {
             const { updatedAuction } = action.payload;
 
             return state.map((auction) =>
-                auction.id === updatedAuction.id ? updatedAuction : auction
+                auction.id === updatedAuction.id ? updatedAuction : auction,
             );
         },
     },

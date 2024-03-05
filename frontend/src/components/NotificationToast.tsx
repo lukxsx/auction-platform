@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 const Notification = () => {
     const dispatch = useDispatch();
     const notifications = useSelector(
-        (state: RootState) => state.notifications
+        (state: RootState) => state.notifications,
     );
 
     return (

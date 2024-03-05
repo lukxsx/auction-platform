@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState } from "react";
-import { SlideImage } from "yet-another-react-lightbox";
+import type { SlideImage } from "yet-another-react-lightbox";
 
 interface LightboxContextType {
     lightboxImage: SlideImage;
@@ -8,7 +8,7 @@ interface LightboxContextType {
 }
 
 const LightboxContext = createContext<LightboxContextType | undefined>(
-    undefined
+    undefined,
 );
 
 export const LightboxProvider = ({

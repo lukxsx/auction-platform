@@ -5,13 +5,13 @@ import AuctionList from "./AuctionList";
 const AuctionMenu = () => {
     const auctions = useSelector((state: RootState) => state.auctions);
     const currentAuctions = auctions.filter(
-        (a) => a.state === AuctionState.Running
+        (a) => a.state === AuctionState.Running,
     );
     const upcomingAuctions = auctions.filter(
-        (a) => a.state === AuctionState.Pending
+        (a) => a.state === AuctionState.Pending,
     );
     const pastAuctions = auctions.filter(
-        (a) => a.state === AuctionState.Finished
+        (a) => a.state === AuctionState.Finished,
     );
 
     return (

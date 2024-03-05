@@ -58,7 +58,7 @@ const BidForm = ({ item }: { item: Item }) => {
                             setAmount(
                                 inputText === ""
                                     ? item.current_price + 1
-                                    : parseInt(inputText, 10)
+                                    : parseInt(inputText, 10),
                             );
                         }
                     }}

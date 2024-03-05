@@ -2,7 +2,7 @@ import { useState, SyntheticEvent } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { Button, Card, Container, Form, InputGroup } from "react-bootstrap";
-import axios from "axios";
+import { isAxiosError } from "axios";
 import { useAlert } from "../contexts/AlertContext";
 import { setUser } from "../reducers/user";
 import loginService from "../services/login";
@@ -26,7 +26,7 @@ const Login = () => {
             dispatch(setUser(user));
             navigate("/");
         } catch (error) {
-            if (axios.isAxiosError(error)) {
+            if (isAxiosError(error)) {
                 const errorMsg = error.response?.data.error as string;
                 setAlert(errorMsg, "danger");
             } else {

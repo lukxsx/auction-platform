@@ -10,10 +10,20 @@
         "@types/react-bootstrap": "^0.32.35",
         "@types/react-dom": "^18.2.19",
         "@types/react-router-dom": "^5.3.3",
+        "@typescript-eslint/eslint-plugin": "^7.1.1",
+        "@typescript-eslint/parser": "^7.1.1",
         "@vitejs/plugin-react": "^4.2.1",
         "axios": "^1.6.7",
         "bootstrap": "^5.3.2",
+        "eslint": "^8.57.0",
+        "eslint-config-prettier": "^9.1.0",
+        "eslint-plugin-import": "^2.29.1",
+        "eslint-plugin-jest": "^27.9.0",
+        "eslint-plugin-jsx-a11y": "^6.8.0",
+        "eslint-plugin-react": "^7.34.0",
+        "eslint-plugin-react-hooks": "^4.6.0",
         "normalize.css": "^8.0.1",
+        "prettier": "^3.2.5",
         "react": "^18.2.0",
         "react-bootstrap": "^2.10.0",
         "react-dom": "^18.2.0",
@@ -23,13 +33,16 @@
         "reselect": "^5.1.0",
         "socket.io-client": "^4.7.4",
         "typescript": "^5.3.3",
+        "typescript-eslint": "^7.1.1",
         "vite": "^5.0.12",
+        "vite-plugin-eslint": "^1.8.1",
         "vite-tsconfig-paths": "^4.3.1",
         "yet-another-react-lightbox": "^3.17.0"
     },
     "scripts": {
         "dev": "vite",
         "build": "tsc && vite build",
-        "preview": "vite preview"
+        "preview": "vite preview",
+        "lint": "eslint . --ext .ts,.tsx"
     }
 }

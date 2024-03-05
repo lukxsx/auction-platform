@@ -4,7 +4,7 @@ export default class DefaultAuthenticator implements Authenticator {
     name = "Default authenticator";
     authenticate = async (
         username: string,
-        password: string
+        password: string,
     ): Promise<AuthResult> => {
         const defaultUsers = [];
 
@@ -30,7 +30,7 @@ export default class DefaultAuthenticator implements Authenticator {
         if (process.env.NODE_ENV === "test") {
             defaultUsers.push(
                 { username: "test_user", password: "pass1", admin: false },
-                { username: "test_admin", password: "pass2", admin: true }
+                { username: "test_admin", password: "pass2", admin: true },
             );
         }
 

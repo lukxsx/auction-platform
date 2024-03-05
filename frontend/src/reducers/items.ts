@@ -1,4 +1,5 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
+import type { PayloadAction } from "@reduxjs/toolkit";
 import { createSelector } from "reselect";
 import { Item, RootState } from "../types";
 
@@ -20,12 +21,12 @@ const itemsSlice = createSlice({
             action: PayloadAction<{
                 itemId: number;
                 updatedItem: Item;
-            }>
+            }>,
         ) {
             const { itemId, updatedItem } = action.payload;
 
             const updatedItems = state.map((item) =>
-                item.id === itemId ? updatedItem : item
+                item.id === itemId ? updatedItem : item,
             );
             return updatedItems;
         },
@@ -42,5 +43,5 @@ const selectItems = (state: RootState) => state.items;
 
 export const selectItemsByAuctionId = (auctionId: number) =>
     createSelector([selectItems], (items) =>
-        items.filter((item) => item.auction_id === auctionId)
+        items.filter((item) => item.auction_id === auctionId),
     );

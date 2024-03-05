@@ -38,7 +38,7 @@ const Layout = ({ children }: { children: ReactNode }) => {
             itemService
                 .getWonItemsByUser(user.id)
                 .then((wonItems) =>
-                    dispatch(setItems(wonItems.map((item) => item.id)))
+                    dispatch(setItems(wonItems.map((item) => item.id))),
                 )
                 .catch((error) => {
                     ErrorHandlingService.handleError(error);

@@ -53,14 +53,14 @@ export const createTables = async () => {
             ["auction_id"],
             "auction",
             ["id"],
-            (cb) => cb.onDelete("cascade")
+            (cb) => cb.onDelete("cascade"),
         )
         .addForeignKeyConstraint(
             "winner_id_fk",
             ["winner_id"],
             "user",
             ["id"],
-            (cb) => cb.onDelete("set null")
+            (cb) => cb.onDelete("set null"),
         )
         .execute();
 
@@ -74,28 +74,28 @@ export const createTables = async () => {
         .addColumn("item_id", "integer", (cb) => cb.notNull())
         .addColumn("auction_id", "integer", (cb) => cb.notNull())
         .addColumn("created_at", "timestamp", (cb) =>
-            cb.notNull().defaultTo(sql`now()`)
+            cb.notNull().defaultTo(sql`now()`),
         )
         .addForeignKeyConstraint(
             "user_id_fk",
             ["user_id"],
             "user",
             ["id"],
-            (cb) => cb.onDelete("cascade")
+            (cb) => cb.onDelete("cascade"),
         )
         .addForeignKeyConstraint(
             "item_id_fk",
             ["item_id"],
             "item",
             ["id"],
-            (cb) => cb.onDelete("cascade")
+            (cb) => cb.onDelete("cascade"),
         )
         .addForeignKeyConstraint(
             "auction_id_fk",
             ["auction_id"],
             "auction",
             ["id"],
-            (cb) => cb.onDelete("cascade")
+            (cb) => cb.onDelete("cascade"),
         )
         .execute();
 };

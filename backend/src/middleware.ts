@@ -8,7 +8,7 @@ import userService from "./services/users.js";
 export const tokenExtractor = (
     req: Request,
     _res: Response,
-    next: NextFunction
+    next: NextFunction,
 ) => {
     const auth = req.get("authorization");
 
@@ -38,7 +38,7 @@ export const isAdmin = (req: Request, res: Response, next: NextFunction) => {
     }
     const decodedToken = verify(
         req.token,
-        process.env.JWT_SECRET
+        process.env.JWT_SECRET,
     ) as JwtPayload;
     if (!decodedToken.username && !decodedToken.user_id) {
         res.status(401).json({ error: "token missing or invalid" }).end();
@@ -63,7 +63,7 @@ export const isAdmin = (req: Request, res: Response, next: NextFunction) => {
 export const userExtractor = async (
     req: Request,
     res: Response,
-    next: NextFunction
+    next: NextFunction,
 ) => {
     try {
         if (!process.env.JWT_SECRET) {
@@ -75,7 +75,7 @@ export const userExtractor = async (
         }
         const decodedToken = verify(
             req.token,
-            process.env.JWT_SECRET
+            process.env.JWT_SECRET,
         ) as JwtPayload;
         if (!decodedToken.username && !decodedToken.user_id) {
             throw new Error("token missing or invalid");

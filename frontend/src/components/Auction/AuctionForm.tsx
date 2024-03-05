@@ -22,20 +22,20 @@ const AuctionForm = ({
     const today = new Date();
     const [name, setName] = useState(auction ? auction.name : "");
     const [startTime, setStartTime] = useState(
-        auction ? auction.start_date.toTimeString().slice(0, 5) : ""
+        auction ? auction.start_date.toTimeString().slice(0, 5) : "",
     );
     const [startDate, setStartDate] = useState(
         auction
             ? auction.start_date.toISOString().slice(0, 10)
-            : today.toISOString().slice(0, 10)
+            : today.toISOString().slice(0, 10),
     );
     const [endTime, setEndTime] = useState(
-        auction ? auction.end_date.toTimeString().slice(0, 5) : ""
+        auction ? auction.end_date.toTimeString().slice(0, 5) : "",
     );
     const [endDate, setEndDate] = useState(
         auction
             ? auction.end_date.toISOString().slice(0, 10)
-            : today.toISOString().slice(0, 10)
+            : today.toISOString().slice(0, 10),
     );
 
     const handleEditAuction = async (event: SyntheticEvent) => {
@@ -72,9 +72,8 @@ const AuctionForm = ({
                     start_date: startDateObject,
                     end_date: endDateObject,
                 };
-                const auctionFromApi = await auctionService.createAuction(
-                    newAuction
-                );
+                const auctionFromApi =
+                    await auctionService.createAuction(newAuction);
 
                 // Convert dates into correct Date objects
                 auctionFromApi.start_date = new Date(auctionFromApi.start_date);
@@ -99,9 +98,8 @@ const AuctionForm = ({
                     end_date: endDateObject,
                 };
 
-                const updatedAuction = await auctionService.updateAuction(
-                    auctionUpdate
-                );
+                const updatedAuction =
+                    await auctionService.updateAuction(auctionUpdate);
 
                 // Convert dates into correct Date objects
                 updatedAuction.start_date = new Date(updatedAuction.start_date);

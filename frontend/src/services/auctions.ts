@@ -8,7 +8,7 @@ import { Auction, NewAuction } from "../types";
 const getAll = async () => {
     const response = await axios.get<Auction[]>(
         `${BACKEND_URL}/auctions`,
-        headers()
+        headers(),
     );
     return response.data;
 };
@@ -17,7 +17,7 @@ const createAuction = async (newAuction: NewAuction) => {
     const response = await axios.post<Auction>(
         `${BACKEND_URL}/auctions`,
         newAuction,
-        headers()
+        headers(),
     );
     return response.data;
 };
@@ -26,7 +26,7 @@ const updateAuction = async (auctionUpdate: Auction) => {
     const response = await axios.put<Auction>(
         `${BACKEND_URL}/auctions/${auctionUpdate.id}`,
         auctionUpdate,
-        headers()
+        headers(),
     );
     return response.data;
 };

@@ -32,14 +32,14 @@ const ItemList = ({
     const user = useSelector((state: RootState) => state.user.user);
     const favoriteIds = useSelector((state: RootState) => state.favorites);
     const navigate = useNavigate();
-    let query = useQuery();
+    const query = useQuery();
 
     const items = allItems.filter((item) => !favoriteIds.includes(item.id));
     const favorites = allItems.filter((item) => favoriteIds.includes(item.id));
 
     // Check if ?item query parameter was given
     const itemParamString = query.get("item");
-    let itemParam = itemParamString ? parseInt(itemParamString, 10) : 0;
+    const itemParam = itemParamString ? parseInt(itemParamString, 10) : 0;
 
     const [selectedItemId, setSelectedItemId] = useState(itemParam); // modal is hidden when 0
 

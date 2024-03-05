@@ -72,7 +72,7 @@ export const myBidStatus = (user: LoginUser | null, item: Item): WinStatus => {
 
 export const winText = (
     winStatus: WinStatus,
-    auctionState: AuctionState
+    auctionState: AuctionState,
 ): string => {
     if (winStatus === WinStatus.Winning) {
         return auctionState === AuctionState.Finished

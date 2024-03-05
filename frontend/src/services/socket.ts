@@ -20,7 +20,7 @@ const sendNotification = (
     title: string,
     message: string,
     variant: string,
-    link?: string
+    link?: string,
 ) => {
     store.dispatch(
         addNotification({
@@ -28,7 +28,7 @@ const sendNotification = (
             message,
             variant,
             link,
-        })
+        }),
     );
 };
 
@@ -55,7 +55,7 @@ class SocketService {
                         "Info",
                         "You won the item " + item.model + "!",
                         "info",
-                        `/auction/${item.auction_id}?item=${item.id}`
+                        `/auction/${item.auction_id}?item=${item.id}`,
                     );
 
                 // Update Redux store with the item
@@ -63,7 +63,7 @@ class SocketService {
                     updateItem({
                         itemId: item.id,
                         updatedItem: item,
-                    })
+                    }),
                 );
             });
 
@@ -84,7 +84,7 @@ class SocketService {
                                 " on item " +
                                 item?.model,
                             "info",
-                            `/auction/${bid.auction_id}?item=${bid.item_id}`
+                            `/auction/${bid.auction_id}?item=${bid.item_id}`,
                         );
                         // Delete the item for the highest bids list
                         // since you are no longer the highest bidder
@@ -107,7 +107,7 @@ class SocketService {
                     sendNotification(
                         "Info",
                         "Auction " + auction.name + " has finished!",
-                        "info"
+                        "info",
                     );
                 }
 
@@ -116,7 +116,7 @@ class SocketService {
                     sendNotification(
                         "Info",
                         "Auction " + auction.name + " has started!",
-                        "info"
+                        "info",
                     );
                 }
 
@@ -128,7 +128,7 @@ class SocketService {
                 store.dispatch(
                     updateAuction({
                         updatedAuction: auction,
-                    })
+                    }),
                 );
             });
         }

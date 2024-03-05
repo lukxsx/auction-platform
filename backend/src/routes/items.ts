@@ -115,7 +115,7 @@ router.post("/:itemId/setwinner", isAdmin, async (req, res) => {
         const updatedItem = await itemService.setWinner(
             itemId,
             winnerEntry.user_id,
-            winnerEntry.price
+            winnerEntry.price,
         );
 
         res.json(updatedItem);

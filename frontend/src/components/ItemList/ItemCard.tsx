@@ -37,7 +37,7 @@ const ItemCard = ({
                         variant="top"
                         onClick={() => {
                             showLightbox(
-                                `${BACKEND_URL}/images/${item.image_filename}`
+                                `${BACKEND_URL}/images/${item.image_filename}`,
                             );
                         }}
                         src={`${BACKEND_URL}/images/small-${item.image_filename}`}

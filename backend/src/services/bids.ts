@@ -27,7 +27,7 @@ const bidOnItem = async (bidEntry: NewBid): Promise<Bid> => {
     try {
         // Get auction details
         const auction = await auctionService.getAuctionById(
-            bidEntry.auction_id
+            bidEntry.auction_id,
         );
 
         // Check if auction is ongoing
@@ -66,7 +66,7 @@ const bidOnItem = async (bidEntry: NewBid): Promise<Bid> => {
             item.id,
             "from user",
             newBid.user_id + ". The current price is",
-            newBid.price
+            newBid.price,
         );
 
         const itemBids = await getBidsByItem(item.id);
@@ -100,7 +100,7 @@ const underMinuteSinceLastBid = async (itemId: number): Promise<boolean> => {
     const lastBid = bids[bids.length - 1];
     const currentDate = new Date();
     const timeDifference = Math.abs(
-        currentDate.getTime() - lastBid.created_at.getTime()
+        currentDate.getTime() - lastBid.created_at.getTime(),
     );
     const timeDifferenceInMinutes = timeDifference / (1000 * 60);
 

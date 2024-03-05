@@ -7,7 +7,7 @@ import { LoginEntry, LoginUser } from "../types";
 const login = async (credentials: LoginEntry) => {
     const response = await axios.post<LoginUser>(
         `${BACKEND_URL}/auth/login`,
-        credentials
+        credentials,
     );
     return response.data;
 };

@@ -33,7 +33,7 @@ const OverrideForm = ({
                 .getUsers()
                 .then((userList) => setUsers(userList))
                 .catch((error) => console.error(error));
-    }, []);
+    }, [show]);
 
     const handleUserChange = (event: ChangeEvent<HTMLSelectElement>) => {
         setSelectedUser(parseInt(event?.target.value, 10));
@@ -49,14 +49,14 @@ const OverrideForm = ({
                 auctionId,
                 item.id,
                 selectedUser,
-                price
+                price,
             );
 
             dispatch(
                 updateItem({
                     itemId: item.id,
                     updatedItem,
-                })
+                }),
             );
 
             close();

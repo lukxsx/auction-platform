@@ -35,7 +35,7 @@ test("Login with invalid credentials denied", async () => {
 
     expect(response.body).toHaveProperty(
         "error",
-        "incorrect username or password"
+        "incorrect username or password",
     );
 });
 

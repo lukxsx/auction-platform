@@ -127,7 +127,7 @@ const createBid = async (
     user_name: string,
     item_model: string,
     auction_name: string,
-    price: number
+    price: number,
 ) => {
     const user = createdUsers.find((u) => u.name === user_name);
     const item = createdItems.find((i) => i.model === item_model);
@@ -153,7 +153,7 @@ const sendBid = async (
     user_name: string,
     item_model: string,
     auction_name: string,
-    price: number
+    price: number,
 ) => {
     const user = createdUsers.find((u) => u.name === user_name);
     const item = createdItems.find((i) => i.model === item_model);

@@ -12,7 +12,7 @@ const uploadImage = async (itemId: number, formData: FormData) => {
                 "Content-Type": "multipart/form-data",
                 ...headers().headers,
             },
-        }
+        },
     );
     return response.data;
 };

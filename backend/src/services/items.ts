@@ -48,7 +48,7 @@ const getAllItems = async (): Promise<Item[]> => {
 
 // Return items included in a specific auction
 const getItemsByAuction = async (
-    auctionId: number
+    auctionId: number,
 ): Promise<ItemWithBids[]> => {
     try {
         const items = await db
@@ -71,7 +71,7 @@ const getItemsByAuction = async (
                         .selectFrom("bid")
                         .selectAll()
                         .whereRef("bid.item_id", "=", "item.id")
-                        .orderBy("bid.id")
+                        .orderBy("bid.id"),
                 ).as("bids"),
             ])
             .where("auction_id", "=", auctionId)
@@ -134,7 +134,7 @@ const getItemById = async (itemId: number): Promise<ItemWithBids> => {
                         .selectFrom("bid")
                         .selectAll()
                         .whereRef("bid.item_id", "=", "item.id")
-                        .orderBy("bid.id")
+                        .orderBy("bid.id"),
                 ).as("bids"),
             ])
             .where("id", "=", itemId)

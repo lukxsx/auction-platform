@@ -24,12 +24,12 @@ const userExists = async (username: string) => {
 // Try to authenticate with all available authenticator plugins
 const tryAuthenticators = async (
     username: string,
-    password: string
+    password: string,
 ): Promise<AuthResult> => {
     for (const authenticator of authenticators) {
         const authResult = await authenticator.authenticate(username, password);
         console.log(
-            `Trying to authenticate user ${username} with ${authenticator.name}, result: ${authResult.success}`
+            `Trying to authenticate user ${username} with ${authenticator.name}, result: ${authResult.success}`,
         );
         if (authResult.success) return authResult;
     }

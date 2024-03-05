@@ -1,9 +1,15 @@
-import { Nav, Navbar, Container, Form, InputGroup } from "react-bootstrap";
+import {
+    Nav,
+    Navbar,
+    Container,
+    Form,
+    InputGroup,
+    Button,
+} from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../types";
 import { clearUser } from "../reducers/user";
-import { Button } from "react-bootstrap";
 import InstructionsModal from "./InstructionsModal";
 import { useState } from "react";
 

@@ -42,7 +42,7 @@ const storage = multer.diskStorage({
 const fileFilter = (
     _req: express.Request,
     file: Express.Multer.File,
-    callback: FileFilterCallback
+    callback: FileFilterCallback,
 ) => {
     const allowedExtensions = [".jpg", ".jpeg", ".png"];
     const extension = path.extname(file.originalname).toLowerCase();
@@ -62,7 +62,7 @@ router.post("/:itemId", isAdmin, upload.single("file"), async (req, res) => {
     try {
         // Check if item exists
         const item = await itemService.getItemByIdWithoutBids(
-            parseInt(itemId, 10)
+            parseInt(itemId, 10),
         );
 
         if (!item) {
@@ -94,7 +94,7 @@ router.post("/:itemId", isAdmin, upload.single("file"), async (req, res) => {
             "Image",
             uploadedFile.filename,
             "uploaded for item",
-            item.id
+            item.id,
         );
 
         res.json({ item_id: item.id, filename: uploadedFile.filename }).end();

@@ -28,14 +28,14 @@ const ItemForm = ({
     const [make, setMake] = useState(item ? item.make : "");
     const [model, setModel] = useState(item ? item.model : "");
     const [startingPrice, setStartingPrice] = useState(
-        item ? item.starting_price : 0
+        item ? item.starting_price : 0,
     );
     const [info, setInfo] = useState(item ? item.info : "");
     const [infoAsText, setInfoAsText] = useState(
-        item && item.info ? !isJson(item.info) : false
+        item && item.info ? !isJson(item.info) : false,
     );
     const [infoValues, setInfoValues] = useState<InfoValue[]>(
-        item && item.info && !infoAsText ? parseInfoValues(item.info) : []
+        item && item.info && !infoAsText ? parseInfoValues(item.info) : [],
     );
 
     // Image upload file
@@ -93,9 +93,8 @@ const ItemForm = ({
                     bids: item.bids,
                     id: item.id,
                 };
-                const updatedItemFromAPI = await itemService.updateItem(
-                    itemUpdate
-                );
+                const updatedItemFromAPI =
+                    await itemService.updateItem(itemUpdate);
 
                 // Upload image if added
                 handleUpload(updatedItemFromAPI.id);
@@ -104,7 +103,7 @@ const ItemForm = ({
                     updateItem({
                         itemId: item.id,
                         updatedItem: updatedItemFromAPI,
-                    })
+                    }),
                 );
                 setAlert("Successfully updated item", "success");
             } else {
@@ -193,7 +192,7 @@ const ItemForm = ({
                                         setStartingPrice(
                                             inputText === ""
                                                 ? 0
-                                                : parseInt(inputText, 10)
+                                                : parseInt(inputText, 10),
                                         );
                                     }
                                 }}

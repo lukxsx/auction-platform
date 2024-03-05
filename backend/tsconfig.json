@@ -1,24 +1,21 @@
 {
-  "files": [
-    "src/index.ts",
-    "src/custom.d.ts"
-  ],
-  "compilerOptions": {
-    "target": "es2022",
-    "outDir": "./build/",
-    "baseUrl": "./src",
-    "paths": {
-      "*": ["*"]
+    "files": ["src/index.ts", "src/custom.d.ts"],
+    "compilerOptions": {
+        "target": "es2022",
+        "outDir": "./build/",
+        "baseUrl": "./src",
+        "paths": {
+            "*": ["*"]
+        },
+        "module": "nodenext",
+        "moduleResolution": "nodeNext",
+        "strict": true,
+        "noUnusedLocals": true,
+        "noUnusedParameters": true,
+        "noImplicitReturns": true,
+        "noFallthroughCasesInSwitch": true,
+        "esModuleInterop": true
     },
-    "module": "nodenext",
-    "moduleResolution": "nodeNext",
-    "strict": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "noImplicitReturns": true,
-    "noFallthroughCasesInSwitch": true,
-    "esModuleInterop": true,
-  },
-  "include": ["src/**/*.ts", "src/**/*.d.ts"],
-  "exclude": ["node_modules", "src/tests/*"]
+    "include": ["src/**/*.ts", "src/**/*.d.ts"],
+    "exclude": ["node_modules", "src/tests/*"]
 }

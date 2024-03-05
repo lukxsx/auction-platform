@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 import { useState } from "react";
 import { Modal, ListGroup, Button, Badge } from "react-bootstrap";
 import { useDispatch } from "react-redux";
@@ -120,7 +122,7 @@ const ItemView = ({
                         style={{ cursor: "pointer" }}
                         onClick={() => {
                             showLightbox(
-                                `${BACKEND_URL}/images/${item.image_filename}`
+                                `${BACKEND_URL}/images/${item.image_filename}`,
                             );
                         }}
                         alt=""
