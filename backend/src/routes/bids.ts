@@ -1,7 +1,7 @@
 import express, { Request } from "express";
-import { tokenExtractor, userExtractor } from "../middleware";
-import bidService from "../services/bids";
-import { parseBidEntry } from "../utils/validate";
+import { tokenExtractor, userExtractor } from "../middleware.js";
+import bidService from "../services/bids.js";
+import { parseBidEntry } from "../utils/validate.js";
 
 const router = express.Router();
 router.use(tokenExtractor);

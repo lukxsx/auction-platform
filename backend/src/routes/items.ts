@@ -1,12 +1,12 @@
-import { isAdmin, tokenExtractor, userExtractor } from "../middleware";
+import { isAdmin, tokenExtractor, userExtractor } from "../middleware.js";
 import {
     parseItemEntry,
     parseItemUpdateEntry,
     parseSetWinnerEntry,
-} from "../utils/validate";
-import bidService from "../services/bids";
+} from "../utils/validate.js";
+import bidService from "../services/bids.js";
 import express from "express";
-import itemService from "../services/items";
+import itemService from "../services/items.js";
 
 type parentParam = { auctionId: number };
 const router = express.Router({ mergeParams: true });

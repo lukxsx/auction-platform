@@ -1,10 +1,13 @@
-import { isAdmin, tokenExtractor /* userExtractor*/ } from "../middleware";
+import { isAdmin, tokenExtractor /* userExtractor*/ } from "../middleware.js";
 import multer, { FileFilterCallback } from "multer";
 import express from "express";
-import itemService from "../services/items";
+import itemService from "../services/items.js";
 import path from "path";
 import sharp from "sharp";
 import { randomBytes } from "crypto";
+import { fileURLToPath } from "url";
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const router = express.Router();
 router.use(tokenExtractor);

@@ -1,7 +1,7 @@
 import { test, afterAll, expect } from "@jest/globals";
 import supertest from "supertest";
-import { httpServer, stopServer } from "../index";
-import { LoginEntry } from "../types";
+import { httpServer, stopServer } from "../index.js";
+import { LoginEntry } from "../types.js";
 
 const api = supertest(httpServer);
 

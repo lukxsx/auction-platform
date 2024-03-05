@@ -3,13 +3,14 @@
     "version": "1.0.0",
     "description": "",
     "main": "index.js",
+    "type": "module",
     "scripts": {
         "tsc": "tsc",
         "build": "tsc && cp -r src/templates build/templates",
-        "dev": "ts-node-dev src/index.ts",
+        "dev": "NODE_ENV=development tsx watch src/index.ts",
         "lint": "eslint --ext .ts .",
         "start": "node build/index.js",
-        "test": "NODE_ENV=test jest --detectOpenHandles --verbose --runInBand"
+        "test": "NODE_OPTIONS='--experimental-vm-modules' NODE_ENV=test jest --detectOpenHandles --verbose --runInBand"
     },
     "author": "",
     "license": "ISC",
@@ -28,7 +29,9 @@
         "eslint": "^8.56.0",
         "supertest": "^6.3.4",
         "ts-jest": "^29.1.2",
-        "ts-node-dev": "^2.0.0",
+        "ts-jest-mock-import-meta": "^1.2.0",
+        "tsconfig-paths": "^4.2.0",
+        "tsx": "^4.7.1",
         "typescript": "^5.3.3"
     },
     "dependencies": {

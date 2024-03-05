@@ -6,12 +6,12 @@ import {
     ItemState,
     ItemWithBids,
     UpdateType,
-} from "./types";
-import auctionService from "./services/auctions";
-import bidService from "./services/bids";
-import { checkDateWithState } from "./utils/helpers";
-import { io } from "./index";
-import itemService from "./services/items";
+} from "./types.js";
+import auctionService from "./services/auctions.js";
+import bidService from "./services/bids.js";
+import { checkDateWithState } from "./utils/helpers.js";
+import { io } from "./index.js";
+import itemService from "./services/items.js";
 
 const underMinuteSinceLastBid = (lastBid: Bid) => {
     const currentDate = new Date();

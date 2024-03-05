@@ -1,8 +1,8 @@
-import { isAdmin, tokenExtractor, userExtractor } from "../middleware";
-import auctionService from "../services/auctions";
+import { isAdmin, tokenExtractor, userExtractor } from "../middleware.js";
+import auctionService from "../services/auctions.js";
 import express from "express";
-import itemRouter from "../routes/items";
-import { parseAuctionEntry } from "../utils/validate";
+import itemRouter from "../routes/items.js";
+import { parseAuctionEntry } from "../utils/validate.js";
 
 const router = express.Router();
 router.use(tokenExtractor);

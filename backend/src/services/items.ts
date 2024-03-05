@@ -6,13 +6,13 @@ import {
     NewItem,
     User,
     UserCost,
-} from "../types";
-import { db } from "../database";
+} from "../types.js";
+import { db } from "../database.js";
 import { jsonArrayFrom } from "kysely/helpers/postgres";
 import { sql } from "kysely";
-import userService from "./users";
-import bidService from "./bids";
-import { io } from "../index";
+import userService from "./users.js";
+import bidService from "./bids.js";
+import { io } from "../index.js";
 
 // export const sqlItemsQuery = sql<Item[]>`SELECT
 // i.*,

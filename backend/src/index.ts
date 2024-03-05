@@ -1,25 +1,29 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
-import * as dotenv from "dotenv";
+import dotenv from "dotenv";
 dotenv.config();
 
 import { Server } from "socket.io";
-import auctionRouter from "./routes/auctions";
-import authRouter from "./routes/auth";
-import bidsRouter from "./routes/bids";
-import { checkAuctions } from "./scheduler";
+import auctionRouter from "./routes/auctions.js";
+import authRouter from "./routes/auth.js";
+import bidsRouter from "./routes/bids.js";
+import { checkAuctions } from "./scheduler.js";
 import cors from "cors";
 import { createServer } from "http";
-import { createTables /*createTestData*/ } from "./database";
+import { createTables /*createTestData*/ } from "./database.js";
 import express from "express";
-import imageRouter from "./routes/images";
-import reportRouter from "./routes/reports";
+import imageRouter from "./routes/images.js";
+import reportRouter from "./routes/reports.js";
 import morgan from "morgan";
 import path from "path";
 import { schedule } from "node-cron";
-import userRouter from "./routes/users";
-import testingRouter from "./routes/tests";
-import { createUsers } from "./utils/testdata";
+import userRouter from "./routes/users.js";
+import testingRouter from "./routes/tests.js";
+import { createUsers } from "./utils/testdata.js";
+import { fileURLToPath } from "url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express();
 export const httpServer = createServer(app);
@@ -27,7 +31,9 @@ app.use(cors());
 app.use(express.json());
 app.use(morgan(":method :url :status :response-time ms"));
 
-const PORT = process.env.PORT;
+const PORT =
+    process.env.PORT ??
+    (process.env.NODE_ENV === "production" ? "3000" : "3001");
 
 export const io = new Server(httpServer, {
     cors: {
@@ -42,11 +48,7 @@ io.on("connection", (socket) => {
     });
 });
 
-createTables()
-    .then(() => console.log("Tables created"))
-    .catch((e) => {
-        console.error(e);
-    });
+await createTables();
 
 // createTestData()
 //     .then(() => console.log("test data created"))

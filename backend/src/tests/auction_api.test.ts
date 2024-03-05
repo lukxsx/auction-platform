@@ -1,14 +1,7 @@
-import {
-    test,
-    describe,
-    afterAll,
-    beforeAll,
-    beforeEach,
-    expect,
-} from "@jest/globals";
+import { test, describe, afterAll, beforeEach, expect } from "@jest/globals";
 import supertest from "supertest";
-import { httpServer, stopServer } from "../index";
-import { Auction, LoginEntry } from "../types";
+import { httpServer, stopServer } from "../index.js";
+import { Auction, LoginEntry } from "../types.js";
 
 const api = supertest(httpServer);
 
@@ -28,12 +21,6 @@ const doLogin = async (username: string, password: string) => {
 
     return response;
 };
-
-beforeAll(async () => {
-    if (process.env.CI === "true")
-        // GitHub Actions fix
-        await new Promise((r) => setTimeout(r, 3000));
-});
 
 describe("Logged in as admin user", () => {
     beforeEach(async () => {

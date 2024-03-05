@@ -1,4 +1,4 @@
-import { AuthResult, Authenticator } from "../types";
+import { AuthResult, Authenticator } from "../types.js";
 
 export default class DefaultAuthenticator implements Authenticator {
     name = "Default authenticator";

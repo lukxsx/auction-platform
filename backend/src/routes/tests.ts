@@ -5,7 +5,7 @@ import {
     createBid,
     sendBid,
     endingSoonAuction,
-} from "../utils/testdata";
+} from "../utils/testdata.js";
 
 //import userService from "../services/users";
 //import bidService from "../services/bids";

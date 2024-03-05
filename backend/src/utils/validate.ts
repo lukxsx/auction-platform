@@ -8,7 +8,7 @@ import {
     NewItemFromAPI,
     NewUser,
     SetWinnerEntry,
-} from "../types";
+} from "../types.js";
 
 export const isString = (text: unknown): text is string => {
     return typeof text === "string" || text instanceof String;

@@ -1,4 +1,4 @@
-import { DateState } from "../types";
+import { DateState } from "../types.js";
 
 // Check if current date is between start and end dates
 export const checkDateWithState = (start: Date, end: Date): DateState => {

@@ -3,11 +3,15 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/no-var-requires */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
-import * as fs from "fs";
-import * as path from "path";
-import { Authenticator } from "types";
+import fs from "fs";
+import path from "path";
+import { fileURLToPath } from "url";
+import { Authenticator } from "types.js";
 
-export const loadAuthPlugins = (): Authenticator[] => {
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+export const loadAuthPlugins = async (): Promise<Authenticator[]> => {
     const authPluginFolder = path.join(__dirname, "../authenticators");
     const authPluginFiles = fs.readdirSync(authPluginFolder);
 
@@ -27,8 +31,8 @@ export const loadAuthPlugins = (): Authenticator[] => {
     for (const file of sortedFiles) {
         const pluginPath = path.join(authPluginFolder, file);
 
-        // Use require to load the module
-        const pluginModule = require(pluginPath);
+        // Load the module
+        const pluginModule = await import(pluginPath);
 
         // Check if the module exports a class that implements Authenticator
         if (

@@ -1,8 +1,13 @@
-import { NewUser, User } from "../types";
-import { db } from "../database";
+import { NewUser, User } from "../types.js";
+import { db } from "../database.js";
 
 const getUsers = async (): Promise<User[]> => {
-    return await db.selectFrom("user").selectAll().orderBy("id").execute();
+    const users = await db
+        .selectFrom("user")
+        .selectAll()
+        .orderBy("id")
+        .execute();
+    return users;
 };
 
 const getUserByName = async (username: string): Promise<User> => {
