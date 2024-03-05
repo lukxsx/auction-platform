@@ -7,7 +7,7 @@ export default defineConfig({
     plugins: [react(), viteTsconfigPaths()],
     server: {
         open: true,
-        host: "127.0.0.1",
+        host: "localhost",
         port: 3000,
     },
 });
