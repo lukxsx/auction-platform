@@ -1,14 +1,15 @@
-import { AuthResult, Authenticator, TokenData, User } from "../types";
+import { AuthResult, Authenticator, TokenData, User } from "../types.js";
 import express from "express";
-import { loadAuthPlugins } from "../utils/authPluginLoader";
-import { parseLoginEntry } from "../utils/validate";
-import { sign } from "jsonwebtoken";
-import userService from "../services/users";
+import { loadAuthPlugins } from "../utils/authPluginLoader.js";
+import { parseLoginEntry } from "../utils/validate.js";
+import jsonwebtoken from "jsonwebtoken";
+const { sign } = jsonwebtoken;
+import userService from "../services/users.js";
 
 const router = express.Router();
 
 // Load authenticator plugins
-const authenticators: Authenticator[] = loadAuthPlugins();
+const authenticators: Authenticator[] = await loadAuthPlugins();
 
 // Check if the user exists. Maybe move this to the userService??
 const userExists = async (username: string) => {

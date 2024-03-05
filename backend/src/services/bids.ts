@@ -1,8 +1,14 @@
-import { AuctionState, Bid, ItemState, ItemWithBids, NewBid } from "../types";
-import auctionService from "./auctions";
-import { db } from "../database";
-import { io } from "../index";
-import itemService from "./items";
+import {
+    AuctionState,
+    Bid,
+    ItemState,
+    ItemWithBids,
+    NewBid,
+} from "../types.js";
+import auctionService from "./auctions.js";
+import { db } from "../database.js";
+import { io } from "../index.js";
+import itemService from "./items.js";
 
 const getBids = async (): Promise<Bid[]> => {
     return await db.selectFrom("bid").selectAll().execute();

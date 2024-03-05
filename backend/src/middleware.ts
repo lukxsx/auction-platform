@@ -1,7 +1,9 @@
-import { JwtPayload, verify } from "jsonwebtoken";
+import jsonwebtoken from "jsonwebtoken";
+const { verify } = jsonwebtoken;
+import { JwtPayload } from "jsonwebtoken";
 import { NextFunction, Request, Response } from "express";
-import { isString } from "./utils/validate";
-import userService from "./services/users";
+import { isString } from "./utils/validate.js";
+import userService from "./services/users.js";
 
 export const tokenExtractor = (
     req: Request,

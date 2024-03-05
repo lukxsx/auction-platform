@@ -6,11 +6,11 @@ import {
     Auction,
     Bid,
     NewBid,
-} from "../types";
-import auctionService from "../services/auctions";
-import itemService from "../services/items";
-import userService from "../services/users";
-import bidService from "../services/bids";
+} from "../types.js";
+import auctionService from "../services/auctions.js";
+import itemService from "../services/items.js";
+import userService from "../services/users.js";
+import bidService from "../services/bids.js";
 
 let createdItems: Item[] = [];
 let createdUsers: User[] = [];
