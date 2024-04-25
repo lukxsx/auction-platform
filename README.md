@@ -1,6 +1,6 @@
 # Auctions
 A real-time auction platform where users can bid on items added by administrators.
-This project is designed as a customisable platform that can be easily adapted for different users.
+This project is designed as a customizable platform that can be easily adapted for different users.
 
 Built with TypeScript, Express, React, Socket.io and PostgreSQL.
 
@@ -14,8 +14,8 @@ Built with TypeScript, Express, React, Socket.io and PostgreSQL.
 * Create HTML reports of auctions
 
 ## Project structure
-The project consist of two separate npm projects and Cypress tests.
-Backend is located in the `backend` directory and frontend is located in the `frontend` directory. Cypress tests are in the `cypress` directory.
+The project consists of two separate npm projects and Cypress tests.
+The backend is located in the `backend` directory and the frontend is located in the `frontend` directory. Cypress tests are in the `cypress` directory.
 
 In production, the frontend is served by the backend running in a Docker container.
 For local development, they are run and developed separately.
@@ -31,7 +31,7 @@ Each plugin has a number prefix (for example `50-DefaultAuthenticator.ts`) which
 
 ### Login flow
 1. Go through all the authentication plugins and try to authenticate the user with each one
-2. If authentication succeeds with any of the plugins, user will be logged in successfully
+2. If authentication succeeds with any of the plugins, the user will be logged in successfully
 3. If all plugins fail the authentication, set the login attempt as failed
 
 ### Admin authenticator
@@ -53,6 +53,7 @@ For local development, you can create .env files in both frontend and backend di
 | DB_PASS        | Postgres database password     |
 | DB_NAME        | Postgres database name         |
 | NODE_ENV       | Serve frontend from backend if set to `production`. Testing mode if set to `test`|
+| DEMO_MODE      | Enable "demo" account. Do not use in production.|
 
 ## Local development setup
 Install npm dependencies in both frontend and backend directories
@@ -75,46 +76,57 @@ In another terminal, go to the frontend directory and run
     npm run dev
 
 If everything is configured correctly, the application should open in your browser.
-The frontend will run in port `3000` and backend in port `3001`.
+The frontend will run in port `3000` and the backend in port `3001`.
+[http://localhost:3000](http://localhost:3000)
 
 ## Docker
 ### Dockerfile
 A [Dockerfile](Dockerfile) is provided in the repository.
 It builds the project in multiple stages and sets the needed environment variables for production.
-Both backend and frontend are served from the same container from the same port 3000.
+Both the backend and frontend are served from the same container from the same port 3000.
 
 ### Docker Compose
 Docker Compose is the recommended way to run the application in production.
 An example [docker-compose.yml](docker-compose.yml) which includes the database is provided in the repository.
 
-Use the provided `docker-compose.yml` and edit it according your needs.
+Use the provided `docker-compose.yml` and edit it according to your needs.
 Make sure to change the database credentials and the JWT secret.
 
-Then start the project with 
+Start the project with
 
-    docker compose up
+    docker compose up --build
 
 ### Volumes
-When running the application in Docker, few directories should be mapped the filesystem in order to preserve data between container restarts.
-It is also a good idea to make a volume for the PostgreSQL data.
+When running the application in Docker, volumes should be used to preserve data between container restarts.
 
+These directories should be mapped to volumes:
 * `/app/uploads` image uploads
 * `/app/build/authenticators` authentication plugins, if you have any custom ones. Make sure to compile all TypeScript files to JavaScript.
 
 ## Tests
-End-to-end tests using Cypress have been created for the application. The tests require
-that the both backend and frontend are running and connected to a database. There are
-couple of options to do so.
-
-**Note!** The end-to-end tests might take up to 2 minutes to finish.
+The project is tested with unit tests and end-to-end tests.
 
 ### Testing mode
 When `NODE_ENV` is set to `test`, the application will run in testing mode. In the testing mode /testing route becomes available and user accounts for testing are created.
-Never enable this mode in the production!
+Never enable this mode in production!
 
-### Running on Docker
+### Unit tests
+Launch the backend in testing mode and run npm test
+
+    cd backend
+    NODE_ENV=test npm run dev
+    npm test
+
+### End-to-end tests
+End-to-end tests using Cypress have been created for the application. The tests require
+that the both backend and frontend are running and connected to a database. There are
+a couple of options to do so.
+
+**Note!** The end-to-end tests might take up to 2 minutes to finish.
+
+#### Running E2E tests on Docker
 A Docker Compose file `docker-compose.test.yml` is provided in the project. It launches
-a database and the applicatoin with `NODE_ENV=test`. Cypress can be then launched using Docker.
+a database and the application with `NODE_ENV=test`. Cypress can be then launched using Docker.
 
 Start the application in testing mode
 
@@ -124,8 +136,8 @@ Run Cypress in a Docker container
 
     docker run -v $(pwd)/cypress:/cypress -v $(pwd)/cypress.docker.js:/cypress.config.js --network=host cypress/included:13.6.4
 
-### Running Cypress locally
-Start backend in testing mode
+#### Running Cypress locally
+Start the backend in testing mode
 
     cd backend
     NODE_ENV=test npm run dev
@@ -135,9 +147,11 @@ Start frontend
     cd frontend
     npm run dev
 
-In the root of the project, run
+At the root of the project, run
 
     npx cypress run
 
+**Note!** You might need to adjust the `backend_url` and `app_url` parameters in [cypress.config.js](cypress.config.js) if the frontend is not served from the backend (backend and frontend started separately).
+
 ## CI/CD
-End-to-end tests are run automatically using GitHub Actions.
+The project has a GitHub Actions pipeline, which runs linting and tests when new commits arrive in the master branch.
