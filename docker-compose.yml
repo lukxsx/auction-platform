@@ -10,37 +10,40 @@ services:
       - JWT_SECRET=EVu2zTfUuqZ5c4kUg6dP2NZWbjNtow32 # Replace with a strong secret value
       - ADMIN_USERNAME=admin # Username for the DefaultAuthenticator admin user
       - ADMIN_PASSWORD=adminpass # Password for the DefaultAuthenticator admin user
-      - DB_HOST=localhost # Database host
-      - DB_USER=auctions # Database user
+      - DB_HOST=auctions-db # Database host
+      - DB_USER=postgres # Database user
       - DB_PASS=P3TvcBc3gN6CFUgUyqja8uOoslIXPWsh # Postgres password, replace with a strong password
-      - DB_NAME=auctions # Postgres database name
+      - DB_NAME=postgres # Postgres database name
       - DEMO_MODE=true # enable "demo" user in DefaultAuthenticator
-#    volumes:
-#        - /some/path/uploads:/app/uploads # Path for image uploads
-#     depends_on:
-#       auctions-db:
-#         condition: service_healthy
-#     restart: unless-stopped
-#     networks:
-#       - auctions-network
-#   auctions-db:
-#     image: postgres:15
-#     container_name: auctions-db
-#     environment:
-#       - POSTGRES_PASSWORD=P3TvcBc3gN6CFUgUyqja8uOoslIXPWsh # Replace with a strong password
-#       - POSTGRES_USER=auctions
-#       - POSTGRES_DB=auctions # Database name
-# #    volumes:
-# #        - /some/path/postgres_data:/var/lib/postgresql/data # Set a volume for persistent storage
-#     healthcheck:
-#       test: ["CMD-SHELL", "pg_isready -U postgres"]
-#       interval: 5s
-#       timeout: 5s
-#       retries: 5
-#     restart: unless-stopped
-#     networks:
-#       - auctions-network
+    volumes:
+      - uploads:/app/uploads # Volume for image uploads
+    depends_on:
+      auctions-db:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+      - auctions-network
+  auctions-db:
+    image: postgres:15
+    container_name: auctions-db
+    environment:
+      - POSTGRES_PASSWORD=P3TvcBc3gN6CFUgUyqja8uOoslIXPWsh # Replace with a strong password
+    #    volumes:
+    #        - postgres_data:/var/lib/postgresql/data # Set a volume for persistent storage
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+    networks:
+      - auctions-network
 
-# networks:
-#   auctions-network:
+networks:
+  auctions-network:
+
+
+volumes:
+  uploads:
+
 
