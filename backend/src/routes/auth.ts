@@ -15,7 +15,7 @@ const authenticators: Authenticator[] = await loadAuthPlugins();
 const userExists = async (username: string) => {
     try {
         await userService.getUserByName(username);
-    } catch (error: unknown) {
+    } catch (_error: unknown) {
         return false;
     }
     return true;
@@ -41,7 +41,7 @@ router.post("/login", async (req, res) => {
     try {
         if (!process.env.JWT_SECRET) {
             console.error("JWT_SECRET not set!");
-            throw Error;
+            throw new Error("JWT_SECRET not set!");
         }
         const { username, password } = parseLoginEntry(req.body);
 

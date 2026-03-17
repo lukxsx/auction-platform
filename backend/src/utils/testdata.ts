@@ -52,7 +52,7 @@ const createUsers = async () => {
 
     try {
         alreadyCreated = await userService.getUserByName("user1");
-    } catch (error: unknown) {
+    } catch (_error: unknown) {
         /**/
     }
     if (alreadyCreated) {

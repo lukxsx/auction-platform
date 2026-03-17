@@ -88,7 +88,7 @@ export const winText = (
 export const isJson = (str: string): boolean => {
     try {
         JSON.parse(str);
-    } catch (error) {
+    } catch (_error) {
         return false;
     }
     return true;
@@ -103,7 +103,7 @@ export const parseInfoValues = (str: string): InfoValue[] => {
             key,
             value: parsedJson[key],
         }));
-    } catch (error) {
+    } catch (_error) {
         return [];
     }
 };

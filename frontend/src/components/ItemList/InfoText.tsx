@@ -12,7 +12,7 @@ const InfoText = ({
         // Check if info field is in JSON format
         const parsedData = JSON.parse(info);
         infoData = parsedData;
-    } catch (error) {
+    } catch (_error) {
         // Not JSON, treat it as plain text
         infoData = info;
     }

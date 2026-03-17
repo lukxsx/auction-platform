@@ -13,7 +13,7 @@ const getAuctionById = async (auctionId: number): Promise<Auction> => {
             .selectAll()
             .executeTakeFirstOrThrow();
         return item;
-    } catch (error: unknown) {
+    } catch (_error: unknown) {
         throw new Error("auction not found");
     }
 };

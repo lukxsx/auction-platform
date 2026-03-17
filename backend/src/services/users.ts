@@ -18,7 +18,7 @@ const getUserByName = async (username: string): Promise<User> => {
             .selectAll()
             .executeTakeFirstOrThrow();
         return user;
-    } catch (error: unknown) {
+    } catch (_error: unknown) {
         throw new Error("user not found");
     }
 };
@@ -31,7 +31,7 @@ const getUserById = async (userId: number): Promise<User> => {
             .selectAll()
             .executeTakeFirstOrThrow();
         return user;
-    } catch (error: unknown) {
+    } catch (_error: unknown) {
         throw new Error("user not found");
     }
 };
