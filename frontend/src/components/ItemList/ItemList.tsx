@@ -69,9 +69,11 @@ const ItemList = ({
     };
 
     const handleFavoriteChange = (itemId: number, isFavorite: boolean) => {
-        isFavorite
-            ? dispatch(removeFavorite(itemId))
-            : dispatch(addFavorite(itemId));
+        if (isFavorite) {
+            dispatch(removeFavorite(itemId));
+        } else {
+            dispatch(addFavorite(itemId));
+        }
     };
 
     // Make sure user exists

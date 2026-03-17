@@ -78,7 +78,7 @@ const getItemsByAuction = async (
             .orderBy("item.id")
             .execute();
         return items;
-    } catch (error: unknown) {
+    } catch (_error: unknown) {
         throw new Error("items not found");
     }
 };
@@ -92,7 +92,7 @@ const getItemByIdWithoutBids = async (itemId: number): Promise<Item> => {
             .selectAll()
             .executeTakeFirstOrThrow();
         return item;
-    } catch (error: unknown) {
+    } catch (_error: unknown) {
         throw new Error("item not found");
     }
 };
@@ -106,7 +106,7 @@ const getSoldItems = async (auctionId: number): Promise<Item[]> => {
             .selectAll()
             .execute();
         return items;
-    } catch (error: unknown) {
+    } catch (_error: unknown) {
         throw new Error("item not found");
     }
 };
@@ -140,7 +140,7 @@ const getItemById = async (itemId: number): Promise<ItemWithBids> => {
             .where("id", "=", itemId)
             .executeTakeFirstOrThrow();
         return item;
-    } catch (error: unknown) {
+    } catch (_error: unknown) {
         throw new Error("item not found");
     }
 };

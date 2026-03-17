@@ -23,7 +23,7 @@ router.post("/resettestdata", async (_req, res) => {
     try {
         await clearTestData();
         res.status(200).send();
-    } catch (error: unknown) {
+    } catch (_error: unknown) {
         res.status(400).send({ error: "Error deleting all auctions" });
     }
 });
@@ -32,7 +32,7 @@ router.post("/createtestdata", async (_req, res) => {
     try {
         await createTestData();
         res.status(200).send();
-    } catch (error: unknown) {
+    } catch (_error: unknown) {
         res.status(400).send({ error: "Error adding test data" });
     }
 });
@@ -41,7 +41,7 @@ router.post("/createendingsoon", async (_req, res) => {
     try {
         await endingSoonAuction();
         res.status(200).send();
-    } catch (error: unknown) {
+    } catch (_error: unknown) {
         res.status(400).send({ error: "Error adding test data" });
     }
 });
@@ -52,7 +52,7 @@ router.post("/createbid", async (req, res) => {
             req.body as BidRequest;
         await createBid(user_name, item_model, auction_name, price);
         res.status(200).send();
-    } catch (error: unknown) {
+    } catch (_error: unknown) {
         res.status(400).send({ error: "Error adding test data" });
     }
 });
